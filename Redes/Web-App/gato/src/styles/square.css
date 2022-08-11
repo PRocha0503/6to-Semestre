@@ -1,0 +1,14 @@
+.square {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid white;
+	height: 150px;
+	width: 150px;
+}
+.red {
+	color: red;
+}
+.blue {
+	color: white;
+}
