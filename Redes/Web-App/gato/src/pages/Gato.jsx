@@ -42,6 +42,10 @@ const Gato = () => {
 	};
 
 	const setSymbol = (index) => {
+		if (board[index] != "") {
+			alert("NOPE");
+			return;
+		}
 		const symbol = player == 1 ? "X" : "O";
 		const newBoard = [...board];
 		newBoard[index] = symbol;

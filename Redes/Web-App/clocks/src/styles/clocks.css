@@ -1,0 +1,23 @@
+.root {
+	background-color: black;
+	height: 100vh;
+	width: 100vw;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.counter {
+	display: flex;
+	width: 70%;
+	justify-content: space-around;
+	align-items: center;
+}
+.btn {
+	background-color: rgba(0, 0, 0, 0);
+	border-color: rgba(235, 235, 235, 1);
+	border-radius: 20px;
+	height: 30px;
+	color: white;
+}
