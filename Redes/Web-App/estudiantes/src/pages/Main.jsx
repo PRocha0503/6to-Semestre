@@ -3,7 +3,7 @@ import Papa from "papaparse";
 
 import Table from "../components/table.jsx";
 import "../styles/main.css";
-import praseTable from "../utils/praseTable";
+import { praseTable } from "../utils/praseTable";
 
 const Main = () => {
 	// State to store parsed data
