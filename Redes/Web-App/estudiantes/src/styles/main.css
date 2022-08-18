@@ -1,0 +1,13 @@
+.root {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+}
+.tables {
+	margin-top: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
