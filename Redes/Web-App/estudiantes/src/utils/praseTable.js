@@ -27,50 +27,44 @@ const praseDate = (date) => {
 };
 
 const praseGrade = (grade) => {
-	let grade_us = ""
-	if (grade < 64){
-		grade_us= "E";
-		return grade_us;
-	}
-	else if (grade<67){
-		grade_us="D";
-		return grade_us;
-	}
-	else if (grade<70){
-		grade_us="D+";
-		return grade_us;
-	}
-	else if (grade<73){
-		grade_us="C-";
-		return grade_us;
-	}
-	else if (grade<77){
-		grade_us="C";
-		return grade_us;
-	}
-	else if (grade<80){
-		grade_us="C+";
-		return grade_us;
-	}
-	else if (grade<83){
-		grade_us="B-";
-		return grade_us;
-	}
-	else if (grade<87){
-		grade_us="B";
-		return grade_us;
-	}
-	else if (grade<90){
-		grade_us="B+";
-		return grade_us;
-	}
-	else if (grade<93){
-		grade_us="A-";
-		return grade_us;
-	}
-	else{
-		grade_us="A"
-		return grade_us;
+	switch(grade)
+	{
+		case (grade >= 93):
+			return "A";
+			break;
+		case (grade >= 90):
+			return "A-";
+			break;
+		case (grade >= 87):
+			return "B+";
+			break;
+		case (grade >= 83):
+			return "B";
+			break;
+		case (grade >= 80):
+			return "B-";
+			break;
+		case (grade >= 77):
+			return "C+";
+			break;
+		case (grade >= 73):
+			return "C";
+			break;
+		case (grade >= 70):
+			return "C-";
+			break;
+		case (grade >= 67):
+			return "D+";
+			break;
+		case (grade >= 64):
+			return "D";
+			break;
+		case (grade < 34):
+			return "E";
+			break;
+		default:
+			return "ERR"
+
 	}
 };
 export default praseTable;
