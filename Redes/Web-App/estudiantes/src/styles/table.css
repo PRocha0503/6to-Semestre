@@ -12,11 +12,16 @@
 	font-size: 0.9em;
 	font-family: sans-serif;
 	min-width: 400px;
-	box-shadow: 0 0 20px rgba(255, 253, 253, 0.836);
+
+	background: rgba(255, 255, 255, 0.4);
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(11px);
+	-webkit-backdrop-filter: blur(11px);
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .table thead tr {
-	background-color: #38e9c5;
 	color: #ffffff;
 	text-align: left;
 }
@@ -25,21 +30,14 @@
 .table td {
 	padding: 12px 15px;
 }
-.table tbody tr {
-	border-bottom: 1px solid #ece8e8;
-}
+
 .table tbody tr:nth-of-type(odd) {
-	background-color: #ffffff;
-	color: black;
+	color: rgb(0, 0, 0);
 }
 .table tbody tr:nth-of-type(even) {
-	background-color: #38e9c6d0;
 }
 
-.table tbody tr:last-of-type {
-	border-bottom: 2px solid #38e9c5;
-}
 .table tbody tr.active-row {
 	font-weight: bold;
-	color: #38e9c5;
+	color: #000000;
 }

@@ -7,7 +7,21 @@
 	align-items: center;
 	justify-content: center;
 	min-height: 100vh;
-	background-color: black;
+	background-image: linear-gradient(
+		to right top,
+		#0c3dac,
+		#003591,
+		#002d76,
+		#00245b,
+		#001b41,
+		#01193a,
+		#021734,
+		#04142d,
+		#031937,
+		#031e41,
+		#03224b,
+		#032755
+	);
 	color: white;
 }
 .tables {
