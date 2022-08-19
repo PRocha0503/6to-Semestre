@@ -7,7 +7,7 @@ const Table = ({ title, tableRows = [], values = [] }) => {
 				<div className="centerTitle">
 					<h2>{title}</h2>
 					{/* Table */}
-					<table className="table">
+					<table className="table" id={title} data-testid="test-table">
 						<thead>
 							<tr>
 								{tableRows.map((rows, index) => {

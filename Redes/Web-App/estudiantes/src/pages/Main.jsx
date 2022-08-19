@@ -49,7 +49,13 @@ const Main = () => {
 	return (
 		<div className="root">
 			<h1>Please select a file to import</h1>
-			<input type="file" name="file" accept=".csv" onChange={changeHandler} />
+			<input
+				type="file"
+				name="file"
+				accept=".csv"
+				onChange={changeHandler}
+				data-testid="test-input"
+			/>
 			<div className="tables">
 				<Table title="Normal" tableRows={tableRows} values={values} />
 				<Table title="Fixed" tableRows={tableRows} values={pValues} />
