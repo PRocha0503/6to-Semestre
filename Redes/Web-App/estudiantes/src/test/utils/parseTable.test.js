@@ -13,6 +13,7 @@ describe("Test individual functions", () => {
 
 	test("Parse ID", () => {
 		expect(praseID("A01028638")).toBe("A01028638@tec.mx");
+		expect(praseID("A01422874")).toBe("A01422874@tec.mx")
 	});
 	test("Parse Date", () => {
 		expect(praseDate("01/02/2020")).toBe("02/01/2020");
