@@ -26,6 +26,9 @@ describe("Test row", () => {
 	test("Full row", () => {
 		expect(
 			praseTable([1, "PABLO ROCHA OJEDA", "A01028638", "01/02/2020", "100"])
-		).toStrictEqual([1, "PABLO ROCHA", "A01028638@tec.mx", "02/01/2020", "A"]);
+		).toEqual([1, "PABLO ROCHA", "A01028638@tec.mx", "02/01/2020", "A"]);
+	});
+	test("Error with wrong input", () => {
+		expect(() => praseTable([1, "01/02/2020", "100"]).toThrow());
 	});
 });
