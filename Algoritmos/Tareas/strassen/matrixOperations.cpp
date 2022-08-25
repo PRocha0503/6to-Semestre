@@ -5,9 +5,6 @@
 #include <vector>
 #include <sstream>
 
-using std::fstream;
-using std::ios;
-using std::stringstream;
 using namespace std;
 
 MatrixOperations::MatrixOperations(){
