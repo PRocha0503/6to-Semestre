@@ -1,4 +1,4 @@
-#include "MatrixOperations.h"
+#include "matrixOperations.h"
 #include <iostream>
 #include <fstream>
 #include <string>
