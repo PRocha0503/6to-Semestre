@@ -47,6 +47,7 @@ vector<vector<int> > MatrixOperations::fileToMatrix(string firstScvFile){
             row.push_back((stoi(word)));
             content.push_back(row);
         }
+        file.close();
     }
     else
     cout<<"Could not open the file\n";
@@ -63,6 +64,20 @@ void MatrixOperations::printMatrix(vector<vector<int> > matrix){
         }
     }
     cout << endl;
+}
+
+void MatrixOperations::MatrixToFile(vector<vector<int> > matrix, string filename){
+    std::ofstream myfile;
+    myfile.open (filename);
+    for (int i = 0; i < matrix.size(); i++){
+        if (i>0)
+            myfile << "\n" << " ";
+        for (int j = 0; j < matrix[i].size(); j++){
+            myfile << matrix[i][j] << ",";
+        }
+    }
+    myfile << endl;
+    myfile.close();
 }
 
 vector<vector<int> > MatrixOperations::textBookMultiplication(){

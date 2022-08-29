@@ -40,6 +40,7 @@ class MatrixOperations {
 
     // extra methods
     void printMatrix(vector<vector<int> > Matrix);
+    void MatrixToFile(vector<vector<int> > matrix, string filename);
     vector<vector<int> > fileToMatrix(string firstScvFile);
 
 };
