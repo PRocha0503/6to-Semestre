@@ -71,19 +71,19 @@ vector<vector<int> > MatrixOperations::strassenMultiplication(){
 
 vector<vector<int> > MatrixOperations::textBookMultiplication(){
     vector<vector<int> > resultingMatrix;
-    int multiplications = 0;
+    elementaryStepsTextboook = 0;
     for (int r1 = 0; r1 < firstMatrix.size(); r1++){
         vector<int> row;
         for (int c2 = 0; c2 < secondMatrix[r1].size(); c2++){
             int result=0;
             for (int c1 = 0; c1 < firstMatrix[c2].size(); c1++){
                 result += firstMatrix[r1][c1]*secondMatrix[c1][c2];
-                multiplications += 1;
+                elementaryStepsTextboook += 1;
             }
             row.push_back(result);
         }
         resultingMatrix.push_back(row);
     }
-    cout<<"\n Number of multiplications for textbook multiplication: "<<multiplications<<endl;
+    cout<<"\n Number of multiplications for textbook multiplication: "<<elementaryStepsTextboook<<endl;
     return resultingMatrix;
 }

@@ -11,6 +11,7 @@ class MatrixOperations {
     private:
     vector<vector<int> > firstMatrix;
     vector<vector<int> > secondMatrix;
+    int elementaryStepsTextboook;
 
     public:
     // getters & setters
