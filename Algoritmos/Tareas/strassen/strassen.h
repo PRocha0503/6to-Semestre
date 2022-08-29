@@ -83,8 +83,6 @@ vector<vector<int>> Strassen::joinMatrix(vector<vector<int>> tl,vector<vector<in
 
 vector<vector<int>> Strassen::recursiveStrassen(vector<vector<int>> m1,vector<vector<int>> m2){
     if (m1.size() == 2){
-        // printMatrix(m1);
-        // printMatrix(m2);
 
         int aTopLeft = m1[0][0];
         int aTopRight = m1[0][1];
@@ -110,22 +108,13 @@ vector<vector<int>> Strassen::recursiveStrassen(vector<vector<int>> m1,vector<ve
         int c22 = M1-M2+M3+M6; 
 
         vector<vector<int>> c{{c11,c12},{c21,c22}};
-        // printMatrix(c);
-
         return c;
     }else{
         int divideIndex = m1.size()/2;
-        // printMatrix(s(m,0,divideIndex,0,divideIndex));
         vector<vector<int>> topLeft = recursiveStrassen(s(m1,0,divideIndex,0,divideIndex),s(m2,0,divideIndex,0,divideIndex));
         vector<vector<int>> topRight = recursiveStrassen(s(m1,0,divideIndex,divideIndex,m1.size()),s(m2,0,divideIndex,divideIndex,m1.size()));
         vector<vector<int>> bottomLeft = recursiveStrassen(s(m1,divideIndex,m1.size(),0,divideIndex),s(m2,divideIndex,m1.size(),0,divideIndex));
         vector<vector<int>> bottomRight = recursiveStrassen(s(m1,divideIndex,m1.size(),divideIndex,m1.size()),s(m2,divideIndex,m1.size(),divideIndex,m1.size()));
-
-        // vector<vector<int>> bTopLeft = recursiveStrassen(s(m1,0,divideIndex,0,divideIndex),s(m2,0,divideIndex,0,divideIndex));
-        // vector<vector<int>> bTopRight = recursiveStrassen(s(m1,0,divideIndex,divideIndex,m1.size()),s(m2,0,divideIndex,divideIndex,m1.size()));
-        // vector<vector<int>> bBottomLeft = recursiveStrassen(s(m1,divideIndex,m1.size(),0,divideIndex),s(m2,divideIndex,m1.size(),0,divideIndex));
-        // vector<vector<int>> bBottomRight = recursiveStrassen(s(m1,divideIndex,m1.size(),divideIndex,m1.size()),s(m2,divideIndex,m1.size(),divideIndex,m1.size()));
-
         return joinMatrix(topLeft,topRight,bottomLeft,bottomRight);
     }
 
