@@ -78,6 +78,7 @@ void MatrixOperations::MatrixToFile(vector<vector<int> > matrix, string filename
     }
     myfile << endl;
     myfile.close();
+    cout<<"Matrix created on file: "<<filename<<endl;
 }
 
 vector<vector<int> > MatrixOperations::textBookMultiplication(){
@@ -95,7 +96,7 @@ vector<vector<int> > MatrixOperations::textBookMultiplication(){
         }
         resultingMatrix.push_back(row);
     }
-    cout<<"\n Number of multiplications for textbook multiplication: "<<elementaryStepsTextboook<<endl;
+    cout<<"Number of multiplications for textbook multiplication: "<<elementaryStepsTextboook<<endl;
     return resultingMatrix;
 }
 
@@ -211,6 +212,6 @@ vector<vector<int> > MatrixOperations::substractMatrices(vector<vector<int> >m1,
 vector<vector<int> > MatrixOperations::strassenMultiplication(){
     elementaryStepsStrassen = 0;
     vector<vector<int> > res = recursiveStrassen(firstMatrix,secondMatrix) ;
-    cout<<"\n Number of multiplications for Strassen multiplication: "<<elementaryStepsStrassen<<endl;
+    cout<<"Number of multiplications for Strassen multiplication: "<<elementaryStepsStrassen<<endl;
     return res;
 }

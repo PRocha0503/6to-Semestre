@@ -4,6 +4,8 @@
 using namespace std;
 
 int main(){
+
+    cout<<"\n--- 16x16 MULTIPLICATION ---"<<endl;
     // Initialize the matrix controller
     MatrixOperations matrixController = MatrixOperations("01.Matrix_A_16_2_4.csv","02.Matrix_B_16_2_4.csv");
     // Print the two matrices
@@ -18,6 +20,7 @@ int main(){
     // Print Resulting Matrix to file
     matrixController.MatrixToFile(resultFromStrassen, "07.Matrix_AB_16_2_4_Strassen.csv");
 
+    cout<<"\n--- 128x128 MULTIPLICATION ---"<<endl;
     // Initialize the matrix controller
     MatrixOperations matrixController2 = MatrixOperations("03.Matrix_A_128_2_7.csv","04.Matrix_B_128_2_7.csv");
     // Print the two matrices
@@ -32,6 +35,7 @@ int main(){
     // Print Resulting Matrix to file
     matrixController.MatrixToFile(resultFromStrassen2, "08.Matrix_AB_128_2_7_Strassen.csv");
 
+    cout<<"\n--- 4096x4096 MULTIPLICATION ---"<<endl;
      // Initialize the matrix controller
     MatrixOperations matrixController3 = MatrixOperations("05.Matrix_A_4096_2_12.csv","06.Matrix_B_4096_2_12.csv");
     // Print the two matrices
