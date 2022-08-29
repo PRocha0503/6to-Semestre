@@ -12,6 +12,7 @@ class Strassen{
     private:
         vector<vector<int>> matrixOne;
         vector<vector<int>> matrixTwo;
+        int elementaryStepsStrassen;
         vector<vector<int>> fileMatrix(string file);
         vector<vector<int>> recursiveStrassen(vector<vector<int>>,vector<vector<int>>);
         vector<vector<int>> s(vector<vector<int>> const &, int, int,int,int);
@@ -101,6 +102,8 @@ vector<vector<int>> Strassen::recursiveStrassen(vector<vector<int>> m1,vector<ve
         int M5 = (aTopLeft + aTopRight) * bBottomRight;
         int M6 = (aBottomLeft-aTopLeft) * (bTopLeft+bTopRight);
         int M7 = (aTopRight - aBottomRight) * (bBottomLeft+bBottomRight);
+        
+        elementaryStepsStrassen += 7;
 
         int c11 = M1 + M4 -M5 +M7;
         int c12 = M3 + M5;
@@ -122,7 +125,10 @@ vector<vector<int>> Strassen::recursiveStrassen(vector<vector<int>> m1,vector<ve
 
 
 vector<vector<int>> Strassen::strassenMultiplication(){
-    return recursiveStrassen(matrixOne,matrixTwo) ;
+    elementaryStepsStrassen = 0;
+    vector<vector<int>> res = recursiveStrassen(matrixOne,matrixTwo) ;
+    cout << elementaryStepsStrassen <<endl;
+    return res;
 }
 
 
