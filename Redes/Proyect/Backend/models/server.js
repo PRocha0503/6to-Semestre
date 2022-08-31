@@ -12,6 +12,7 @@ class Server {
 		this.paths = {
 			user: "/api/user",
 			auth: "/api/auth",
+			docs: "/api/docs",
 		};
 
 		//Conectar a DB
@@ -35,10 +36,13 @@ class Server {
 
 		//Leer cookies
 		this.app.use(cookieParser());
+		//Archivos
+		this.app.use(fileUpload());
 	}
 	routes() {
 		this.app.use(this.paths.user, require("../routes/user"));
 		this.app.use(this.paths.auth, require("../routes/auth"));
+		this.app.use(this.paths.docs, require("../routes/document"));
 	}
 
 	listen() {

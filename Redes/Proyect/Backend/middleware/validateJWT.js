@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 
+//Function to validate user JWT
 const validateJWT = async (req = request, res = response, next) => {
-	console.log(req.cookies);
 	const { accessToken: token } = req.cookies;
 	if (!token) {
 		return res.status(401).json({
@@ -13,14 +13,13 @@ const validateJWT = async (req = request, res = response, next) => {
 	}
 	try {
 		const { uid } = jwt.verify(token, process.env.SECRETACCESS);
-		// const user = await User.findById(uid);
-		// if (!user.state || !user) {
-		// 	return res.status(401).json({
-		// 		msg: "INVALID TOKEN",
-		// 	});
-		// }
-		// req.user = user;
-		req.userID = uid;
+		const user = await User.findById(uid);
+		if (!user) {
+			return res.status(401).json({
+				msg: "INVALID TOKEN",
+			});
+		}
+		req.user = user;
 		next();
 	} catch (err) {
 		console.log(err);
