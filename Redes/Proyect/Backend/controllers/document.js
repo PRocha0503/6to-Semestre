@@ -25,7 +25,8 @@ const addDocument = async (req, res) => {
 	}
 };
 
-const download = async (req, res) => {
+//Function to download a file
+const downloadFile = async (req, res) => {
 	const { documentName } = req.body;
 	console.log(documentName);
 	const document = await Document.findOne({ title: documentName });
@@ -35,12 +36,29 @@ const download = async (req, res) => {
 	readStream.end(fileContents);
 
 	res.set("Content-disposition", "attachment; filename=" + documentName);
-	res.set("Content-Type", "text/plain");
+	res.set("Content-Type", "application/pdf");
+
+	readStream.pipe(res);
+};
+
+//Function to preview a file
+const previewFile = async (req, res) => {
+	const { documentName } = req.body;
+	console.log(documentName);
+	const document = await Document.findOne({ title: documentName });
+	let fileContents = Buffer.from(document.file, "base64");
+
+	let readStream = new stream.PassThrough();
+	readStream.end(fileContents);
+
+	res.set("Content-disposition", "inline; filename=" + "Resumen_proceso.pdf");
+	res.set("Content-Type", "application/pdf");
 
 	readStream.pipe(res);
 };
 
 module.exports = {
 	addDocument,
-	download,
+	downloadFile,
+	previewFile,
 };
