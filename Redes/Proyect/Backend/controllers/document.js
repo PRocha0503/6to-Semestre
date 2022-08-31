@@ -1,4 +1,5 @@
 const Document = require("../models/document");
+const stream = require("stream");
 
 //Function to add a suer to the database
 const addDocument = async (req, res) => {
@@ -24,19 +25,19 @@ const addDocument = async (req, res) => {
 	}
 };
 
-const download = async (request, response) => {
-	const document = await Document.findOne({ title: "Resumen_proceso.pdf" });
-	console.log(document);
-
+const download = async (req, res) => {
+	const { documentName } = req.body;
+	console.log(documentName);
+	const document = await Document.findOne({ title: documentName });
 	let fileContents = Buffer.from(document.file, "base64");
 
 	let readStream = new stream.PassThrough();
 	readStream.end(fileContents);
 
-	response.set("Content-disposition", "attachment; filename=" + "test");
-	response.set("Content-Type", "text/plain");
+	res.set("Content-disposition", "attachment; filename=" + documentName);
+	res.set("Content-Type", "text/plain");
 
-	readStream.pipe(response);
+	readStream.pipe(res);
 };
 
 module.exports = {
