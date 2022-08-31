@@ -1,7 +1,18 @@
 const User = require("../models/user");
+const bcryptjs = require("bcryptjs");
 
-const postUser = async (req, res) => {
-	const user = new User({ name: "Stephan", password: "123" });
+//Function to add a suer to the database
+const addUser = async (req, res, permissions) => {
+	const { username, password } = req.body;
+
+	//Create user
+	const user = new User({ username, password, permissions });
+
+	//Encrypt password
+	const salt = bcryptjs.genSaltSync();
+	user.password = bcryptjs.hashSync(password, salt);
+
+	//Save to db
 	await user.save();
 	res.json({
 		user,
@@ -9,5 +20,5 @@ const postUser = async (req, res) => {
 };
 
 module.exports = {
-	postUser,
+	addUser,
 };

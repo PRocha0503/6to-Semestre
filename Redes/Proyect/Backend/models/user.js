@@ -1,13 +1,14 @@
 const { Schema, model } = require("mongoose");
 
 const UserSchema = Schema({
-	name: {
+	username: {
 		type: String,
-		required: [true, "Name is mandatory"],
+		required: [true, "Username is mandatory"],
+		unique: true,
 	},
 	password: {
 		type: String,
-		required: [true, "Name is mandatory"],
+		required: [true, "Password is mandatory"],
 	},
 	permissions: [
 		{
@@ -19,7 +20,6 @@ const UserSchema = Schema({
 
 UserSchema.methods.toJSON = function () {
 	const { __v, password, _id, ...user } = this.toObject();
-	// user.uid = _id;
 	return user;
 };
 
