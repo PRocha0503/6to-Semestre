@@ -1,8 +1,8 @@
 const Document = require("../models/document");
 const stream = require("stream");
 
-//Function to add a suer to the database
-const addDocument = async (req, res) => {
+//Function to add document to the database
+const loadDocument = async (req, res) => {
 	try {
 		//Get file and filename
 		let { file } = req.files;
@@ -12,6 +12,7 @@ const addDocument = async (req, res) => {
 
 		//Create document
 		const document = new Document({ title, file, createdBy });
+		document.logs = [req.log];
 
 		//Save to db
 		await document.save();
@@ -28,8 +29,9 @@ const addDocument = async (req, res) => {
 //Function to download a file
 const downloadFile = async (req, res) => {
 	const { documentName } = req.body;
-	console.log(documentName);
 	const document = await Document.findOne({ title: documentName });
+	document.logs.push(req.log);
+	await document.save();
 	let fileContents = Buffer.from(document.file, "base64");
 
 	let readStream = new stream.PassThrough();
@@ -44,8 +46,10 @@ const downloadFile = async (req, res) => {
 //Function to preview a file
 const previewFile = async (req, res) => {
 	const { documentName } = req.body;
-	console.log(documentName);
 	const document = await Document.findOne({ title: documentName });
+	document.logs.push(req.log);
+	await document.save();
+
 	let fileContents = Buffer.from(document.file, "base64");
 
 	let readStream = new stream.PassThrough();
@@ -58,7 +62,7 @@ const previewFile = async (req, res) => {
 };
 
 module.exports = {
-	addDocument,
+	loadDocument,
 	downloadFile,
 	previewFile,
 };

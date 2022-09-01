@@ -1,7 +1,7 @@
 const { Router } = require("express");
 
 const {
-	addDocument,
+	loadDocument,
 	downloadFile,
 	previewFile,
 } = require("../controllers/document.js");
@@ -9,10 +9,12 @@ const { validateJWT, createLog } = require("../middleware");
 
 const router = Router();
 
-router.post("/", [validateJWT, createLog("Document")], addDocument);
+const logType = "Document";
 
-router.get("/downlaod", downloadFile);
+router.post("/load", [validateJWT, createLog(logType)], loadDocument);
 
-router.get("/preview", previewFile);
+router.get("/downlaod", [validateJWT, createLog(logType)], downloadFile);
+
+router.get("/preview", [validateJWT, createLog(logType)], previewFile);
 
 module.exports = router;

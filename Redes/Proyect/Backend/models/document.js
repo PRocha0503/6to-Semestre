@@ -15,16 +15,18 @@ const DocumentSchema = Schema({
 		ref: "User",
 		required: [true, "Created by is mandatory"],
 	},
+	path: {
+		type: String,
+		default: "/",
+	},
+	createdAt: {
+		type: Date,
+		default: Date.now,
+	},
 	tags: [
 		{
 			type: Schema.Types.ObjectId,
 			ref: "Tag",
-		},
-	],
-	area: [
-		{
-			type: Schema.Types.ObjectId,
-			ref: "Area",
 		},
 	],
 	logs: [
@@ -33,6 +35,9 @@ const DocumentSchema = Schema({
 			ref: "Log",
 		},
 	],
+	metadata: {
+		type: Object,
+	},
 });
 
 module.exports = model("Document", DocumentSchema);

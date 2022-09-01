@@ -26,6 +26,9 @@ const login = async (req, res) => {
 	const { username, password } = req.body;
 	const user = await User.findOne({ username });
 	try {
+		if (!user) {
+			return res.status(400).json({ msg: "User does not exist" });
+		}
 		//Validate password
 		const validPassword = bcryptjs.compareSync(password, user.password);
 		if (!validPassword) {

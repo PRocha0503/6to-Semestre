@@ -13,6 +13,7 @@ class Server {
 			user: "/api/user",
 			auth: "/api/auth",
 			docs: "/api/docs",
+			perm: "/api/permission",
 		};
 
 		//Conectar a DB
@@ -43,6 +44,7 @@ class Server {
 		this.app.use(this.paths.user, require("../routes/user"));
 		this.app.use(this.paths.auth, require("../routes/auth"));
 		this.app.use(this.paths.docs, require("../routes/document"));
+		this.app.use(this.paths.perm, require("../routes/permission"));
 	}
 
 	listen() {

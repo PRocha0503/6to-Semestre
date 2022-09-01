@@ -5,11 +5,13 @@ const createLog = (type) => {
 	return async (req, res, next) => {
 		try {
 			const endpoint = req.originalUrl;
+			let method = req.method;
 			const user = req.user;
 			//Create user
-			const log = new Log({ type, endpoint, user });
+			const log = new Log({ type, endpoint, method, user });
 			//Save to db
 			await log.save();
+			req.log = log;
 			next();
 		} catch (e) {
 			console.log(e);
