@@ -6,17 +6,12 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    background-color: $gray-20;
+  background-color: $white;
+  
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.center {
+  height: 100%;
+  display: grid;
+  place-content: center;
 }
-
-* {
-  box-sizing: border-box;
-}
-
