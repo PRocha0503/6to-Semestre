@@ -1,13 +1,19 @@
 import styles from "../styles/Login.module.scss"
 
 import type { NextPage } from 'next'
+import type { FieldValues, SubmitHandler, SubmitErrorHandler } from "react-hook-form";
+
 import { Button, Form, TextInput } from "carbon-components-react";
 import { useState } from 'react';
-
+import { useForm} from "react-hook-form";
 import Image from 'next/image';
 
 const Login: NextPage = () => {
-  const [invalidPassword, setInvalidPassword] = useState(false);
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  
+  const onSubmit: SubmitHandler<FieldValues> = (data) => console.log(data)
+  const onError: SubmitErrorHandler<FieldValues> = (errors) => console.log(errors);
+
   return (
     <div className={styles.center}>
     <div className={styles.login}>
@@ -21,29 +27,35 @@ const Login: NextPage = () => {
         </div>
         <div className={styles.formContainer}>
           <h2>Inicio de sesión</h2>
-          <Form className={styles.loginForm}>
+          <Form className={styles.loginForm} onSubmit={handleSubmit(onSubmit, onError)}>
             <TextInput 
-              hideLabel
+      
               id='username-input'
               type='text'
-              labelText='username'
+              labelText='Usuario'
               placeholder='Usuario'
-              required
+              invalid={!!errors.username}
+              invalidText={"Field must have between 1 and 30 characters"}
+              {...register("username", {
+                minLength: 1,
+                maxLength: 30,
+                required: true
+              })}
             />
             <TextInput.PasswordInput
-              hideLabel
               id='password-input'
               type="password"
               labelText="Password"
               placeholder='Password'
               helperText="Password must be at least 6 characters long"
-              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+              invalid={!!errors?.password}
               invalidText="Password must be at least 6 characters long"
-              invalid={invalidPassword}
-              onInvalid={() => setInvalidPassword(true)}
-              required
+              {...register("password", {
+                minLength: 6,
+                required: true
+              })}
           />
-            <Button>Login</Button> 
+            <Button type="submit">Login</Button> 
           </Form>
         </div>
       </div>
