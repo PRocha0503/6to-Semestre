@@ -9,9 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@carbon/colors": "^11.4.0",
-    "@carbon/icons": "^11.7.0",
-    "carbon-components-react": "^8.12.0",
+    "@carbon/react": "^1.12.0",
+    
     "next": "^12.1.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -20,6 +19,7 @@
   "devDependencies": {
     "@types/carbon__icons-react": "^11.7.0",
     "@types/carbon-components-react": "^7.55.2",
+    "@types/carbon__themes": "^0.0.1",
     "@types/node": "18.7.14",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.2",
