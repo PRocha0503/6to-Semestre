@@ -1,7 +1,9 @@
 .contentLayout {
   display: grid;
   grid-template-columns: minmax(min-content, 300px) auto;
-  gap: 1rem;
+  gap: 0;
+  height: 100vh;
+  background-color: white;
 }
 
 .max {

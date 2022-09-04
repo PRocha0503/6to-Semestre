@@ -3,7 +3,7 @@ import styles from "../styles/Login.module.scss"
 import type { NextPage } from 'next'
 import type { FieldValues, SubmitHandler, SubmitErrorHandler } from "react-hook-form";
 
-import { Button, Form, TextInput } from "carbon-components-react";
+import { Button, Form, TextInput } from "@carbon/react";
 import { useForm} from "react-hook-form";
 import Image from 'next/image';
 
