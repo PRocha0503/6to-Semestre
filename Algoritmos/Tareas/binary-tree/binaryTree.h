@@ -24,6 +24,7 @@ class BinaryTree {
     void printTreeHelper(const string& prefix, Node* node, bool isLeft);
     void setTreeFromVector(vector<int>& nodeValues);
     void setTreeFromFile(string filename);
+    void deallocMemory(Node* node);
 
     public:
     // getters & setters
@@ -33,6 +34,7 @@ class BinaryTree {
     BinaryTree(); //default
     BinaryTree(vector<int>& nodeValues);
     BinaryTree(string filename);
+    ~BinaryTree();
 
     // extra methods
     void addNode(int nodeValue);

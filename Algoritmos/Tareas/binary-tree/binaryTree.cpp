@@ -17,6 +17,19 @@ BinaryTree::BinaryTree(string filename){
     setTreeFromFile(filename);
 }
 
+BinaryTree::~BinaryTree(){
+    deallocMemory(root);
+}
+
+void BinaryTree::deallocMemory(Node* node){
+    if( node != nullptr )
+    {
+        deallocMemory(node->getLeft());
+        deallocMemory(node->getRight());
+        delete node;
+    }
+}
+
 
 void BinaryTree::setTreeFromVector(vector<int>& nodeValues){
     for(int i = 0; i < nodeValues.size(); i++){
@@ -47,11 +60,8 @@ void BinaryTree::setTreeFromFile(string firstScvFile){
     }
     else
     cout<<"Could not open the file\n";
-
-    // vector<int> nodeValues{ 10, 20, 30, 6, 298, 9, 5, 7, 8, 3,4, 18, 19};
-    // setTreeFromVector(content);
+    
     setTreeFromVector(content);
-
 }
 
 Node* BinaryTree::getRoot(){
@@ -66,7 +76,6 @@ void BinaryTree::addNode(int node){
                 Node * toInsert= new Node(node,current);
                 current -> setRight(toInsert);
                 toInsert -> setPrevious(current);
-                current = root;
                 break;
             }
             else{
@@ -79,7 +88,6 @@ void BinaryTree::addNode(int node){
                 Node * toInsert= new Node(node,current);
                 current -> setLeft(toInsert);
                 toInsert -> setPrevious(current);
-                current = root;
                 break;
             }
             else{

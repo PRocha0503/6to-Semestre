@@ -17,6 +17,8 @@ Node::Node(int _value, Node* _right, Node* _left, Node* _previous){
 Node::Node(int _value, Node* _previous){
     value = _value;
     previous = _previous;
+    left = nullptr;
+    right =nullptr;
 }
 
 
