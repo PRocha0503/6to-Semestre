@@ -38,6 +38,7 @@ const Login: NextPage = () => {
               {...register("username", {
                 minLength: 1,
                 maxLength: 30,
+                pattern: /^[A-Za-z]+$/,
                 required: true
               })}
             />
