@@ -30,7 +30,6 @@ void BinaryTree::deallocMemory(Node* node){
     }
 }
 
-
 void BinaryTree::setTreeFromVector(vector<int>& nodeValues){
     for(int i = 0; i < nodeValues.size(); i++){
         if (i==0){
@@ -60,7 +59,7 @@ void BinaryTree::setTreeFromFile(string firstScvFile){
     }
     else
     cout<<"Could not open the file\n";
-    
+
     setTreeFromVector(content);
 }
 
@@ -97,6 +96,31 @@ void BinaryTree::addNode(int node){
         }
     }
 }
+
+void BinaryTree::treeToFileHelper(const string& prefix, Node* node, bool isLeft, std::ofstream& myFile){
+    if( node != nullptr )
+    {
+        myFile << prefix;
+
+        myFile << (isLeft ? "├──" : "└──" );
+
+        // print the value of the node
+        myFile << node->getValue() << endl;
+
+        // enter the next tree level - left and right branch
+        treeToFileHelper( prefix + (isLeft ? "│   " : "    "), node->getLeft(), true, myFile);
+        treeToFileHelper( prefix + (isLeft ? "│   " : "    "), node->getRight(), false, myFile);
+    }
+}
+
+void BinaryTree::treeToFile(Node* node, string filename){
+    std::ofstream myfile;
+    myfile.open (filename);
+    treeToFileHelper("", node, false, myfile);    
+    cout<<"Tree created on file: "<<filename<<endl;
+    myfile.close();
+}
+
 
 void BinaryTree::printTreeHelper(const string& prefix, Node* node, bool isLeft){
     if( node != nullptr )

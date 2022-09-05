@@ -22,6 +22,7 @@ class BinaryTree {
 
     // private methods
     void printTreeHelper(const string& prefix, Node* node, bool isLeft);
+    void treeToFileHelper(const string& prefix, Node* node, bool isLeft, std::ofstream& myFile);
     void setTreeFromVector(vector<int>& nodeValues);
     void setTreeFromFile(string filename);
     void deallocMemory(Node* node);
@@ -38,6 +39,7 @@ class BinaryTree {
 
     // extra methods
     void addNode(int nodeValue);
+    void treeToFile(Node* node, string filename);
     void printTree(Node* node);
 };
 
