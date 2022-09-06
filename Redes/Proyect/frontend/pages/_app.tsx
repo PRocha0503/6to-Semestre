@@ -18,19 +18,19 @@ function MyApp({ Component, pageProps }: AppProps) {
 					method: "GET",
 					url: "http://localhost:8090/api/" + "auth/logged",
 				});
-				console.log(u);
+				console.log("RE");
 				setUser(u);
 			} catch (err) {
 				router.push("/login");
 			}
 		};
 		checkUser();
-	}, [user]);
+	}, [Component]);
 
 	return (
 		<UserContext.Provider value={user}>
 			{!user && pageProps.page !== "login" ? (
-				<Loading description="Active loading indicator" withOverlay={true} />
+				<Loading description="Active loading indicator" />
 			) : (
 				<Component {...pageProps} />
 			)}
