@@ -1,0 +1,33 @@
+@use '@carbon/colors' as *;
+
+.login {
+    padding: 2rem;
+    display: grid;
+    place-content: center;
+    max-width: 600px;
+}
+
+.loginBanner {
+    margin-bottom: 2rem;
+}
+
+.formContainer {
+    background-color: rgb(230, 72, 72);
+    padding: 2rem;
+
+    h2 {
+        margin-bottom: 2rem;
+        text-align: left;
+    }
+}
+
+.loginForm {
+    display: grid;
+    gap: 1rem;
+}
+
+.center {
+    min-height: 100vh;
+    display: grid;
+    place-content: center;
+}

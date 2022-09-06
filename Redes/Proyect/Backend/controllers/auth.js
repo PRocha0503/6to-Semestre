@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
+const req = require("express/lib/request");
 
 //Helper function to create access and refresh JWT
 const createJWT = async (uid = " ") => {
@@ -40,7 +41,7 @@ const login = async (req, res) => {
 		const { accessToken, refreshToken } = await createJWT(user.id);
 		res
 			.cookie("accessToken", accessToken, { httpOnly: true })
-			.send({ refreshToken });
+			.send({ accessToken, refreshToken });
 	} catch (e) {
 		console.log(e);
 		return res.status(500).json({
@@ -54,10 +55,21 @@ const login = async (req, res) => {
 const refreshTokens = async (req, res) => {
 	const { accessToken, refreshToken } = await createJWT("ss");
 	res
-		.cookie("accessToken", accessToken, { httpOnly: true })
-		.send({ refreshToken });
+		.cookie(
+			"accessToken",
+			accessToken
+			// , { httpOnly: true }
+		)
+		.send({ accessToken, refreshToken });
+};
+
+//Funcion to check if a user token is valid
+const logged = (req, res) => {
+	const user = req.user;
+	res.status(200).send(user);
 };
 
 module.exports = {
 	login,
+	logged,
 };

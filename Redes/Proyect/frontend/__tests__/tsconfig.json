@@ -1,0 +1,15 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+      "types": ["jest", "node", "@testing-library/jest-dom"],
+      "baseUrl": ".",
+      "paths": {
+        "@/components/*": ["../components/*"],
+        "@/pages/*": ["../pages/*"],
+        "@/styles/*": ["../styles/*"]
+      }
+    },
+  
+    "include": ["../next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "exclude": ["../node_modules"]
+}
