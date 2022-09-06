@@ -1,4 +1,5 @@
 const Permission = require("../models/permission");
+const { pathExists } = require("../utils/pathExists");
 
 //Function to add an area to the database
 const addPermission = async (req, res) => {
@@ -6,6 +7,8 @@ const addPermission = async (req, res) => {
 		const { path, types } = req.body;
 		const options = ["R", "W", "D", "SA"];
 		const type = [];
+
+		await pathExists(path);
 
 		for (t of types) {
 			if (!options.includes(t)) {
@@ -26,6 +29,7 @@ const addPermission = async (req, res) => {
 			permission,
 		});
 	} catch (e) {
+		console.log(e);
 		res.status(400).send({
 			e,
 		});

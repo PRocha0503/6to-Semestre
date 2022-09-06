@@ -17,7 +17,8 @@ const DocumentSchema = Schema({
 	},
 	path: {
 		type: String,
-		default: "/",
+		required: [true, "Path by is mandatory"],
+		unique: true,
 	},
 	createdAt: {
 		type: Date,

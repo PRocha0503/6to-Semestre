@@ -4,7 +4,7 @@ const LogSchema = Schema({
 	type: {
 		type: String,
 		required: [true, "Type is mandatory"],
-		enum: ["User", "Document", "Area", "Tag", "Permission", "Other"],
+		enum: ["User", "Document", "Area", "Tag", "Permission", "Folder", "Other"],
 	},
 	method: {
 		type: String,

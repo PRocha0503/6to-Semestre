@@ -24,7 +24,8 @@ const FolderSchema = Schema({
 	},
 	path: {
 		type: String,
-		default: "/",
+		required: [true, "Path by is mandatory"],
+		unique: true,
 	},
 });
 
