@@ -1,26 +1,26 @@
-import type { NextPage } from 'next'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from "next";
+import styles from "../styles/Home.module.css";
 
-import NavBar from '../components/NavBar'
-import FolderExplorer from '../components/FolderExplorer'
-import { useState } from 'react'
+import NavBar from "../components/NavBar";
+import FolderExplorer from "../components/FolderExplorer";
+import { useState, useEffect } from "react";
+import { useUser } from "../components/user";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
-  // llamar api
-  
-  const [ selectedNode, setSelectedNode ] = useState<any>(null)
+	const user = useUser();
 
-  return (
-    <div className={styles.container}>
-      <NavBar />
-      <div className={styles.contentLayout}>
-        <FolderExplorer onSelect={(node) => setSelectedNode(node)}/>
-        <div>
-         { selectedNode && <div>{selectedNode.label}</div> }
-        </div>
-      </div>
-    </div>
-  )
-}
+	const [selectedNode, setSelectedNode] = useState<any>(null);
 
-export default Home
+	return (
+		<div className={styles.container}>
+			<NavBar />
+			<div className={styles.contentLayout}>
+				<FolderExplorer onSelect={(node) => setSelectedNode(node)} />
+				<div>{selectedNode && <div>{selectedNode.label}</div>}</div>
+			</div>
+		</div>
+	);
+};
+
+export default Home;
