@@ -14,19 +14,27 @@ class BinaryTree{
     private:
         Node* root;
         void addNode(Node*,Node*);
-        void printTree(Node*);
+        void printTree(const string& prefix, Node* node, bool isLeft);
     public:
+        BinaryTree();
         BinaryTree(Node*);
         void addNode(Node*);
         void printTree();
-        vector<Node> readFile(string);
+        void readFile(string);
 };
 
+BinaryTree::BinaryTree(){
+    root = nullptr;
+};
 BinaryTree::BinaryTree(Node* r){
     root = r;
 };
 
 void BinaryTree::addNode(Node* curr,Node* n){
+    if(root==nullptr){
+        root = n;
+        return;
+    }
     if(n->val < curr->val){
         if (curr->left == nullptr) {
             curr->left = n;
@@ -49,38 +57,45 @@ void BinaryTree::addNode(Node* n){
 };
 
 void BinaryTree::printTree(){
-    printTree(root);
+    printTree("", root, false);
 
 };
-void BinaryTree::printTree(Node* curr){
-    cout << curr->val <<endl;
-    if(curr->left != nullptr){
-        cout << "LEFT" <<endl;
-        printTree(curr->left);
-    }else if(curr->right != nullptr){
-        cout << "RIGHT" <<endl;
-        printTree(curr->right);
+void BinaryTree::printTree(const string& prefix, Node* node, bool isLeft){
+    if( node != nullptr )
+    {
+        cout << prefix;
+
+        cout << (isLeft ? "├──" : "└──" );
+
+        // print the value of the node
+        cout << node->val << endl;
+
+        // enter the next tree level - left and right branch
+        printTree( prefix + (isLeft ? "│   " : "    "), node->left, true);
+        printTree( prefix + (isLeft ? "│   " : "    "), node->right, false);
     }
 };
 
 
-vector<Node> BinaryTree::readFile(string f){
+void BinaryTree::readFile(string f){
     vector<Node> content;
     string line, word;
 
     fstream file (f, ios::in);
     if(file.is_open()){
-        while(getline(file, line))
+        while(getline(file, line)){
             stringstream str(line);
-            while(getline(str, word, ','))
-            cout << word <<endl;
+
+            while(getline(str, word, ',')){
+                Node* temp = new Node(stoi(word));
+                addNode(temp);
+            }
         }
         file.close();
     }
     else
     cout<<"Could not open the file\n";
-
-    return content;
+    return;
 }
 
 #endif

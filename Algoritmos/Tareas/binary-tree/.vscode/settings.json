@@ -1,6 +1,14 @@
 {
 	"files.associations": {
 		"*.ejs": "html",
-		"iostream": "cpp"
+		"iostream": "cpp",
+		"random": "cpp",
+		"*.tcc": "cpp",
+		"deque": "cpp",
+		"string": "cpp",
+		"unordered_map": "cpp",
+		"vector": "cpp",
+		"system_error": "cpp",
+		"ostream": "cpp"
 	}
 }
