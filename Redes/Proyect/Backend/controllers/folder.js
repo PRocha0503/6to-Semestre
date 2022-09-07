@@ -39,8 +39,6 @@ const getFolder = async (req, res) => {
 			"inside",
 			"createdBy",
 		]);
-		//Save to db
-		await folder.save();
 		res.json({
 			folder,
 		});
@@ -52,7 +50,23 @@ const getFolder = async (req, res) => {
 	}
 };
 
+//Function to get root folders
+const rootFolders = async (req, res) => {
+	try {
+		const folders = await Folder.find({
+			path: { $regex: /^\/[^\/]*$/ },
+		}).populate(["inside", "createdBy"]);
+		res.json(folders);
+	} catch (e) {
+		console.log(e);
+		res.status(400).send({
+			e,
+		});
+	}
+};
+
 module.exports = {
 	createFolder,
 	getFolder,
+	rootFolders,
 };
