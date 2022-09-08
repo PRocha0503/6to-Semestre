@@ -31,17 +31,16 @@ const createFolder = async (req, res) => {
 	}
 };
 
-//Function to get a folder
-const getFolder = async (req, res) => {
+//Function to get root folders
+const rootFolders = async (req, res) => {
 	try {
-		const { id: _id } = req.params;
-		const folder = await Folder.findOne({ _id }).populate([
-			"inside",
-			"createdBy",
+		const folders = await Folder.find({
+			path: { $regex: /^\/[^\/]*$/ },
+		}).populate([
+			{ path: "insideDocuments", select: '"_id title createdBy path tags"' },
+			"insideFolders",
 		]);
-		res.json({
-			folder,
-		});
+		res.json(folders);
 	} catch (e) {
 		console.log(e);
 		res.status(400).send({
@@ -50,13 +49,14 @@ const getFolder = async (req, res) => {
 	}
 };
 
-//Function to get root folders
-const rootFolders = async (req, res) => {
+const getFolder = async (req, res) => {
 	try {
-		const folders = await Folder.find({
-			path: { $regex: /^\/[^\/]*$/ },
-		}).populate(["insideDocuments", "insideFolders", "createdBy"]);
-		res.json(folders);
+		const { id: _id } = req.params;
+		const folder = await Folder.findOne({ _id }).populate([
+			{ path: "insideDocuments", select: '"_id title createdBy path tags"' },
+			"insideFolders",
+		]);
+		res.json(folder);
 	} catch (e) {
 		console.log(e);
 		res.status(400).send({

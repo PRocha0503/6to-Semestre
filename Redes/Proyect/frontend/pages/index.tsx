@@ -6,7 +6,7 @@ import FolderExplorer from "../components/FolderExplorer";
 import { useState, useEffect } from "react";
 import { useUser } from "../components/user";
 import { useRouter } from "next/router";
-import DocumentPreview from "../components/DocumentPreview";
+import SelectedItem from "../components/SelectedItem";
 import LogTab from "@/components/LogTab";
 
 const Home: NextPage = () => {
@@ -23,7 +23,7 @@ const Home: NextPage = () => {
 		<div className={styles.container}>
 			<div className={styles.contentLayout}>
 				<FolderExplorer onSelect={(node) => setSelectedNode(node)} />
-				<div>{selectedNode && <DocumentPreview document={selectedNode} />}</div>
+				<div>{selectedNode && <SelectedItem f={selectedNode} />}</div>
 				<LogTab logs={logs}></LogTab>
 			</div>
 		</div>

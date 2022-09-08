@@ -17,19 +17,31 @@ interface Node {
 	createdBy: {};
 }
 
+interface Document {
+	_id: string;
+	title: string;
+	path: String;
+	tags: [];
+	createdBy: {};
+}
+
 interface FolderExplorerProps {
 	onSelect: (node: Node) => void;
 }
 
 const FolderExplorer = ({ onSelect }: FolderExplorerProps) => {
 	const [nodes, setNodes] = useState<Node[]>([]);
-
+	const [documents, setDocuments] = useState<Document[]>([]);
 	useEffect(() => {
 		const getNodes = async () => {
 			try {
 				const { data } = await axios.get("http://localhost:8090/api/folder");
-				console.log(data);
+
 				setNodes(data);
+				const { data: docs } = await axios.get(
+					"http://localhost:8090/api/docs"
+				);
+				setDocuments(docs);
 			} catch (e) {
 				console.log(e);
 			}

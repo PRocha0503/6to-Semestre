@@ -5,12 +5,18 @@ const {
 	downloadFile,
 	previewFile,
 	addDocumentData,
+	rootDocuments,
+	getDocumentDetails,
 } = require("../controllers/document.js");
 const { validateJWT, createLog } = require("../middleware");
 
 const router = Router();
 
 const logType = "Document";
+
+router.get("/", [validateJWT, createLog(logType)], rootDocuments);
+
+router.get("/:id", [validateJWT, createLog(logType)], getDocumentDetails);
 
 router.post("/load", [validateJWT, createLog(logType)], loadDocument);
 
