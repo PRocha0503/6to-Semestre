@@ -14,7 +14,7 @@ const logType = "Document";
 
 router.post("/load", [validateJWT, createLog(logType)], loadDocument);
 
-router.get("/downlaod/:id", [validateJWT, createLog(logType)], downloadFile);
+router.get("/download/:id", [validateJWT, createLog(logType)], downloadFile);
 
 router.get("/preview/:id", [validateJWT, createLog(logType)], previewFile);
 

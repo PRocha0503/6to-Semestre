@@ -15,6 +15,7 @@ class Server {
 			docs: "/api/docs",
 			perm: "/api/permission",
 			folder: "/api/folder",
+			tag: "/api/tag",
 		};
 
 		//Conectar a DB
@@ -58,6 +59,7 @@ class Server {
 		this.app.use(this.paths.docs, require("../routes/document"));
 		this.app.use(this.paths.perm, require("../routes/permission"));
 		this.app.use(this.paths.folder, require("../routes/folder"));
+		this.app.use(this.paths.tag, require("../routes/tag"));
 	}
 
 	listen() {

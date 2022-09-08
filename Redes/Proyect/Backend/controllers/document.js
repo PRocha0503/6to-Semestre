@@ -10,24 +10,33 @@ const loadDocument = async (req, res) => {
 		const title = file.name;
 		file = file.data;
 		const createdBy = req.user;
+		const size = file.length; //In bytes
 
 		const path = "/" + title;
 
 		//Create document
-		const document = new Document({ title, file, createdBy, path });
+		const document = new Document({ title, file, createdBy, path, size });
 		document.logs = [req.log];
 
 		//Save to db
 		await document.save();
 		res.json({
-			document,
+			id: document._id,
+			title: document.title,
+			
 		});
 	} catch (e) {
-		console.log(e);
-		res.status(400).send({
-			e,
-		});
+		switch(e.code){
+			case 11000:
+				res.status(400).json({ message: "Document already exists" });
+				break;
+			default:
+			res.status(500).send({
+				message: "Internal server error",
+			});
+		}
 	}
+
 };
 const addDocumentData = async (req, res) => {
 	try {

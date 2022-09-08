@@ -4,6 +4,7 @@ const TagSchema = Schema({
 	name: {
 		type: String,
 		required: [true, "Name is mandatory"],
+		unique: true,
 	},
 });
 

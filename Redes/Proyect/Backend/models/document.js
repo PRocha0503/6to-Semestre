@@ -23,6 +23,9 @@ const DocumentSchema = Schema({
 	createdAt: {
 		type: Date,
 		default: Date.now,
+	},	
+	size: {
+		type: Number,
 	},
 	tags: [
 		{
