@@ -1,17 +1,15 @@
 .userText {
-    align-self: center;
-    font-weight: 400;
+	align-self: center;
+	font-weight: 400;
 
-    &:hover {
-      cursor: pointer;
-      color: rgb(137, 163, 217);
-    }
-  }
-
-
+	&:hover {
+		cursor: pointer;
+		color: rgb(137, 163, 217);
+	}
+}
 
 .navbar {
-  position: sticky;
-  top: 0;
-  z-index: 190;
-} 
+	position: sticky;
+	top: 0;
+	z-index: 190;
+}

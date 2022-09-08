@@ -14,6 +14,6 @@ router.post("/", [validateJWT, createLog(logType)], createFolder);
 
 router.get("/:id", [validateJWT, createLog(logType)], getFolder);
 
-router.get("/", rootFolders);
+router.get("/", [validateJWT, createLog(logType)], rootFolders);
 
 module.exports = router;

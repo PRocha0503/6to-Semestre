@@ -55,7 +55,10 @@ const rootFolders = async (req, res) => {
 	try {
 		const folders = await Folder.find({
 			path: { $regex: /^\/[^\/]*$/ },
-		}).populate(["insideDocuments", "insideFolders", "createdBy"]);
+		}).populate([
+			{ path: "insideDocuments", select: '"_id title createdBy path tags"' },
+			"insideFolders",
+		]);
 		res.json(folders);
 	} catch (e) {
 		console.log(e);

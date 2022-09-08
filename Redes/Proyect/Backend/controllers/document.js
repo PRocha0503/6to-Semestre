@@ -23,20 +23,18 @@ const loadDocument = async (req, res) => {
 		res.json({
 			id: document._id,
 			title: document.title,
-			
 		});
 	} catch (e) {
-		switch(e.code){
+		switch (e.code) {
 			case 11000:
 				res.status(400).json({ message: "Document already exists" });
 				break;
 			default:
-			res.status(500).send({
-				message: "Internal server error",
-			});
+				res.status(500).send({
+					message: "Internal server error",
+				});
 		}
 	}
-
 };
 const addDocumentData = async (req, res) => {
 	try {
@@ -101,9 +99,28 @@ const previewFile = async (req, res) => {
 	readStream.pipe(res);
 };
 
+//Function to get root documents
+const rootDocuments = async (req, res) => {
+	try {
+		const doc = await Document.find(
+			{
+				path: { $regex: /^\/[^\/]*$/ },
+			},
+			"_id title createdBy path tags"
+		);
+		res.json(doc);
+	} catch (e) {
+		console.log(e);
+		res.status(400).send({
+			e,
+		});
+	}
+};
+
 module.exports = {
 	loadDocument,
 	addDocumentData,
 	downloadFile,
 	previewFile,
+	rootDocuments,
 };

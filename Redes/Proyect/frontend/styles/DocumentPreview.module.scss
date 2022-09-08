@@ -1,0 +1,23 @@
+.container {
+	display: grid;
+	margin: 2rem 5rem;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 50px;
+	// transition: 10s;
+	overflow: hidden;
+
+	> * {
+		margin-bottom: 2rem;
+	}
+
+	.formContainer > * {
+		margin-bottom: 2rem;
+	}
+}
+
+.documentPreview {
+	height: 85vh;
+}
+.info {
+	background-color: rgb(171, 171, 171);
+}
