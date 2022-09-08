@@ -6,6 +6,7 @@ axios.defaults.withCredentials = true;
 import { useRouter } from "next/router";
 import { UserContext, User } from "../components/user";
 import type { AppProps } from "next/app";
+import { Layout } from "@/components/Layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const [user, setUser] = useState<User | null>(null);
@@ -26,13 +27,18 @@ function MyApp({ Component, pageProps }: AppProps) {
 		checkUser();
 	}, [Component]);
 
+	if (!user && pageProps.page !== "login") {
+		return <Loading description="Active loading indicator" withOverlay={true} />
+	}
+
+	if (pageProps.page === "login")
+		return <Component {...pageProps} />
+
 	return (
 		<UserContext.Provider value={user}>
-			{!user && pageProps.page !== "login" ? (
-				<Loading description="Active loading indicator" />
-			) : (
+			<Layout>
 				<Component {...pageProps} />
-			)}
+			</Layout>
 		</UserContext.Provider>
 	);
 }

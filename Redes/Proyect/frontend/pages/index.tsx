@@ -15,7 +15,6 @@ const Home: NextPage = () => {
 
 	return (
 		<div className={styles.container}>
-			<NavBar />
 			<div className={styles.contentLayout}>
 				<FolderExplorer onSelect={(node) => setSelectedNode(node)} />
 				<div>{selectedNode && <DocumentPreview document={selectedNode} />}</div>

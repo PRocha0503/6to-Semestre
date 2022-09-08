@@ -1,17 +1,23 @@
 import { ExpandableSearch, Header, HeaderGlobalAction, HeaderGlobalBar, HeaderName, SkipToContent, Theme } from "@carbon/react"
-import { Switcher } from "@carbon/react/icons"
-import styles from "../styles/NavBar.module.css"
+import { Switcher, Upload } from "@carbon/react/icons"
+import Link from "next/link"
+import router from "next/router"
+import styles from "../styles/NavBar.module.scss"
+import { useUser } from "./user"
 
 const NavBar = () => {
-    const action = (name: string) => {
-        console.log(action)
-      }
+  const action = (name: string) => {
+    console.log(action)
+  }
 
-    return (
-        <Theme theme="g100">
+  const user = useUser();
+  
+  return (
+    <div className={styles.navbar}>
+      <Theme theme="g100">
         <Header aria-label="Alcaldia Alvaro Obregon">
           <SkipToContent />
-          <HeaderName prefix='Alcaldia'>
+          <HeaderName href="/" prefix='Alcaldia'>
             [AO]
           </HeaderName>
           <HeaderGlobalBar>
@@ -23,7 +29,15 @@ const NavBar = () => {
               onChange={() => { }}
               onKeyDown={() => { }}
             />
-            <h5 className={styles.userText}>Chava_God</h5>
+            <Link href={'/'}>
+              <h5 className={styles.userText}>{user?.username || "Incognito"}</h5>
+            </Link>
+            <HeaderGlobalAction
+              aria-label="Upload"
+              onClick={() => router.push('/upload')}
+              tooltipAlignment="end">
+              <Upload size={20} />
+            </HeaderGlobalAction>
             <HeaderGlobalAction
               aria-label="App Switcher"
               onClick={() => action('app-switcher click')}
@@ -33,7 +47,8 @@ const NavBar = () => {
           </HeaderGlobalBar>
         </Header>
       </Theme>
-    )
+    </div>
+  )
 }
 
 

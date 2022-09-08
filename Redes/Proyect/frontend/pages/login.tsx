@@ -35,6 +35,9 @@ const Login: NextPage = () => {
 					username,
 					password,
 				},
+				headers: {
+					"Content-Type": "application/json",
+				}
 			});
 			router.push("/");
 		} catch (e) {
