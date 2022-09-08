@@ -1,34 +1,103 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
+import {
+	Table,
+	TableHead,
+	TableRow,
+	TableHeader,
+	TableBody,
+	TableCell,
+} from "@carbon/react";
 
 import styles from "../styles/DocumentPreview.module.scss";
+interface Document {
+	_id: string;
+	title: string;
+	path: String;
+	tags: [];
+	createdBy: {};
+}
+interface Folder {
+	_id: string;
+	name: string;
+	insideFolders: Node[];
+	insideDocuments: Document[];
+	path: String;
+	tags: [];
+	createdBy: {};
+}
 
-const SelectedItem = ({ document }: any) => {
-	console.log(document);
-	if (document.value == "FOLDER") {
-		return <div>{document.name}</div>;
-	} else {
-		const previewDocument = async () => {
-			// await axios({
-			// 	method: "GET",
-			// 	url: `http://localhost:8090/api/docs/downlaod/${document.id}`,
-			// });
-			// window.open(`http://localhost:8090/api/docs/preview/${document.id}`);
+const SelectedItem = ({ f }: any) => {
+	// console.log(f);
+	const [folder, setFolder] = useState<Folder>({
+		_id: "",
+		name: "s",
+		insideFolders: [],
+		insideDocuments: [],
+		path: "",
+		tags: [],
+		createdBy: {},
+	});
+	const [document, setDocument] = useState<Document>();
+	useEffect(() => {
+		const folderDetails = async () => {
+			if (f.id) {
+				const { data } = await axios({
+					method: "GET",
+					url: `http://localhost:8090/api/folder/${f.id}`,
+				});
+				console.log(data);
+				setDocument(null);
+				setFolder(data);
+			}
 		};
-		previewDocument();
-		return (
+		folderDetails();
+	}, [f]);
+	return (
+		<>
+			<h1>{folder.name}</h1>
 			<div className={styles.container}>
-				<iframe
-					className={styles.documentPreview}
-					id="inlineFrameExample"
-					title="Inline Frame Example"
-					width="600"
-					height="1200"
-					src={`http://localhost:8090/api/docs/preview/${document.id}`}
-				></iframe>
-				<div className={styles.info}></div>
+				<div className={styles.info}>
+					<Table size="lg" useZebraStyles={false}>
+						<TableHead>
+							<TableRow>
+								<TableHeader>Nombre"</TableHeader>
+								<TableHeader>Fecha de creación</TableHeader>
+								<TableHeader>Etiquetas</TableHeader>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{folder.insideDocuments.map((tempDoc: Document) => (
+								<TableRow
+									key={tempDoc._id}
+									onClick={() => {
+										console.log(tempDoc);
+										setDocument(tempDoc);
+									}}
+								>
+									<TableCell>{tempDoc.title}</TableCell>
+									<TableCell>{tempDoc.path}</TableCell>
+									<TableCell>{tempDoc.tags}</TableCell>
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</div>
+				{document ? (
+					<div className={styles.documentPreview}>
+						<iframe
+							className={styles.documentPreview}
+							id="inlineFrameExample"
+							title="Inline Frame Example"
+							src={`http://localhost:8090/api/docs/preview/${document._id}`}
+						></iframe>
+					</div>
+				) : (
+					<></>
+				)}
 			</div>
-		);
-	}
+		</>
+	);
 };
 
 export default SelectedItem;

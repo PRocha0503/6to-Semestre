@@ -40,15 +40,15 @@ const addDocumentData = async (req, res) => {
 	try {
 		const { id: _id } = req.params;
 		const { tags, metadata, parent } = req.body;
-		const document = await Document.findOne({ _id });
+		const document = await Document.findOne({ _id }, "-file");
 		document.logs.push(req.log);
 		document.metadata = metadata;
 		document.tags = tags;
 		if (parent) {
 			const parentFolder = await Folder.findOne({ _id: parent });
 			parentFolder.insideDocuments.push(document);
-			parentFolder.save();
 			document.path = parentFolder.path + "/" + document.title;
+			parentFolder.save();
 		} else {
 			document.path = "/" + document.title;
 		}
@@ -66,37 +66,51 @@ const addDocumentData = async (req, res) => {
 
 //Function to download a file
 const downloadFile = async (req, res) => {
-	const { id: _id } = req.params;
-	const document = await Document.findOne({ _id });
-	document.logs.push(req.log);
-	await document.save();
-	let fileContents = Buffer.from(document.file, "base64");
+	try {
+		const { id: _id } = req.params;
+		const document = await Document.findOne({ _id });
+		document.logs.push(req.log);
+		await document.save();
+		let fileContents = Buffer.from(document.file, "base64");
 
-	let readStream = new stream.PassThrough();
-	readStream.end(fileContents);
+		let readStream = new stream.PassThrough();
+		readStream.end(fileContents);
 
-	res.set("Content-disposition", "attachment; filename=" + document.title);
-	res.set("Content-Type", "application/pdf");
+		res.set("Content-disposition", "attachment; filename=" + document.title);
+		res.set("Content-Type", "application/pdf");
 
-	readStream.pipe(res);
+		readStream.pipe(res);
+	} catch (e) {
+		console.log(e);
+		res.status(400).send({
+			e,
+		});
+	}
 };
 
 //Function to preview a file
 const previewFile = async (req, res) => {
-	const { id: _id } = req.params;
-	const document = await Document.findOne({ _id });
-	document.logs.push(req.log);
-	await document.save();
+	try {
+		const { id: _id } = req.params;
+		const document = await Document.findOne({ _id });
+		document.logs.push(req.log);
+		await document.save();
 
-	let fileContents = Buffer.from(document.file, "base64");
+		let fileContents = Buffer.from(document.file, "base64");
 
-	let readStream = new stream.PassThrough();
-	readStream.end(fileContents);
+		let readStream = new stream.PassThrough();
+		readStream.end(fileContents);
 
-	res.set("Content-disposition", "inline; filename=" + document.title);
-	res.set("Content-Type", "application/pdf");
+		res.set("Content-disposition", "inline; filename=" + document.title);
+		res.set("Content-Type", "application/pdf");
 
-	readStream.pipe(res);
+		readStream.pipe(res);
+	} catch (e) {
+		console.log(e);
+		res.status(400).send({
+			e,
+		});
+	}
 };
 
 //Function to get root documents
@@ -117,10 +131,24 @@ const rootDocuments = async (req, res) => {
 	}
 };
 
+const getDocumentDetails = async (req, res) => {
+	try {
+		const { id: _id } = req.params;
+		const doc = await Document.findOne({ _id }, "-file");
+		res.json(doc);
+	} catch (e) {
+		console.log(e);
+		res.status(400).send({
+			e,
+		});
+	}
+};
+
 module.exports = {
 	loadDocument,
 	addDocumentData,
 	downloadFile,
 	previewFile,
 	rootDocuments,
+	getDocumentDetails,
 };

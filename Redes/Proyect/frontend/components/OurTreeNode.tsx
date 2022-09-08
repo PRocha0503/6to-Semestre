@@ -3,7 +3,6 @@ import { Folder } from "@carbon/react/icons";
 import { useState } from "react";
 import Image from "next/image";
 import renderTree from "../helpers/renderTree";
-import renderDocument from "../helpers/renderDocument";
 
 import { isBuffer } from "cypress/types/lodash";
 
@@ -28,7 +27,7 @@ const OurTreeNode = ({
 
 	return (
 		<TreeNode
-			key={_id}
+			id={_id}
 			renderIcon={() =>
 				expanded ? (
 					<Image src="/icons/filledFolder.svg" height={16} width={16} />
@@ -42,12 +41,9 @@ const OurTreeNode = ({
 				setExpanded((prev) => !prev);
 			}}
 			label={name}
-			value={"FOLDER"}
+			value={_id}
 			{...nodeProps}
 		>
-			{insideDocuments?.length !== 0 && expanded
-				? renderDocument({ documents: insideDocuments })
-				: null}
 			{insideFolders?.length !== 0 && expanded
 				? renderTree({ nodes: insideFolders })
 				: null}

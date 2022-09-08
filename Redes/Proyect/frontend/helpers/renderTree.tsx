@@ -1,5 +1,4 @@
 import OurTreeNode from "../components/OurTreeNode";
-import Document from "../components/DocumentSide";
 
 interface Node {
 	_id: string;

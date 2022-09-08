@@ -3,7 +3,6 @@ import { Folder } from "@carbon/react/icons";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import renderTree from "../helpers/renderTree";
-import renderDocument from "../helpers/renderDocument";
 
 import styles from "../styles/FolderExplorer.module.scss";
 import axios from "axios";
@@ -56,7 +55,6 @@ const FolderExplorer = ({ onSelect }: FolderExplorerProps) => {
 				label="Tree View"
 				onSelect={(_ev: PointerEvent, node: any) => onSelect?.(node)}
 			>
-				{renderDocument({ documents })}
 				{renderTree({ nodes })}
 			</TreeView>
 		</div>

@@ -17,7 +17,7 @@ const Home: NextPage = () => {
 		<div className={styles.container}>
 			<div className={styles.contentLayout}>
 				<FolderExplorer onSelect={(node) => setSelectedNode(node)} />
-				<div>{selectedNode && <SelectedItem document={selectedNode} />}</div>
+				<div>{selectedNode && <SelectedItem f={selectedNode} />}</div>
 			</div>
 		</div>
 	);
