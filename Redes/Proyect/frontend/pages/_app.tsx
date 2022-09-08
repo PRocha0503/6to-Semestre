@@ -18,7 +18,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 					method: "GET",
 					url: "http://localhost:8090/api/" + "auth/logged",
 				});
-				console.log("RE");
 				setUser(u);
 			} catch (err) {
 				router.push("/login");

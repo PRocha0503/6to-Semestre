@@ -1,19 +1,25 @@
 import OurTreeNode from "../components/OurTreeNode";
+import Document from "../components/Document";
 
 interface Node {
-	id: number;
-	label: string;
-	ch?: Node[];
+	_id: string;
+	name: string;
+	insideFolders: Node[];
+	insideDocuments: [];
+	path: String;
+	tags: [];
+	createdBy: {};
 }
 
 const renderTree = ({ nodes }: { nodes: Node[] }) => {
-	console.log("N", nodes);
 	if (!nodes) {
 		return;
 	}
 	return nodes.map((node: Node) => {
 		return (
-			<OurTreeNode {...node}>{renderTree({ nodes: node.ch })}</OurTreeNode>
+			<OurTreeNode {...node}>
+				{renderTree({ nodes: node.insideFolders })}
+			</OurTreeNode>
 		);
 	});
 };

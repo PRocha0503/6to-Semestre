@@ -5,11 +5,16 @@ import Image from "next/image";
 import renderTree from "../helpers/renderTree";
 
 import styles from "../styles/FolderExplorer.module.scss";
+import axios from "axios";
 
 interface Node {
-	id: number;
-	label: string;
-	ch?: Node[];
+	_id: string;
+	name: string;
+	insideFolders: Node[];
+	insideDocuments: [];
+	path: String;
+	tags: [];
+	createdBy: {};
 }
 
 interface FolderExplorerProps {
@@ -20,24 +25,16 @@ const FolderExplorer = ({ onSelect }: FolderExplorerProps) => {
 	const [nodes, setNodes] = useState<Node[]>([]);
 
 	useEffect(() => {
-		setNodes([
-			{
-				id: 1,
-				label: "Folder 1",
-			},
-			{
-				id: 2,
-				label: "Folder 2",
-			},
-			{
-				id: 3,
-				label: "Folder 3",
-				ch: [
-					{ id: 6, label: "CHILD" },
-					{ id: 7, label: "CHILD" },
-				],
-			},
-		]);
+		const getNodes = async () => {
+			try {
+				const { data } = await axios.get("http://localhost:8090/api/folder");
+				console.log(data);
+				setNodes(data);
+			} catch (e) {
+				console.log(e);
+			}
+		};
+		getNodes();
 	}, []);
 
 	return (

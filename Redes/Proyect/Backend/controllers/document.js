@@ -39,7 +39,7 @@ const addDocumentData = async (req, res) => {
 		document.tags = tags;
 		if (parent) {
 			const parentFolder = await Folder.findOne({ _id: parent });
-			parentFolder.inside.push(document);
+			parentFolder.insideDocuments.push(document);
 			parentFolder.save();
 			document.path = parentFolder.path + "/" + document.title;
 		} else {

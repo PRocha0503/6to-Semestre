@@ -3,19 +3,32 @@ import { Folder } from "@carbon/react/icons";
 import { useState } from "react";
 import Image from "next/image";
 import renderTree from "../helpers/renderTree";
+import renderDocument from "../helpers/renderDocument";
+
 import { isBuffer } from "cypress/types/lodash";
 
 interface Node {
-	id: number;
-	label: string;
-	ch?: Node[];
+	_id: string;
+	name: string;
+	insideFolders: Node[];
+	insideDocuments: [];
+	path: String;
+	tags: [];
+	createdBy: {};
 }
 
-const OurTreeNode = ({ ch, id, label, ...nodeProps }: Node) => {
+const OurTreeNode = ({
+	insideFolders,
+	_id,
+	name,
+	insideDocuments,
+	...nodeProps
+}: Node) => {
 	const [expanded, setExpanded] = useState(false);
+
 	return (
 		<TreeNode
-			key={id}
+			key={_id}
 			renderIcon={() =>
 				expanded ? (
 					<Image src="/icons/filledFolder.svg" height={16} width={16} />
@@ -25,14 +38,19 @@ const OurTreeNode = ({ ch, id, label, ...nodeProps }: Node) => {
 			}
 			isExpanded={expanded}
 			onClick={() => {
-				if (!ch) return;
+				if (insideFolders?.length == 0 && insideDocuments?.length == 0) return;
 				setExpanded((prev) => !prev);
 			}}
-			label={<span>{label}</span>}
-			value={label}
+			label={name}
+			value={"FOLDER"}
 			{...nodeProps}
 		>
-			{renderTree({ nodes: ch })}
+			{insideDocuments?.length !== 0 && expanded
+				? renderDocument({ documents: insideDocuments })
+				: null}
+			{insideFolders?.length !== 0 && expanded
+				? renderTree({ nodes: insideFolders })
+				: null}
 		</TreeNode>
 	);
 };

@@ -13,7 +13,7 @@ const createFolder = async (req, res) => {
 		//Look for parent folder
 		if (parent) {
 			const parentFolder = await Folder.findOne({ _id: parent });
-			parentFolder.inside.push(folder);
+			parentFolder.insideFolders.push(folder);
 			parentFolder.save();
 			folder.path = parentFolder.path + "/" + name;
 		}
@@ -55,7 +55,7 @@ const rootFolders = async (req, res) => {
 	try {
 		const folders = await Folder.find({
 			path: { $regex: /^\/[^\/]*$/ },
-		}).populate(["inside", "createdBy"]);
+		}).populate(["insideDocuments", "insideFolders", "createdBy"]);
 		res.json(folders);
 	} catch (e) {
 		console.log(e);

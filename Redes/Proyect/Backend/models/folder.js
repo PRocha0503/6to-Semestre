@@ -11,10 +11,16 @@ const FolderSchema = Schema({
 			ref: "Tag",
 		},
 	],
-	inside: [
+	insideFolders: [
 		{
 			type: Schema.Types.ObjectId,
-			ref: ["Folder", "Document"],
+			ref: "Folder",
+		},
+	],
+	insideDocuments: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "Document",
 		},
 	],
 	createdBy: {
@@ -28,5 +34,11 @@ const FolderSchema = Schema({
 		unique: true,
 	},
 });
+
+FolderSchema.methods.toJSON = function () {
+	const { _id, __v, ...folder } = this.toObject();
+	folder["id"] = _id;
+	return folder;
+};
 
 module.exports = model("Folder", FolderSchema);
