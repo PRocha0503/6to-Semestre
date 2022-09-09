@@ -83,18 +83,18 @@ const SelectedItem = ({ f }: any) => {
 						</TableBody>
 					</Table>
 				</div>
-				{document ? (
-					<div className={styles.documentPreview}>
+				<div className={styles.documentPreview}>
+					{document ? (
 						<iframe
-							className={styles.documentPreview}
+							className={styles.inside}
 							id="inlineFrameExample"
 							title="Inline Frame Example"
 							src={`http://localhost:8090/api/docs/preview/${document._id}`}
 						></iframe>
-					</div>
-				) : (
-					<></>
-				)}
+					) : (
+						<></>
+					)}
+				</div>
 			</div>
 		</>
 	);

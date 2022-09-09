@@ -3,7 +3,6 @@
 	width: 100%;
 	height: 80%;
 	justify-content: space-around;
-	grid-template-columns: 1fr 1fr;
 	// transition: 10s;
 	overflow: hidden;
 
@@ -17,14 +16,17 @@
 }
 
 .documentPreview {
-	width: 100%;
 	height: 100%;
 	margin-right: 2rem;
 	width: 30vw;
 }
+.inside {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
 .info {
 	background-color: rgb(171, 171, 171);
-	margin-right: 2rem;
 	height: 100%;
 	width: 30vw;
 }
