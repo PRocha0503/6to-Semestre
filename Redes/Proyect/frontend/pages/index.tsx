@@ -18,13 +18,12 @@ const Home: NextPage = () => {
 		{ date: new Date(), user: { username: "a" } },
 		{ date: new Date(), user: { username: "b" } },
 		{ date: new Date(), user: { username: "test" } },
-	]
+	];
 	return (
 		<div className={styles.container}>
 			<div className={styles.contentLayout}>
 				<FolderExplorer onSelect={(node) => setSelectedNode(node)} />
 				<div>{selectedNode && <SelectedItem f={selectedNode} />}</div>
-				<LogTab logs={logs}></LogTab>
 			</div>
 		</div>
 	);
