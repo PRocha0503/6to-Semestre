@@ -33,6 +33,12 @@ const FolderSchema = Schema({
 		required: [true, "Path by is mandatory"],
 		unique: true,
 	},
+	logs: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "Log",
+		},
+	],
 });
 
 FolderSchema.methods.toJSON = function () {

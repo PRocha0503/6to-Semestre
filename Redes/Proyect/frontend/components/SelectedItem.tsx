@@ -9,12 +9,13 @@ import {
 	TableCell,
 } from "@carbon/react";
 
+import FolderView from "./FolderView";
+
 import styles from "../styles/DocumentPreview.module.scss";
 import DocumentView from "./DocumentView";
 
 
 const SelectedItem = ({ f }: any) => {
-	// console.log(f);
 	const [folder, setFolder] = useState<Folder>({
 		_id: "",
 		name: "s",
@@ -23,6 +24,7 @@ const SelectedItem = ({ f }: any) => {
 		path: "",
 		tags: [],
 		createdBy: {},
+		logs: [],
 	});
 	const [document, setDocument] = useState<Document>();
 	useEffect(() => {
@@ -43,33 +45,13 @@ const SelectedItem = ({ f }: any) => {
 		<>
 			<h1>{folder.name}</h1>
 			<div className={styles.container}>
-				<div className={styles.info}>
-					<Table size="lg" useZebraStyles={false}>
-						<TableHead>
-							<TableRow>
-								<TableHeader>Nombre"</TableHeader>
-								<TableHeader>Fecha de creación</TableHeader>
-								<TableHeader>Etiquetas</TableHeader>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{folder.insideDocuments.map((tempDoc: Document) => (
-								<TableRow
-									key={tempDoc._id}
-									onClick={() => {
-										console.log(tempDoc);
-										setDocument(tempDoc);
-									}}
-								>
-									<TableCell>{tempDoc.title}</TableCell>
-									<TableCell>{tempDoc.path}</TableCell>
-									<TableCell>{tempDoc.tags}</TableCell>
-								</TableRow>
-							))}
-						</TableBody>
-					</Table>
+				<FolderView folder={folder} setDocument={setDocument} />
+				<div className={styles.documentPreview}>
+					{document ? 
+						<DocumentView document={document} /> : 
+					<></>}
+					
 				</div>
-				{document && <DocumentView document={document} /> }
 			</div>
 		</>
 	);
