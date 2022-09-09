@@ -17,6 +17,7 @@ const createFolder = async (req, res) => {
 			parentFolder.save();
 			folder.path = parentFolder.path + "/" + name;
 		}
+		folder.logs.push(req.log);
 
 		//Save to db
 		await folder.save();
@@ -53,9 +54,16 @@ const getFolder = async (req, res) => {
 	try {
 		const { id: _id } = req.params;
 		const folder = await Folder.findOne({ _id }).populate([
-			{ path: "insideDocuments", select: '"_id title createdBy path tags"' },
+			{
+				path: "insideDocuments",
+				select: '"_id title createdBy path tags logs"',
+			},
 			"insideFolders",
+			"logs",
 		]);
+		folder.logs.push(req.log);
+		//Save to db
+		await folder.save();
 		res.json(folder);
 	} catch (e) {
 		console.log(e);
