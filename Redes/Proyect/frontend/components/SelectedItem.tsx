@@ -10,22 +10,8 @@ import {
 } from "@carbon/react";
 
 import styles from "../styles/DocumentPreview.module.scss";
-interface Document {
-	_id: string;
-	title: string;
-	path: String;
-	tags: [];
-	createdBy: {};
-}
-interface Folder {
-	_id: string;
-	name: string;
-	insideFolders: Node[];
-	insideDocuments: Document[];
-	path: String;
-	tags: [];
-	createdBy: {};
-}
+import DocumentView from "./DocumentView";
+
 
 const SelectedItem = ({ f }: any) => {
 	// console.log(f);
@@ -83,18 +69,7 @@ const SelectedItem = ({ f }: any) => {
 						</TableBody>
 					</Table>
 				</div>
-				{document ? (
-					<div className={styles.documentPreview}>
-						<iframe
-							className={styles.documentPreview}
-							id="inlineFrameExample"
-							title="Inline Frame Example"
-							src={`http://localhost:8090/api/docs/preview/${document._id}`}
-						></iframe>
-					</div>
-				) : (
-					<></>
-				)}
+				{document && <DocumentView document={document} /> }
 			</div>
 		</>
 	);

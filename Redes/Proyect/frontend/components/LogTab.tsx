@@ -1,14 +1,7 @@
 import { DataTable, Table, TableBody, TableCell, TableContainer, TableHead, TableHeader, TableRow, Pagination } from "@carbon/react";
 import type { Header } from "@carbon/react";
 import { useState } from "react";
-interface User {
-    username: string;
-}
 
-interface Log {
-    date: Date
-    user: User
-}
 
 interface LogProps {
     logs: Log[]
@@ -27,7 +20,7 @@ interface Header {
 
 const LogTab = ({ logs }: LogProps) => {
     const headers: Header[] = [{ key: "date", header: "Date" }, { key: "user", header: "User" }];
-    const rows: Row[] = logs.map((log, key) => { return { id: key.toString(), date: log.date.toISOString(), user: log.user.username } });
+    const rows: Row[] = logs?.map((log, key) => { return { id: key.toString(), date: log.date.toISOString(), user: log.user.username } }) || [];
     
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
@@ -68,7 +61,7 @@ const LogTab = ({ logs }: LogProps) => {
                     </TableContainer>
                 )}
             </DataTable>
-            <Pagination totalItems={logs.length} pageSizes={[10, 20, 30, 40, 50]} pageSize={pageSize} page={page} onChange={handlePagination} />
+            <Pagination totalItems={logs?.length || 0} pageSizes={[10, 20, 30, 40, 50]} pageSize={pageSize} page={page} onChange={handlePagination} />
         </div>
     )
 }

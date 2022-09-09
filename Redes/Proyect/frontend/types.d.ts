@@ -1,13 +1,26 @@
-declare module '*module.css' {
-    const styles: {
-      [className: string]: string
-    }
-    export default styles
-  }
+interface User {
+  username: string;
+}
 
-declare module '*module.scss' {
-    const styles: {
-      [className: string]: string
-    }
-    export default styles
+interface Log {
+  date: Date
+  user: User
+}
+declare interface Document {
+    _id: string;
+    title: string;
+    path: string;
+    tags: [];
+    createdBy: {};
+    logs: Log[]
+  }
+  
+declare interface Folder {
+    _id: string;
+    name: string;
+    insideFolders: Node[];
+    insideDocuments: Document[];
+    path: String;
+    tags: [];
+    createdBy: {};
   }
