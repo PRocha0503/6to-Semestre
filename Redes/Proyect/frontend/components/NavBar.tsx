@@ -3,7 +3,7 @@ import { Switcher, Upload } from "@carbon/react/icons"
 import Link from "next/link"
 import router from "next/router"
 import styles from "../styles/NavBar.module.scss"
-import { useUser } from "./user"
+import { useUser } from "../hooks/user"
 
 const NavBar = () => {
   const action = (name: string) => {

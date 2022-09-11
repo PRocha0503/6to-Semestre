@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 import { useRouter } from "next/router";
-import { UserContext, User } from "../components/user";
+import { UserContext, User } from "../hooks/user";
 import type { AppProps } from "next/app";
 import { Layout } from "@/components/Layout";
 

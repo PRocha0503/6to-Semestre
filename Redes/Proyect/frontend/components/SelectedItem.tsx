@@ -1,18 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import {
-	Table,
-	TableHead,
-	TableRow,
-	TableHeader,
-	TableBody,
-	TableCell,
-} from "@carbon/react";
 
 import FolderView from "./FolderView";
-
-import styles from "../styles/DocumentPreview.module.scss";
 import DocumentView from "./DocumentView";
+
+import styles from "../styles/HomeContent.module.scss";
 
 
 const SelectedItem = ({ f }: any) => {
@@ -26,25 +18,33 @@ const SelectedItem = ({ f }: any) => {
 		createdBy: {},
 		logs: [],
 	});
-	const [document, setDocument] = useState<Document>();
+	const [document, setDocument] = useState<Document | null>();
 	useEffect(() => {
+		const cancelToken = axios.CancelToken.source();
+		
 		const folderDetails = async () => {
 			if (f.id) {
 				const { data } = await axios({
 					method: "GET",
 					url: `http://localhost:8090/api/folder/${f.id}`,
-				});
-				console.log(data);
+					cancelToken: cancelToken.token,
+				},);
 				setDocument(null);
 				setFolder(data);
 			}
 		};
+		
 		folderDetails();
+
+		return () => {
+			cancelToken.cancel();
+		}
+
 	}, [f]);
 	return (
-		<>
+		<div className={styles.selectedContainer}>
 			<h1>{folder.name}</h1>
-			<div className={styles.container}>
+			<div className={styles.contentContainer}>
 				<FolderView folder={folder} setDocument={setDocument} />
 				<div className={styles.documentPreview}>
 					{document ? 
@@ -53,7 +53,7 @@ const SelectedItem = ({ f }: any) => {
 					
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 

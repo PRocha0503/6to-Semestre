@@ -25,7 +25,6 @@ interface Folder {
 }
 
 const FolderView = ({ folder, setDocument }: any) => {
-	console.log(folder);
 	return (
 		<div className={styles.info}>
 			<Tabs>

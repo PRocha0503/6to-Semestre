@@ -3,6 +3,7 @@ interface User {
 }
 
 interface Log {
+  _id: string
   date: Date
   user: User
 }
@@ -23,4 +24,5 @@ declare interface Folder {
     path: String;
     tags: [];
     createdBy: {};
+    logs: Log[]
   }

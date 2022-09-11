@@ -37,7 +37,7 @@ const DocumentsTable = ({
 		<Table size="lg" useZebraStyles={false}>
 			<TableHead>
 				<TableRow>
-					<TableHeader>Nombre"</TableHeader>
+					<TableHeader>Nombre</TableHeader>
 					<TableHeader>Fecha de creación</TableHeader>
 					<TableHeader>Etiquetas</TableHeader>
 				</TableRow>

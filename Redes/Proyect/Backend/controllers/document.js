@@ -134,7 +134,12 @@ const rootDocuments = async (req, res) => {
 const getDocumentDetails = async (req, res) => {
 	try {
 		const { id: _id } = req.params;
-		const doc = await Document.findOne({ _id }, "-file");
+		const doc = await Document.findOne({ _id }, "-file").populate(
+			{
+				path: "logs",
+				populate: { path: "user", select: "_id username" },
+			}
+		);
 		res.json(doc);
 	} catch (e) {
 		console.log(e);

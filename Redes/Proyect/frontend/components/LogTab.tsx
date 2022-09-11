@@ -10,16 +10,7 @@ import {
 	Pagination,
 } from "@carbon/react";
 import type { Header } from "@carbon/react";
-import { useState } from "react";
-interface User {
-	username: string;
-}
-
-interface Log {
-	date: Date;
-	user: User;
-}
-
+import { useEffect, useState } from "react";
 interface LogProps {
 	logs: Log[];
 }
@@ -36,23 +27,32 @@ interface Header {
 }
 
 const LogTab = ({ logs }: LogProps) => {
+
+	if (!logs) { return <div>No hay logs</div> }
+	
 	const headers: Header[] = [
 		{ key: "date", header: "Date" },
 		{ key: "user", header: "User" },
 	];
-	console.log("LOGS", logs);
-	const rows: Row[] = logs?.map((log, key) => {
-		return {
-			id: key.toString(),
-			date: new Date(log.date).toISOString().substring(0, 10),
-			user: log.user.username,
-		};
-	}) || [];
 
-	const [page, setPage] = useState(1);
-	const [pageSize, setPageSize] = useState(10);
+	const [rows, setRows ] = useState<Row[]>([])
+    const [page, setPage] = useState(1);
+	const [pageSize, setPageSize] = useState(5);
+    const [currentRows, setCurrentRows] = useState<Row[]>([]);
 
-	const [currentRows, setCurrentRows] = useState(rows.slice(0, 10));
+    useEffect(() => {
+		console.log(logs)
+		const logsMapped = logs.map((log: Log) => ({
+            id: log._id,
+            date: new Date(log.date).toUTCString(),
+            user: log.user.username
+        }))
+
+        setRows(logsMapped)
+        setCurrentRows(logsMapped.slice((page - 1) * pageSize, page * pageSize))
+		
+    }, [logs])
+
 
 	const handlePagination = ({
 		page,
@@ -104,8 +104,8 @@ const LogTab = ({ logs }: LogProps) => {
 				)}
 			</DataTable>
 			<Pagination
-				totalItems={logs?.length || 0}
-				pageSizes={[10, 20, 30, 40, 50]}
+				totalItems={rows.length}
+				pageSizes={[5, 10, 20, 30, 40, 50]}
 				pageSize={pageSize}
 				page={page}
 				onChange={handlePagination}

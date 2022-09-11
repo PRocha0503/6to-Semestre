@@ -1,3 +1,4 @@
+const { populate } = require("../models/folder");
 const Folder = require("../models/folder");
 
 //Function to add a folder
@@ -56,11 +57,16 @@ const getFolder = async (req, res) => {
 		const folder = await Folder.findOne({ _id }).populate([
 			{
 				path: "insideDocuments",
-				select: '"_id title createdBy path tags logs"',
+				select: '_id title createdBy path tags logs',
 			},
 			"insideFolders",
-			"logs",
+			{
+				path: "logs",
+				populate: { path: "user", select: '_id username' },
+			}
+			
 		]);
+		console.log(folder)
 		folder.logs.push(req.log);
 		//Save to db
 		await folder.save();

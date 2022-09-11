@@ -1,0 +1,19 @@
+.contentContainer {
+    display: flex;  
+    height: 100%;
+    gap: 1rem;
+    padding: 1rem;
+    
+    flex: 1;
+}
+
+.contentContainer > * {
+    flex: 1;
+}
+
+
+.selectedContainer {
+    display: flex;
+    flex-direction: column;
+}
+
