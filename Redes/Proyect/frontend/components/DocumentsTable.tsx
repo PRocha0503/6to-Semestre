@@ -7,6 +7,7 @@ import {
 	TableHeader,
 	TableBody,
 	TableCell,
+	Tag,
 } from "@carbon/react";
 
 interface Document {
@@ -15,6 +16,7 @@ interface Document {
 	path: String;
 	tags: [];
 	createdBy: {};
+	createdAt: Date;
 }
 interface Folder {
 	_id: string;
@@ -33,6 +35,7 @@ const DocumentsTable = ({
 	folder: Folder;
 	setDocument: any;
 }) => {
+	console.log(folder);
 	return (
 		<Table size="lg" useZebraStyles={false}>
 			<TableHead>
@@ -52,8 +55,35 @@ const DocumentsTable = ({
 						}}
 					>
 						<TableCell>{tempDoc.title}</TableCell>
-						<TableCell>{tempDoc.path}</TableCell>
-						<TableCell>{tempDoc.tags}</TableCell>
+						<TableCell>
+							{new Date(tempDoc.createdAt).toLocaleDateString("en-US")}
+						</TableCell>
+						<TableCell>
+							{tempDoc.tags.map((tag: any) => {
+								//chose random item from list
+								const colors = [
+									"red",
+									"blue",
+									"magenta",
+									"purple",
+									"teal",
+									"cyan",
+									"green",
+									"gray",
+								];
+								const randomItem = Math.floor(Math.random() * colors.length);
+								return (
+									<Tag
+										className="some-class"
+										type={colors[randomItem]}
+										size="sm"
+										title="Clear Filter"
+									>
+										{tag}
+									</Tag>
+								);
+							})}
+						</TableCell>
 					</TableRow>
 				))}
 			</TableBody>
