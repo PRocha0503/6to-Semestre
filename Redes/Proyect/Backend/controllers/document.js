@@ -1,5 +1,4 @@
 const Document = require("../models/document");
-const Folder = require("../models/folder");
 const stream = require("stream");
 
 //Function to add document to the database
@@ -45,10 +44,10 @@ const addDocumentData = async (req, res) => {
 		document.metadata = metadata;
 		document.tags = tags;
 		if (parent) {
-			const parentFolder = await Folder.findOne({ _id: parent });
-			parentFolder.insideDocuments.push(document);
-			document.path = parentFolder.path + "/" + document.title;
-			parentFolder.save();
+			// const parentFolder = await Folder.findOne({ _id: parent });
+			// parentFolder.insideDocuments.push(document);
+			// document.path = parentFolder.path + "/" + document.title;
+			// parentFolder.save();
 		} else {
 			document.path = "/" + document.title;
 		}
@@ -134,12 +133,10 @@ const rootDocuments = async (req, res) => {
 const getDocumentDetails = async (req, res) => {
 	try {
 		const { id: _id } = req.params;
-		const doc = await Document.findOne({ _id }, "-file").populate(
-			{
-				path: "logs",
-				populate: { path: "user", select: "_id username" },
-			}
-		);
+		const doc = await Document.findOne({ _id }, "-file").populate({
+			path: "logs",
+			populate: { path: "user", select: "_id username" },
+		});
 		res.json(doc);
 	} catch (e) {
 		console.log(e);
