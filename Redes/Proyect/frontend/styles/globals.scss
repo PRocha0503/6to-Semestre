@@ -1,21 +1,27 @@
 // We bring all carbon themes
-@use '@carbon/react';
-@use '@carbon/colors' as *;
+@use "@carbon/react";
+@use "@carbon/colors" as *;
 
 html,
 body {
-  padding: 0;
-  margin: 0;
-  background-color: $white;
-  height: 90vh;
+	padding: 0;
+	margin: 0;
+	background-color: $white;
+	height: 90vh;
+}
+
+h1 {
+	font-size: 1.5rem;
+	font-weight: 400;
+	margin-bottom: 1rem;
 }
 
 .cds--header {
-  position: sticky;
+	position: sticky;
 }
 
 .cds--tree-node__label__details {
-  padding: 2px;
+	padding: 2px;
 }
 
 .cds--tab-content {

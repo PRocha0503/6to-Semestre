@@ -28,10 +28,10 @@ const DocumentSchema = Schema({
 		type: Number,
 	},
 	tags: [
-		{
-			type: Schema.Types.ObjectId,
-			ref: "Tag",
-		},
+		// {
+		// 	type: Schema.Types.ObjectId,
+		// 	ref: "Tag",
+		// },
 	],
 	logs: [
 		{

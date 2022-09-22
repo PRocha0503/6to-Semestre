@@ -27,32 +27,34 @@ interface Header {
 }
 
 const LogTab = ({ logs }: LogProps) => {
+	if (!logs) {
+		return <div>No hay logs</div>;
+	}
 
-	if (!logs) { return <div>No hay logs</div> }
-	
 	const headers: Header[] = [
-		{ key: "date", header: "Date" },
-		{ key: "user", header: "User" },
+		{ key: "date", header: "Fecha" },
+		{ key: "user", header: "Usuario" },
+		{ key: "method", header: "Metodo" },
+		{ key: "endpoint", header: "Punto" },
 	];
 
-	const [rows, setRows ] = useState<Row[]>([])
-    const [page, setPage] = useState(1);
+	const [rows, setRows] = useState<Row[]>([]);
+	const [page, setPage] = useState(1);
 	const [pageSize, setPageSize] = useState(5);
-    const [currentRows, setCurrentRows] = useState<Row[]>([]);
+	const [currentRows, setCurrentRows] = useState<Row[]>([]);
 
-    useEffect(() => {
-		console.log(logs)
+	useEffect(() => {
 		const logsMapped = logs.map((log: Log) => ({
-            id: log._id,
-            date: new Date(log.date).toUTCString(),
-            user: log.user.username
-        }))
+			id: log._id,
+			date: new Date(log.date).toLocaleDateString("en-US"),
+			user: log.user.username,
+			method: log.method,
+			endpoint: log.endpoint,
+		}));
 
-        setRows(logsMapped)
-        setCurrentRows(logsMapped.slice((page - 1) * pageSize, page * pageSize))
-		
-    }, [logs])
-
+		setRows(logsMapped);
+		setCurrentRows(logsMapped.slice((page - 1) * pageSize, page * pageSize));
+	}, [logs]);
 
 	const handlePagination = ({
 		page,
