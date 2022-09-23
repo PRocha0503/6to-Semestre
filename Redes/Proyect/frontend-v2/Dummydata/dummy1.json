@@ -1,0 +1,64 @@
+{
+    "Document":{
+        "id" : "1",
+        "title" : "Caso1",
+        "folio" : "2018/2948",
+        "expediente" : "2018/2948",
+        "createdAt" : "2018-10-01T00:00:00.000Z",
+        "createdBy" : "Pancho",
+        "area" : {
+            "id" : "1",
+            "name" : "Area1",
+            "tags" : {
+                "id" : "1",
+                "name" : "Judicial"
+            }
+        },
+        "tags" : {
+            "id" : "1",
+            "name" : "Judicial"
+        },
+        "logs" : {
+            "type" : "Caso",
+            "user" : "Alfredo",
+            "date" : "2018-10-01T00:00:00.000Z",
+            "method" : "create",
+            "endpoint" : "http://localhost:3000/api/v1/documents"
+        },
+        "metadata" : "TODO"
+    },
+    
+    "tags" : {
+        "id" : "1",
+        "name" : "Judicial"
+    },
+
+    "logs" : {
+        "type" : "Caso",
+        "user" : "Alfredo",
+        "date" : "2018-10-01T00:00:00.000Z",
+        "method" : "create",
+        "endpoint" : "http://localhost:3000/api/v1/documents"
+    },
+    "area" : {
+        "id" : "1",
+        "name" : "Area1",
+        "tags" : {
+            "id" : "1",
+            "name" : "Judicial"
+        }
+    },
+    "User" : {
+        "id" : "1",
+        "name" : "Alberto",
+        "password" : "1234",
+        "area": {
+            "id" : "1",
+            "name" : "Area1",
+            "tags" : {
+                "id" : "1",
+                "name" : "Judicial"
+            }
+        }
+    }
+}
