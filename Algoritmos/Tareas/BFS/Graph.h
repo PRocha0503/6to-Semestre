@@ -12,6 +12,7 @@ class Graph{
 
         Graph();
         Graph(string fileName);
+        ~Graph();
 
         void readGraphFromFile(string fileName);
         vector<Node*> getNodes();

@@ -9,6 +9,12 @@ Graph::Graph(string fileName){
     readGraphFromFile(fileName);
 }
 
+Graph::~Graph(){
+    for (Node* node : nodes){
+        delete node;
+    }
+}
+
 vector<Node*> Graph::getNodes(){
     return nodes;
 }
@@ -95,5 +101,6 @@ vector <Node*> Graph::BFS(Node *startingNode){
             }
         }
     }
+    delete queue;
     return visited;
 }

@@ -6,7 +6,11 @@ Queue::Queue(){
     sizeQ = 0;
 }
 
-Queue::~Queue(){}
+Queue::~Queue(){
+    for (Node* node : queue){
+        delete node;
+    }
+}
 
 void Queue::enqueue(Node* node){
     queue.push_back(node);
