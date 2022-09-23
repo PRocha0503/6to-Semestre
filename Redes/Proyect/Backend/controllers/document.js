@@ -125,10 +125,23 @@ const getDocumentDetails = async (req, res) => {
 	}
 };
 
+const getDocuments = async (req, res) => {
+	try {
+		const documents = await Document.find({}, "-file");
+		res.json(documents);
+	} catch (e) {
+		console.log(e);
+		res.status(400).send({
+			e,
+		});
+	}
+};
+
 module.exports = {
 	addDocument,
 	loadDocument,
 	downloadFile,
 	previewFile,
 	getDocumentDetails,
+	getDocuments,
 };

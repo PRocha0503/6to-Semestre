@@ -4,7 +4,6 @@ const DocumentSchema = Schema({
 	title: {
 		type: String,
 		required: [true, "Title is mandatory"],
-		unique: true,
 	},
 	file: {
 		type: Buffer,
