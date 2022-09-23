@@ -17,6 +17,15 @@ void Graph::addNode(Node* node){
     nodes.push_back(node);
 }
 
+Node* Graph::getNodeById(int id){
+    for(int i = 0; i < nodes.size(); i++){
+        if(nodes[i]->getId() == id){
+            return nodes[i];
+        }
+    }
+    return NULL;
+}
+
 Node* Graph::checkIfExists(int nodeId){
     for(int i = 0; i < nodes.size(); i++){
         if(nodes[i]->getId() == nodeId){
@@ -50,6 +59,7 @@ void Graph::readGraphFromFile(string fileName){
                 else{
                     to = checkIfExists(stoi(id));
                     from->addNeighbor(to);
+                    to->addNeighbor(from);
                 }
             }
         }
@@ -68,4 +78,22 @@ void Graph::printGraph(){
         }
         cout << endl;
     }
+}
+
+vector <Node*> Graph::BFS(Node *startingNode){
+    vector <Node*> visited;
+    Queue *queue = new Queue();
+    queue->enqueue(startingNode);
+    while(!queue->isEmpty()){
+        Node *node = queue->dequeue();
+        visited.push_back(node);
+        vector <Node*> neighbors = node->getNeighbors();
+        for(int i = 0; i < neighbors.size(); i++){
+            if(find(visited.begin(), visited.end(), neighbors[i]) == visited.end() && 
+                                                    !(queue->nodeInQueue(neighbors[i]))){
+                queue->enqueue(neighbors[i]);
+            }
+        }
+    }
+    return visited;
 }

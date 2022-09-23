@@ -8,7 +8,7 @@ class Node{
     private:
         int nodeId;
         vector<Node*> neighbors;
-        Node* checkIfNodeIsNeighbor(Node* node);
+        bool isNeighbor(Node* node);
     public:
         Node();
         Node(int id);

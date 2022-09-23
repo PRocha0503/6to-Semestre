@@ -18,15 +18,17 @@ vector<Node*> Node::getNeighbors(){
     return neighbors;
 }
 
-Node* Node::checkIfNodeIsNeighbor(Node* node){
+bool Node::isNeighbor(Node* node){
     for(int i = 0; i < neighbors.size(); i++){
         if(neighbors[i]->getId() == node->getId()){
-            return neighbors[i];
+            return true;
         }
     }
-    return node;
+    return false;
 }
 
 void Node::addNeighbor(Node* neighbor){
-    neighbors.push_back(checkIfNodeIsNeighbor(neighbor));
+    if (!(isNeighbor(neighbor))){
+        neighbors.push_back(neighbor);
+    }
 }
