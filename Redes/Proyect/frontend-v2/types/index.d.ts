@@ -4,7 +4,7 @@ type DocumentQueryKeys =
     | "documents"
 
 interface IDocument {
-
+    tags: ITag[]
 }
 
 interface ITag {

@@ -1,4 +1,5 @@
 import QueryBuilder from '@components/QueryBuilder'
+import { Table } from '@components/Table'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -17,6 +18,8 @@ const Home: NextPage = () => {
       <QueryBuilder query={[]} onChangeQuery={function (query: Query[]): void {
         throw new Error('Function not implemented.')
       } }/>
+
+      <Table document={[]}/>
        
     </div>
   )
