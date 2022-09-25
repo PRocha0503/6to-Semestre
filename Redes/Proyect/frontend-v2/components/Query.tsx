@@ -1,4 +1,4 @@
-import { Button, ControlGroup, FormGroup, InputGroup } from "@blueprintjs/core";
+import { Button, ControlGroup, FormGroup, InputGroup, Tag } from "@blueprintjs/core";
 import { ItemRenderer, Select2 } from "@blueprintjs/select";
 import { MenuItem2, Tooltip2 } from "@blueprintjs/popover2";
 import React from "react";
@@ -11,11 +11,12 @@ const HeaderSelect = Select2.ofType<string>();
 interface QueryProps {
     query: Query;
     onChangeQuery: (query: Query) => void;
+    onEnter?: (query: Query) => void;
     headers?: string[];
-    readonly?: boolean;
+    readonly?: boolean
 }
 
-const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, headers=[] }) => {
+const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, onEnter, headers=[] }) => {
     const operators: Operator[] = [
         "contains",
         "eq",
@@ -58,8 +59,7 @@ const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, headers=[
     }
 
     return (
-
-            <ControlGroup className={QueryClasses.query}>
+          <ControlGroup className={QueryClasses.query}>
                 <FormGroup
                     label="Header"
                     inline
@@ -111,6 +111,11 @@ const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, headers=[
                         value={query.value ?? ""}
                         onChange={(e) => onChangeQuery({ ...query, value: e.target.value })}
                         disabled={readonly}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                onEnter?.(query);
+                            }
+                        }}
                     >
                     </InputGroup>
                 </FormGroup>

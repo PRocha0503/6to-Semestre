@@ -13,3 +13,8 @@
 .center {
     align-items: center;
 }
+
+.queryTags {
+    display: flex;
+    gap: 1rem;
+}
