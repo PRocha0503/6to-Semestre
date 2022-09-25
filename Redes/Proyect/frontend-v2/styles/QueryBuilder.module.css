@@ -1,0 +1,15 @@
+
+.builder {
+    display: grid;
+    gap: 2rem;
+
+    margin: 2rem;
+}
+
+.queryGroup {
+    align-items: flex-start;
+}
+
+.center {
+    align-items: center;
+}

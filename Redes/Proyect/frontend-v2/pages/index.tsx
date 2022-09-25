@@ -1,10 +1,35 @@
-import QueryBuilder from '@components/QueryBuilder'
-import type { NextPage } from 'next'
+import { Button, NonIdealState } from '@blueprintjs/core'
 import Head from 'next/head'
-import Image from 'next/image'
+import type { NextPage } from 'next'
+import QueryBuilder from '@components/QueryBuilder'
+import React from 'react'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
+  const [ queries, setQueries ] = React.useState<Query[]>([
+    {
+      header: "header",
+      operator: "contains",
+      value: "value",
+    },
+    {
+      header: "header",
+      operator: "eq",
+      value: "value",
+    },
+    {
+      header: "header",
+      operator: "contains",
+      value: "value",
+    },
+    {
+      header: "header",
+      operator: "contains",
+      value: "value",
+    }
+  ]);
+  
+
   return (
     <div className={styles.container}>
       <Head>
@@ -14,10 +39,15 @@ const Home: NextPage = () => {
       </Head>
 
      
-      <QueryBuilder query={[]} onChangeQuery={function (query: Query[]): void {
-        throw new Error('Function not implemented.')
-      } }/>
-       
+      <QueryBuilder queries={queries} onChangeQuery={setQueries} maxQueries={5}/>
+      <NonIdealState
+                    icon="search"
+                    iconSize={16}
+                    title={"No results"}
+                    description={"Try a new query to get started."}
+                    action={<Button icon="plus" text="New search" />}
+                    layout={"horizontal"}
+                />
     </div>
   )
 }
