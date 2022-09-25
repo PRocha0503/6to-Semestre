@@ -1,5 +1,6 @@
 const Document = require("../models/document");
 const stream = require("stream");
+const { parseQuery } = require("../utils/parseQuery");
 
 const addDocument = async (req, res) => {
 	try {
@@ -137,6 +138,50 @@ const getDocuments = async (req, res) => {
 	}
 };
 
+const queryDocuments = async (req, res) => {
+	console.log(req.query);
+	try {
+		if (req.query.query === undefined || req.query.query === "") {
+			console.log("No query");
+			const documents = await Document.find({}, "-file");
+			res.json(documents);
+			return	
+		}
+
+		// check cache
+		// const cache = await redis.get(req.query.query);
+
+		const parsedQueries = parseQuery(req.query.query);
+		
+		// add validations for each query
+		const documents = await Document.find({
+			$and: parsedQueries.map((query) => {
+				return {
+					[query.key]: {
+						[`$${query.operator}`]: query.value,
+					},
+				};
+			}
+		)}, "-file");
+
+		// cache the query
+
+		res.json({
+			documents, // return only the id and title
+		});
+
+		return
+	}
+
+	catch (e) {
+		console.log(e);
+		res.status(400).send({
+			e,
+		});	
+		return
+	}
+}
+
 module.exports = {
 	addDocument,
 	loadDocument,
@@ -144,4 +189,5 @@ module.exports = {
 	previewFile,
 	getDocumentDetails,
 	getDocuments,
+	queryDocuments,
 };
