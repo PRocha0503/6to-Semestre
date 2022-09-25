@@ -1,12 +1,15 @@
+import type { IconName } from "@blueprintjs/icons";
 
-type DocumentQueryKeys = 
+export declare type DocumentQueryKeys = 
     | "document"
     | "documents"
 
-interface IDocument {
+export declare interface IDocument {
 
 }
 
-interface ITag {
+export declare interface ITag {
     name: string;
+    color: string;
+    icon?: IconName;
 }

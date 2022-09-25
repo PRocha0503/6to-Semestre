@@ -1,5 +1,6 @@
 import { Classes, ControlGroup, IInputGroupState, InputGroup, Intent } from "@blueprintjs/core";
 import React, { ChangeEvent } from "react";
+import { ITag } from "types";
 import { TagSelector } from "./TagSelect";
 
 interface QueryBuilderProps {
@@ -9,13 +10,19 @@ interface QueryBuilderProps {
 
 
 const QueryBuilder = ({ query, onChangeQuery }: QueryBuilderProps) => {
-    const [ tags, setTags ] = React.useState<string[]>([]);
-    const [ tag, setTag ] = React.useState<string>("");
+    // const tags =  useTags();
+    const [ selectedTags, setSelectedTags ] = React.useState<ITag[]>([]);
 
     return (
         <div>
             <ControlGroup>
-                <TagSelector/>
+                <TagSelector 
+                    tags={[
+                        { name: "tag1", icon: "badge", color: "red" },
+                    ]} 
+                    selectedTags={selectedTags}
+                    onChangeSelectedTags={setSelectedTags} 
+                    dark/>
             </ControlGroup>
         </div>
     )
