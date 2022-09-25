@@ -4,26 +4,42 @@ const {
 	loadDocument,
 	downloadFile,
 	previewFile,
-	addDocumentData,
-	rootDocuments,
+	addDocument,
 	getDocumentDetails,
+	getDocuments,
 } = require("../controllers/document.js");
-const { validateJWT, createLog } = require("../middleware");
+const { validateJWT, createLog, isDocument } = require("../middleware");
 
 const router = Router();
 
 const logType = "Document";
 
-router.get("/", [validateJWT, createLog(logType)], rootDocuments);
+router.get("/", [validateJWT, createLog(logType)], getDocuments);
 
-router.get("/:id", [validateJWT, createLog(logType)], getDocumentDetails);
+router.post("/", [validateJWT, createLog(logType)], addDocument);
 
-router.post("/load", [validateJWT, createLog(logType)], loadDocument);
+router.post(
+	"/load/:id",
+	[validateJWT, isDocument, createLog(logType)],
+	loadDocument
+);
 
-router.get("/download/:id", [validateJWT, createLog(logType)], downloadFile);
+router.get(
+	"/:id",
+	[validateJWT, isDocument, createLog(logType)],
+	getDocumentDetails
+);
 
-router.get("/preview/:id", [validateJWT, createLog(logType)], previewFile);
+router.get(
+	"/download/:id",
+	[validateJWT, isDocument, createLog(logType)],
+	downloadFile
+);
 
-router.post("/addData/:id", [validateJWT, createLog(logType)], addDocumentData);
+router.get(
+	"/preview/:id",
+	[validateJWT, isDocument, createLog(logType)],
+	previewFile
+);
 
 module.exports = router;

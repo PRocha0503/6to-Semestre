@@ -10,10 +10,10 @@ const UserSchema = Schema({
 		type: String,
 		required: [true, "Password is mandatory"],
 	},
-	permissions: [
+	areas: [
 		{
 			type: Schema.Types.ObjectId,
-			ref: "Permission",
+			ref: "Area",
 		},
 	],
 });

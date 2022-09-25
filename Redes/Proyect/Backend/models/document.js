@@ -4,21 +4,18 @@ const DocumentSchema = Schema({
 	title: {
 		type: String,
 		required: [true, "Title is mandatory"],
-		unique: true,
 	},
 	file: {
 		type: Buffer,
-		required: [true, "File is mandatory"],
 	},
-	createdBy: {
-		type: Schema.Types.ObjectId,
-		ref: "User",
-		required: [true, "Created by is mandatory"],
-	},
-	path: {
+
+	folio: {
 		type: String,
-		required: [true, "Path by is mandatory"],
-		unique: true,
+		required: [true, "Folio by is mandatory"],
+	},
+	expediente: {
+		type: String,
+		required: [true, "Expediente by is mandatory"],
 	},
 	createdAt: {
 		type: Date,
@@ -27,11 +24,20 @@ const DocumentSchema = Schema({
 	size: {
 		type: Number,
 	},
+	createdBy: {
+		type: Schema.Types.ObjectId,
+		ref: "User",
+		required: [true, "Created by is mandatory"],
+	},
+	area: {
+		type: Schema.Types.ObjectId,
+		ref: "Area",
+	},
 	tags: [
-		// {
-		// 	type: Schema.Types.ObjectId,
-		// 	ref: "Tag",
-		// },
+		{
+			type: Schema.Types.ObjectId,
+			ref: "Tag",
+		},
 	],
 	logs: [
 		{

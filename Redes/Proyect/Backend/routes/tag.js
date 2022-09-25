@@ -1,11 +1,11 @@
 const { Router } = require("express");
 
 const { addTag, getTags } = require("../controllers/tag.js");
-const { validateJWT } = require("../middleware");
+const { validateJWT, isArea } = require("../middleware");
 
 const router = Router();
 
-router.post("/",validateJWT,  addTag);
-router.get("/", validateJWT, getTags);
+router.post("/:area", [validateJWT, isArea], addTag);
+router.get("/:area", [validateJWT, isArea], getTags);
 
 module.exports = router;

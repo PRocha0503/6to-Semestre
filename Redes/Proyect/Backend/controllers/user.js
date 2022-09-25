@@ -4,10 +4,10 @@ const bcryptjs = require("bcryptjs");
 //Function to add a suer to the database
 const addUser = async (req, res) => {
 	try {
-		const { username, password, permissions } = req.body;
+		const { username, password, areas } = req.body;
 
 		//Create user
-		const user = new User({ username, password, permissions });
+		const user = new User({ username, password, areas });
 
 		//Encrypt password
 		const salt = bcryptjs.genSaltSync();

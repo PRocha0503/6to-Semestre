@@ -13,8 +13,6 @@ class Server {
 			user: "/api/user",
 			auth: "/api/auth",
 			docs: "/api/docs",
-			perm: "/api/permission",
-			folder: "/api/folder",
 			tag: "/api/tag",
 		};
 
@@ -57,8 +55,6 @@ class Server {
 		this.app.use(this.paths.user, require("../routes/user"));
 		this.app.use(this.paths.auth, require("../routes/auth"));
 		this.app.use(this.paths.docs, require("../routes/document"));
-		this.app.use(this.paths.perm, require("../routes/permission"));
-		this.app.use(this.paths.folder, require("../routes/folder"));
 		this.app.use(this.paths.tag, require("../routes/tag"));
 	}
 

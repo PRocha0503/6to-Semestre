@@ -1,22 +1,48 @@
 const Document = require("../models/document");
-const Folder = require("../models/folder");
 const stream = require("stream");
 
-//Function to add document to the database
+const addDocument = async (req, res) => {
+	try {
+		const { title, folio, expediente, createdAt, area, tags, metadata } =
+			req.body;
+
+		const createdBy = req.user;
+		const document = new Document({
+			title,
+			folio,
+			expediente,
+			createdAt,
+			createdBy,
+			area,
+			tags,
+			metadata,
+		});
+		document.logs = [req.log];
+		await document.save();
+		res.json({
+			document,
+		});
+	} catch (e) {
+		console.log(e);
+		res.status(400).send({
+			e,
+		});
+	}
+};
+
+//Function to add a file to a document
 const loadDocument = async (req, res) => {
 	try {
-		//Get file and filename
+		//Get file and details
 		let { file } = req.files;
-		const title = file.name;
 		file = file.data;
-		const createdBy = req.user;
 		const size = file.length; //In bytes
 
-		const path = "/" + title;
-
-		//Create document
-		const document = new Document({ title, file, createdBy, path, size });
+		//Get document and add new data
+		const document = req.doc;
 		document.logs = [req.log];
+		document.size = size;
+		document.file = file;
 
 		//Save to db
 		await document.save();
@@ -31,36 +57,9 @@ const loadDocument = async (req, res) => {
 				break;
 			default:
 				res.status(500).send({
-					message: "Internal server error",
+					message: e || "Internal server error",
 				});
 		}
-	}
-};
-const addDocumentData = async (req, res) => {
-	try {
-		const { id: _id } = req.params;
-		const { tags, metadata, parent } = req.body;
-		const document = await Document.findOne({ _id }, "-file");
-		document.logs.push(req.log);
-		document.metadata = metadata;
-		document.tags = tags;
-		if (parent) {
-			const parentFolder = await Folder.findOne({ _id: parent });
-			parentFolder.insideDocuments.push(document);
-			document.path = parentFolder.path + "/" + document.title;
-			parentFolder.save();
-		} else {
-			document.path = "/" + document.title;
-		}
-		await document.save();
-		res.json({
-			document,
-		});
-	} catch (e) {
-		console.log(e);
-		res.status(400).send({
-			e,
-		});
 	}
 };
 
@@ -113,15 +112,10 @@ const previewFile = async (req, res) => {
 	}
 };
 
-//Function to get root documents
-const rootDocuments = async (req, res) => {
+const getDocumentDetails = async (req, res) => {
 	try {
-		const doc = await Document.find(
-			{
-				path: { $regex: /^\/[^\/]*$/ },
-			},
-			"_id title createdBy path tags"
-		);
+		const { id: _id } = req.params;
+		const doc = await Document.findOne({ _id }, "-file");
 		res.json(doc);
 	} catch (e) {
 		console.log(e);
@@ -131,16 +125,10 @@ const rootDocuments = async (req, res) => {
 	}
 };
 
-const getDocumentDetails = async (req, res) => {
+const getDocuments = async (req, res) => {
 	try {
-		const { id: _id } = req.params;
-		const doc = await Document.findOne({ _id }, "-file").populate(
-			{
-				path: "logs",
-				populate: { path: "user", select: "_id username" },
-			}
-		);
-		res.json(doc);
+		const documents = await Document.find({}, "-file");
+		res.json(documents);
 	} catch (e) {
 		console.log(e);
 		res.status(400).send({
@@ -150,10 +138,10 @@ const getDocumentDetails = async (req, res) => {
 };
 
 module.exports = {
+	addDocument,
 	loadDocument,
-	addDocumentData,
 	downloadFile,
 	previewFile,
-	rootDocuments,
 	getDocumentDetails,
+	getDocuments,
 };
