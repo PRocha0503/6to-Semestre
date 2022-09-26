@@ -7,16 +7,31 @@ export interface QueryDocumentRequest {
     tags: ITag[];
 }
 
-const queryDocuments = async ({ queries, tags} : QueryDocumentRequest): Promise<IDocument[]> => {
-    return client.get(`/documents/`, { data: { queries, tags } });
+interface QueryResponse {
+    documents: IDocument[];
+}
+
+
+const buildQuery = (queries: Query[]): string => {    
+    const query = queries.map((q, i) => {
+        return `${q.header}:${q.operator}:${q.value}`
+    }).join(" AND "); // TODO: make this configurable
+
+    return query;
+}
+const queryDocuments = async ({ queries, tags} : QueryDocumentRequest): Promise<QueryResponse> => {
+    return (await client.get(`/docs/query`, { params: { query: buildQuery(queries) } })).data;
 };
 
 export default function useQueryDocuments(req: QueryDocumentRequest, options = {}) {
-    return useQuery<IDocument[], Error>(
-        "query-documents", () => queryDocuments(req),
+    return useQuery<QueryResponse, Error>(
+        ["query-documents", req], () => queryDocuments(req),
         {
-            ...options,
             retry: false,
+            staleTime: 10000, // only eligible to refetch after 10 seconds
+            enabled: true,
+            refetchOnWindowFocus: false,
+            cacheTime: 10000
         }
     )
 }

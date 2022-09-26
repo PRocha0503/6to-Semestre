@@ -5,7 +5,7 @@ export declare type DocumentQueryKeys =
     | "documents"
 
 export declare interface IDocument {
-
+    title: string;
 }
 
 export declare interface ITag {

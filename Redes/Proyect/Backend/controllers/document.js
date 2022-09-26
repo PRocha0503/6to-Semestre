@@ -144,7 +144,7 @@ const queryDocuments = async (req, res) => {
 		if (req.query.query === undefined || req.query.query === "") {
 			console.log("No query");
 			const documents = await Document.find({}, "-file");
-			res.json(documents);
+			res.json({documents});
 			return	
 		}
 

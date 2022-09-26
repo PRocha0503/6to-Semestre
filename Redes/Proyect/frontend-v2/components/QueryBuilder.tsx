@@ -6,6 +6,7 @@ import { TagSelector } from "./TagSelect";
 
 import QueryBuilderClasses from '../styles/QueryBuilder.module.css';
 import QueryTag from "./QueryTag";
+import { useRouter } from "next/router";
 
 interface QueryBuilderProps {
     queries: Query[];
@@ -20,9 +21,9 @@ interface QueryBuilderProps {
 
 const QueryBuilder = ({ queries = [], onChangeQuery, tags, onChangeTags, maxQueries,maxTags, noContent }: QueryBuilderProps) => {
     // const tags =  useTags();
-  
+    const router = useRouter()
 
-    const headers = ["name", "description", "tags", "created_at", "updated_at"];
+    const headers = ["_id", "title", "folio", "expediente", "createdAt", "createdBy"];
     const etags: ITag[] = [
         { name: "jaldjaslkjdlkasjdlkasjdlkasjdlkasjdlkajdklasjdklajslkj", icon: "badge", color: "red" },
         { name: "tag2", icon: "badge", color: "blue" },
@@ -64,8 +65,8 @@ const QueryBuilder = ({ queries = [], onChangeQuery, tags, onChangeTags, maxQuer
     }
 
     const [queryInput, setQueryInput] = React.useState<Query>({
-        header: "name",
-        operator: "contains",
+        header: "title",
+        operator: "eq",
         value: "",
     });
 

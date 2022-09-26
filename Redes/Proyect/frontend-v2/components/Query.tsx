@@ -18,9 +18,15 @@ interface QueryProps {
 
 const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, onEnter, headers=[] }) => {
     const operators: Operator[] = [
-        "contains",
         "eq",
-        "starts-with",
+        "gt",
+        "gte",
+        "lt",
+        "lte",
+        "in",
+        "nin",
+        "regex",
+        "exists"
     ]
 
     const headerPredicate = (query: string, item: string) => item.toLowerCase().indexOf(query.toLowerCase()) >= 0
