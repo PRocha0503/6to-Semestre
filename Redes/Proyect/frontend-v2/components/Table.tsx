@@ -7,6 +7,7 @@ import ReactDOM from "react-dom";
 import { Retryer } from "react-query/types/core/retryer";
 import { SortAsc } from "@blueprintjs/icons/lib/esm/generated/20px/paths";
 import { createSortableColumnNumber, createSortableColumnString, SortableColumn, SortableColumnGenerator } from "./Columns";
+import { IDocument } from "types";
 
 
 interface IColumn{

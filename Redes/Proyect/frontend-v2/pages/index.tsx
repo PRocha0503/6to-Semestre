@@ -7,6 +7,7 @@ import type { NextPage } from 'next'
 import QueryBuilder from '@components/QueryBuilder'
 import styles from '../styles/Home.module.css'
 import { useRouter } from 'next/router'
+import {Table} from "@components/Table"
 
 const operators = [
     "eq",
@@ -115,11 +116,7 @@ const getTableData = () => {
     }
 
     return (
-      <table className={styles.table}>
-        {data.documents.map((doc) => (
-          getRows(doc)
-        ))}
-      </table>
+      <Table documents={data.documents}></Table>
     )
 
   }

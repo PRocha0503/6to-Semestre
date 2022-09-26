@@ -1,5 +1,6 @@
 import { Menu, MenuItem } from "@blueprintjs/core"
 import { Cell,Column, ColumnHeaderCell2, Table2, Utils } from "@blueprintjs/table";
+import { IDocument } from "types";
 
 
 export interface SortableColumn<T>{
