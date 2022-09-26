@@ -6,7 +6,7 @@ Luis Javier Karam Galland: A01751941
 Miguel Arriaga Velasco: A01028570
 */
 
-#include "Node.cpp"
+#include "Queue.cpp"
 
 class Stack{
     private:
