@@ -19,7 +19,7 @@ const Home: NextPage = () => {
         throw new Error('Function not implemented.')
       } }/>
 
-      <Table document={[]}/>
+      <Table documents={[{tags:[],_id:1232, title: "Hello", createdAt: new Date(), createdBy:"Raul Ignacio", folio:"3diqddi", expediente: "ihdicq0ec", area:"Nulidad"},{tags:[],_id:3222, title: "HI", createdAt: new Date(), createdBy:"Raul Ignacio", folio:"3gagagdi", expediente: "ihsx0ebc", area:"Legal"}]}/>
        
     </div>
   )

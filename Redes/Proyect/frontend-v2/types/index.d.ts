@@ -4,7 +4,14 @@ type DocumentQueryKeys =
     | "documents"
 
 interface IDocument {
-    tags: ITag[]
+    tags: ITag[],
+    _id: number,
+    title: string,
+    folio: string,
+    expediente: string,
+    createdAt: Date,
+    createdBy:string,
+    area: string, 
 }
 
 interface ITag {
