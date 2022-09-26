@@ -16,7 +16,7 @@ int main(){
     graph.printGraph();
 
     // Select the node from which to start BFS
-    Node* startingNode = graph.getNodeById(1);
+    Node* startingNode = graph.getNodeById(5);
     // Run BFS
     vector <Node*> orderOfVisited = graph.BFS(startingNode);
 

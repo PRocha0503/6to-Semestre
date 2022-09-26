@@ -7,6 +7,7 @@ Miguel Arriaga Velasco: A01028570
 */
 
 #include "Queue.cpp"
+// #include "Stack.cpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -15,6 +16,7 @@ class Graph{
     private:
 
         vector<Node*> nodes;
+        bool nodeInVector(Node* node, vector<Node*> vector);
 
     public:
 
@@ -30,4 +32,5 @@ class Graph{
         void printGraph();
 
         vector <Node*> BFS(Node *startingNode);
+        vector <Node*> DFS(Node *startingNode);
 };

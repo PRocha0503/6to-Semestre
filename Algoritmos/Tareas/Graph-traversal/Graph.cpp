@@ -94,6 +94,15 @@ void Graph::printGraph(){
     }
 }
 
+bool Graph::nodeInVector(Node* node, vector<Node*> vector){
+    for(int i = 0; i < vector.size(); i++){
+        if(vector[i]->getId() == node->getId()){
+            return true;
+        }
+    }
+    return false;
+}
+
 vector <Node*> Graph::BFS(Node *startingNode){
     vector <Node*> visited;
     Queue *queue = new Queue();
@@ -103,8 +112,8 @@ vector <Node*> Graph::BFS(Node *startingNode){
         visited.push_back(node);
         vector <Node*> neighbors = node->getNeighbors();
         for(int i = 0; i < neighbors.size(); i++){
-            if(find(visited.begin(), visited.end(), neighbors[i]) == visited.end() && 
-                                                    !(queue->nodeInQueue(neighbors[i]))){
+            if(!(nodeInVector(neighbors[i], visited)) && 
+                                            !(queue->nodeInQueue(neighbors[i]))){
                 queue->enqueue(neighbors[i]);
             }
         }
