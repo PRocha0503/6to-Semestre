@@ -121,3 +121,22 @@ vector <Node*> Graph::BFS(Node *startingNode){
     delete queue;
     return visited;
 }
+
+vector <Node*> Graph::DFS(Node *startingNode){
+    vector <Node*> visited;
+    Stack *stack = new Stack();
+    stack->push(startingNode);
+    while(!stack->isEmpty()){
+        Node *node = stack->pop();
+        visited.push_back(node);
+        vector <Node*> neighbors = node->getNeighbors();
+        for(int i = 0; i < neighbors.size(); i++){
+            if(!(nodeInVector(neighbors[i], visited)) && 
+                                            !(stack->nodeInStack(neighbors[i]))){
+                stack->push(neighbors[i]);
+            }
+        }
+    }
+    delete stack;
+    return visited;
+}
