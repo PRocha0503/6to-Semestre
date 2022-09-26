@@ -7,6 +7,7 @@ const {
 	addDocument,
 	getDocumentDetails,
 	getDocuments,
+	queryDocuments
 } = require("../controllers/document.js");
 const { validateJWT, createLog, isDocument } = require("../middleware");
 
@@ -23,6 +24,12 @@ router.post(
 	[validateJWT, isDocument, createLog(logType)],
 	loadDocument
 );
+
+router.get(
+	"/query",
+	[],
+	queryDocuments
+)
 
 router.get(
 	"/:id",
