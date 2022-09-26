@@ -16,14 +16,25 @@ int main(){
     graph.printGraph();
 
     // Select the node from which to start BFS
-    Node* startingNode = graph.getNodeById(5);
+    Node* startingNode = graph.getNodeById(1);
     // Run BFS
     vector <Node*> orderOfVisited = graph.BFS(startingNode);
 
     // Print the order of visited nodes
-    cout << "Order of visited nodes: ";
+    cout << "\nBFS order of visited nodes: ";
     for (int i = 0; i < orderOfVisited.size(); i++) {
         cout << orderOfVisited[i]->getId() << " ";
+    }
+
+    // Select the node from which to start DFS
+    Node* startingNodeDFS = graph.getNodeById(1);
+    // Run DFS
+    vector <Node*> orderOfVisitedDFS = graph.DFS(startingNodeDFS);
+
+    // Print the order of visited nodes
+    cout << "\nDFS order of visited nodes: ";
+    for (int i = 0; i < orderOfVisitedDFS.size(); i++) {
+        cout << orderOfVisitedDFS[i]->getId() << " ";
     }
 
     return 0;
