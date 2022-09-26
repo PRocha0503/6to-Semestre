@@ -68,7 +68,7 @@ void Graph::readGraphFromFile(string fileName){
             while(getline(str, id, ',')){
                 if (first){
                     from = checkIfExists(stoi(id));
-                    first = false;    
+                    first = false;
                 }
                 else{
                     to = checkIfExists(stoi(id));
@@ -109,11 +109,13 @@ vector <Node*> Graph::BFS(Node *startingNode){
     queue->enqueue(startingNode);
     while(!queue->isEmpty()){
         Node *node = queue->dequeue();
+        if(nodeInVector(node, visited)){
+            continue;
+        }
         visited.push_back(node);
         vector <Node*> neighbors = node->getNeighbors();
         for(int i = 0; i < neighbors.size(); i++){
-            if(!(nodeInVector(neighbors[i], visited)) && 
-                                            !(queue->nodeInQueue(neighbors[i]))){
+            if(!(nodeInVector(neighbors[i], visited))){
                 queue->enqueue(neighbors[i]);
             }
         }
@@ -128,11 +130,13 @@ vector <Node*> Graph::DFS(Node *startingNode){
     stack->push(startingNode);
     while(!stack->isEmpty()){
         Node *node = stack->pop();
+        if(nodeInVector(node, visited)){
+            continue;
+        }
         visited.push_back(node);
         vector <Node*> neighbors = node->getNeighbors();
         for(int i = 0; i < neighbors.size(); i++){
-            if(!(nodeInVector(neighbors[i], visited)) && 
-                                            !(stack->nodeInStack(neighbors[i]))){
+            if(!(nodeInVector(neighbors[i], visited))){
                 stack->push(neighbors[i]);
             }
         }
