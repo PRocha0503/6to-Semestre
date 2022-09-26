@@ -6,8 +6,8 @@ Luis Javier Karam Galland: A01751941
 Miguel Arriaga Velasco: A01028570
 */
 
-#include "Queue.cpp"
-// #include "Stack.cpp"
+// #include "Queue.cpp"
+#include "Stack.cpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>
