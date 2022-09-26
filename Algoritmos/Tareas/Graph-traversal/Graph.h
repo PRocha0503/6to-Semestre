@@ -7,6 +7,7 @@ Miguel Arriaga Velasco: A01028570
 */
 
 #include "Queue.cpp"
+#include "Stack.cpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -30,4 +31,5 @@ class Graph{
         void printGraph();
 
         vector <Node*> BFS(Node *startingNode);
+        vector <Node*> DFS(Node *startingNode);
 };
