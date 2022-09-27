@@ -6,6 +6,7 @@ const isArea = async (req, res, next) => {
 		const area = await Area.findOne({ name }).populate("tags");
 		if (!area) {
 			res.status(404).send({ message: "Area not found" });
+			return;
 		}
 		req.area = area;
 		next();

@@ -1,8 +1,8 @@
-import { Cell,Column, ColumnHeaderCell2, TruncatedFormat2, Utils } from "@blueprintjs/table";
 import { Button, Classes, Icon, Intent, Menu, MenuItem } from "@blueprintjs/core"
+import { Cell,Column, ColumnHeaderCell2, TruncatedFormat2, Utils } from "@blueprintjs/table";
+import React, { useEffect } from "react";
 import { IDocument } from "types";
 import { type } from "os";
-import React, { useEffect } from "react";
 
 /**
  * Context for the table

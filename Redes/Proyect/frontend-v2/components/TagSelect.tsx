@@ -25,11 +25,11 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ dark, tags=[], selecte
 
     const popeverRef = React.useRef<Popover2<any>>(null);
 
-    const tagRenderer = (tag: ITag): React.ReactNode => {
+    const tagRenderer = (tag: ITagForm): React.ReactNode => {
         return cropText(tag.name, MaxSubtringLength)
     }
 
-    const itemPredicate = (query: string, tag: ITag): boolean => {
+    const itemPredicate = (query: string, tag: ITagForm): boolean => {
         return tag.name.toLowerCase().indexOf(query.toLowerCase()) >= 0;
     }
 
@@ -75,7 +75,7 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ dark, tags=[], selecte
         );
     }
 
-    const areTagsEqual = (tag1: ITag, tag2: ITag) => {
+    const areTagsEqual = (tag1: ITagForm, tag2: ITagForm) => {
         return tag1.name === tag2.name;
     }
 
