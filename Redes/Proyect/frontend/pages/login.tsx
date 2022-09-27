@@ -13,7 +13,6 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-
 const Login: NextPage = () => {
 	const {
 		register,
@@ -37,7 +36,7 @@ const Login: NextPage = () => {
 				},
 				headers: {
 					"Content-Type": "application/json",
-				}
+				},
 			});
 			router.push("/");
 		} catch (e) {
