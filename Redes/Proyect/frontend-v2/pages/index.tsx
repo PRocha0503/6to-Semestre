@@ -8,6 +8,9 @@ import QueryBuilder from '@components/QueryBuilder'
 import {Table} from "@components/Table"
 import styles from '../styles/Home.module.css'
 import { useRouter } from 'next/router'
+import {Table} from "@components/Table"
+import {LogsWindow} from "@components/LogsWindow"
+import { isOpen } from '@blueprintjs/core/lib/esm/components/context-menu/contextMenu'
 
 const operators = [
     "eq",
@@ -49,7 +52,14 @@ const parseQueries = (query: string): Query[] => {
   }
 }
 
+
+
 const Home: NextPage = () => {
+
+  const [isOpen,setIsOpen] = React.useState
+  const onClose = () =>{
+
+  }
   const router = useRouter()
   
   const [queryRequest, setQueryRequest] = React.useState<QueryDocumentRequest>({
@@ -118,6 +128,7 @@ const getTableData = () => {
         maxTags={5}
         maxQueries={5}/>
       {getTableData()}
+      <LogsWindow></LogsWindow>
     </div>
   )
 }
