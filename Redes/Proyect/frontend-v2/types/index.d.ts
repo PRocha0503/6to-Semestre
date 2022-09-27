@@ -1,26 +1,18 @@
 import type { IconName } from "@blueprintjs/icons";
 
-export declare type DocumentQueryKeys = 
-    | "document"
-    | "documents"
-
-
-interface ILog {
-    id: string;
-    message: string;
-    timestamp: number;
-}
+export declare type DocumentQueryKeys = "document" | "documents";
 
 interface IDocument {
     tags: ITag[],
     _id: number,
-    title: string,
-    folio: string,
-    expediente: string,
-    createdAt: Date,
-    createdBy:string,
-    area: string, 
-    logs: ILog[],
+	_id: number;
+	title: string;
+	folio: string;
+	expediente: string;
+	createdAt: Date;
+	createdBy: string;
+	area: string;
+    logs: string[];
 }
 
 export declare interface ITag {
@@ -30,4 +22,11 @@ export declare interface ITag {
 export declare interface ITagForm {
     name: string;
     icon?: IconName;
+}
+	
+
+export declare interface ITag {
+	name: string;
+	color: string;
+	icon?: IconName;
 }

@@ -14,6 +14,7 @@ class Server {
 			auth: "/api/auth",
 			docs: "/api/docs",
 			tag: "/api/tag",
+			area: "/api/area",
 		};
 
 		//Conectar a DB
@@ -56,6 +57,7 @@ class Server {
 		this.app.use(this.paths.auth, require("../routes/auth"));
 		this.app.use(this.paths.docs, require("../routes/document"));
 		this.app.use(this.paths.tag, require("../routes/tag"));
+		this.app.use(this.paths.area, require("../routes/area"));
 	}
 
 	listen() {

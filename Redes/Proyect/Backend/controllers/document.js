@@ -116,7 +116,7 @@ const previewFile = async (req, res) => {
 const getDocumentDetails = async (req, res) => {
 	try {
 		const { id: _id } = req.params;
-		const doc = await Document.findOne({ _id }, "-file");
+		const doc = await Document.findOne({ _id }, "-file").populate("createdBy");
 		res.json(doc);
 	} catch (e) {
 		console.log(e);
@@ -128,7 +128,7 @@ const getDocumentDetails = async (req, res) => {
 
 const getDocuments = async (req, res) => {
 	try {
-		const documents = await Document.find({}, "-file");
+		const documents = await Document.find({}, "-file").populate("createdBy");
 		res.json(documents);
 	} catch (e) {
 		console.log(e);
@@ -143,26 +143,29 @@ const queryDocuments = async (req, res) => {
 	try {
 		if (req.query.query === undefined || req.query.query === "") {
 			console.log("No query");
-			const documents = await Document.find({}, "-file");
-			res.json({documents});
-			return	
+			const documents = await Document.find({}, "-file").populate("createdBy");
+			res.json({ documents });
+			return;
 		}
 
 		// check cache
 		// const cache = await redis.get(req.query.query);
 
 		const parsedQueries = parseQuery(req.query.query);
-		
+
 		// add validations for each query
-		const documents = await Document.find({
-			$and: parsedQueries.map((query) => {
-				return {
-					[query.key]: {
-						[`$${query.operator}`]: query.value,
-					},
-				};
-			}
-		)}, "-file");
+		const documents = await Document.find(
+			{
+				$and: parsedQueries.map((query) => {
+					return {
+						[query.key]: {
+							[`$${query.operator}`]: query.value,
+						},
+					};
+				}),
+			},
+			"-file"
+		);
 
 		// cache the query
 
@@ -170,17 +173,15 @@ const queryDocuments = async (req, res) => {
 			documents, // return only the id and title
 		});
 
-		return
-	}
-
-	catch (e) {
+		return;
+	} catch (e) {
 		console.log(e);
 		res.status(400).send({
 			e,
-		});	
-		return
+		});
+		return;
 	}
-}
+};
 
 module.exports = {
 	addDocument,
