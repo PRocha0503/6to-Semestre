@@ -44,6 +44,27 @@ const NewDocument: NextPage = () => {
 					// small={true}
 					// value={tagValue}
 				/>
+				<InputGroup
+					large={true}
+					fill={false}
+					type="folio"
+					leftElement={<Icon icon="numerical" />}
+					placeholder="Folio"
+				/>
+				<InputGroup
+					large={true}
+					fill={false}
+					type="folio"
+					leftElement={<Icon icon="calendar" />}
+					placeholder="Fecha de creacion"
+				/>
+				<InputGroup
+					large={true}
+					fill={false}
+					type="text"
+					leftElement={<Icon icon="tag" />}
+					placeholder="Etiquetas"
+				/>
 			</div>
 		</div>
 	);
