@@ -6,16 +6,16 @@ import React from 'react';
 
 import TagClasses from '../styles/Tag.module.css';
 
-import type { ITag } from 'types';
+import type { ITag, ITagForm } from 'types';
 
 
-const TagSelect = MultiSelect2.ofType<ITag>();
+const TagSelect = MultiSelect2.ofType<ITagForm>();
 
 interface TagSelectorProps {
     dark?: boolean;
-    tags: ITag[];
-    selectedTags: ITag[];
-    onChangeSelectedTags: (tags: ITag[]) => void;
+    tags: ITagForm[];
+    selectedTags: ITagForm[];
+    onChangeSelectedTags: (tags: ITagForm[]) => void;
 }
 
 const MaxSubtringLength = 10;
@@ -33,7 +33,7 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ dark, tags=[], selecte
         return tag.name.toLowerCase().indexOf(query.toLowerCase()) >= 0;
     }
 
-    const handleTagSelect = (tag: ITag) => {
+    const handleTagSelect = (tag: ITagForm) => {
         setQuery("");
         // already selected
         if (selectedTags.find((v) => v.name === tag.name) || 0 > 0) {
@@ -44,12 +44,12 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ dark, tags=[], selecte
         onChangeSelectedTags([...selectedTags, tag]);
     }
 
-    const handleTagUnselect = (value: ITag) => {
+    const handleTagUnselect = (value: ITagForm) => {
         onChangeSelectedTags(selectedTags.filter((v, _) => v.name !== value.name));
 
     };
 
-    const isTagSelected = (tag: ITag): boolean => {
+    const isTagSelected = (tag: ITagForm): boolean => {
         return selectedTags.findIndex((v) => v.name === tag.name) !== -1;
     }
 
@@ -57,7 +57,7 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ dark, tags=[], selecte
         return text.substring(0, length) + (text.length > length ? "..." : "");
     }
 
-    const itemRenderer: ItemRenderer<ITag> = (tag, props) => {
+    const itemRenderer: ItemRenderer<ITagForm> = (tag, props) => {
         if (!props.modifiers.matchesPredicate) {
             return null;
         }

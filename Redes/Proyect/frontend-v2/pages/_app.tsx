@@ -6,8 +6,8 @@ import "@blueprintjs/table/lib/css/table.css";
 
 import "../styles/globals.css";
 
-import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import type { AppProps } from 'next/app'
 
 
 // Create a client

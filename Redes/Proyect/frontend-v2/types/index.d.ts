@@ -4,6 +4,13 @@ export declare type DocumentQueryKeys =
     | "document"
     | "documents"
 
+
+interface ILog {
+    id: string;
+    message: string;
+    timestamp: number;
+}
+
 interface IDocument {
     tags: ITag[],
     _id: number,
@@ -13,10 +20,14 @@ interface IDocument {
     createdAt: Date,
     createdBy:string,
     area: string, 
+    logs: ILog[],
 }
 
 export declare interface ITag {
     name: string;
-    color: string;
+}
+
+export declare interface ITagForm {
+    name: string;
     icon?: IconName;
 }

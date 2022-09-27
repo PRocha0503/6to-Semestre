@@ -5,9 +5,9 @@ import Head from 'next/head'
 import type { IDocument } from 'types'
 import type { NextPage } from 'next'
 import QueryBuilder from '@components/QueryBuilder'
+import {Table} from "@components/Table"
 import styles from '../styles/Home.module.css'
 import { useRouter } from 'next/router'
-import {Table} from "@components/Table"
 
 const operators = [
     "eq",
@@ -58,7 +58,7 @@ const Home: NextPage = () => {
   })
       
   const { data, isLoading, isError, error } = useQueryDocuments(queryRequest)
-
+  
   // javascript creates a ne function every frame so we need to memoize it
   const handleUpdateURL = useCallback(async () => {
     console.log(queryRequest)
@@ -76,37 +76,19 @@ const Home: NextPage = () => {
 
   // update url first load
   useEffect(() => {
-    const params = new Proxy(new URLSearchParams(window.location.search), {
-      get: (searchParams, prop) => decodeURIComponent(searchParams.get(prop as string) || ""),
-    }); 
-
+    const sParams = new URLSearchParams(window.location.search);
+    const query = decodeURIComponent(sParams.get("query") || "");
+   
     setQueryRequest({
-      queries: parseQueries(params["query"]),
+      queries: parseQueries(query),
       tags: [],
     })
     
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const getRows = (doc: IDocument) => {
-    const rows = []
-    for (const [key, value] of Object.entries(doc)) {
-      rows.push(
-        <td key={key}>
-          <tr>{key}</tr>
-          <tr>{value}</tr>
-        </td>
-      )
-    }
-    return <tr>
-          {rows}
-          </tr>
-  }
-const getTableData = () => {
-    if (isLoading) {
-      return <NonIdealState title="Loading..." />
-    }
 
+const getTableData = () => {
     if (isError) {
       return <NonIdealState title="Error" description={error.message} />
     }
@@ -116,7 +98,7 @@ const getTableData = () => {
     }
 
     return (
-      <Table documents={data.documents}></Table>
+      <Table documents={data.documents} loading={isLoading}/>
     )
 
   }
