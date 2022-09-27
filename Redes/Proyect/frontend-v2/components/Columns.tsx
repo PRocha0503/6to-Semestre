@@ -1,133 +1,207 @@
-import { Menu, MenuItem } from "@blueprintjs/core"
-import { Cell,Column, ColumnHeaderCell2, Table2, Utils } from "@blueprintjs/table";
+import { Button, Classes, Icon, Intent, Menu, MenuItem } from "@blueprintjs/core"
+import { Cell,Column, ColumnHeaderCell2, TruncatedFormat2, Utils } from "@blueprintjs/table";
+import React, { useEffect } from "react";
 import { IDocument } from "types";
+import { type } from "os";
 
-
-export interface SortableColumn<T>{
-    getColumn: (index:number, name:string)=> JSX.Element
-    compare: (a:T,b:T) => number
-    rank: (n:T) => number 
-    renderMenu: () => JSX.Element
+/**
+ * Context for the table
+ */
+interface Context<T>{
+    data: T[]
+    sortedIndexMap: number[]
+    onChangeSortedIndex: (inputs:number[]) => void
     index: number
-    key:string
+    key: keyof T
+    name: string
 }
 
-export type SortableColumnGenerator = (key:string,index:number,ctx:{documents:IDocument[],setSortedIndex:(inputs:number[])=>void, sortedIndexMap: number[]})=>SortableColumn<string>
+/**
+ * Base class for all columns
+ */
+export abstract class BaseSortableColumn<K, T>{
+    context: Context<K>
 
-const getCellData = (key:string,sortedIndexMap:number[],row:number,dcmts:IDocument[]) =>{
-    const sortedRowIndex = sortedIndexMap[row];
-    if (sortedRowIndex != null) {
-        row = sortedRowIndex;
+    constructor(context: Context<K>) {
+       this.context = context
     }
-    return dcmts[row][key] || ""
-}
 
+    protected abstract renderCell(data: T | undefined, rowIndex: number): JSX.Element;
+    protected abstract rank(n: T): number 
 
-const sortColumn = (key:keyof IDocument, comparator: (a: any, b: any) => number, callback:(inputs:number[])=> void, documents:IDocument[]) => {
+    public getClipboardData(rowIndex: number): string {
+        const data = this.context.data[rowIndex]?.[this.context.key] || ""
+        return String(data)
+    }
+    private sortColumn(comparator: (a: T, b: T) => number) {
+        const sortedIndexMap = Utils.times(this.context.data.length, (i: number) => i);
+        sortedIndexMap.sort((a: number, b: number) => {
+            return comparator(this.context.data[a]?.[this.context.key] as T, this.context.data[b]?.[this.context.key] as T);
+        });
+        this.context.onChangeSortedIndex(sortedIndexMap);
+    }
+    private getCell(rowIndex: number, columnIndex: number): JSX.Element {
+        const { sortedIndexMap } = this.context
+        const sortedRowIndex = sortedIndexMap[rowIndex];
+        const data : T | undefined = this.context.data[sortedRowIndex ?? rowIndex]?.[this.context.key] as T | undefined
+        return this.renderCell(data, rowIndex);   
+    }
+    private compare(a: T, b: T): number {
+        return (this.rank(a) - this.rank(b));
+    }
+    private renderMenu() {
+        const sortAsc = () =>  this.sortColumn((a, b) => this.compare(a, b));
+        const sortDesc = () => this.sortColumn((a, b) => this.compare(b, a));
 
-    const sortedIndexMp = Utils.times(documents.length, (i: number) => i);
-    sortedIndexMp.sort((a: number, b: number) => {
-        return comparator(documents[a][key], documents[b][key]);
-    });
-    callback(sortedIndexMp);
-};
-
-export function createSortableColumnNumber (key:string,index:number,ctx:{documents:IDocument[],setSortedIndex:(inputs:number[])=>void, sortedIndexMap: number[]}):SortableColumn<number>{
-    return {
-        index,
-        key,
-        getColumn(index, name){
-            const cellRenderer = (rowIndex: number, columnIndex: number) => (
-                <Cell>{getCellData(this.key,ctx.sortedIndexMap,rowIndex,ctx.documents)}</Cell>
-            )
-            const columnHeaderCellRenderer = () => <ColumnHeaderCell2 name={name} menuRenderer={this.renderMenu.bind(this)} />;
-            return <Column
-                cellRenderer={cellRenderer}
-                columnHeaderCellRenderer={columnHeaderCellRenderer}
-                key={index}
-                name={name}
-            />
-        },
-        compare(a,b){
-            return (a-b)
-        },
-        rank(n){
-            return n
-        },
-        renderMenu(){
-            const sortAsc = () => sortColumn(this.key, (a, b) => this.compare(a, b),ctx.setSortedIndex, ctx.documents);
-            const sortDesc = () => sortColumn(this.key, (a, b) => this.compare(b, a),ctx.setSortedIndex, ctx.documents);
-            return <Menu> <MenuItem icon="sort-desc" onClick={sortDesc} text="Sort Rank Desc" />
+        return <Menu> 
+                <MenuItem icon="sort-desc" onClick={sortDesc} text="Sort Rank Desc" />
                 <MenuItem icon="sort-asc" onClick={sortAsc} text="Sort Rank Asc" />
             </Menu>
+
+    }
+
+    private renderName(name: string) {
+        return (
+            <div style={{ lineHeight: "24px" }}>
+                <div className={Classes.TEXT_LARGE}>
+                    <strong>{name}</strong>
+                </div>
+                <div className={Classes.MONOSPACE_TEXT}>{this.context.key}</div>
+            </div>
+        );
+    }
+
+    public getColumn() {
+            // render the column header cell
+            const columnHeaderCellRenderer = () => <ColumnHeaderCell2 name={this.context.name} menuIcon={"chevron-down"} menuRenderer={this.renderMenu.bind(this)} nameRenderer={this.renderName.bind(this)} />;
+            
+            // render column
+            return <Column
+                cellRenderer={this.getCell.bind(this)}
+                columnHeaderCellRenderer={columnHeaderCellRenderer}
+                key={this.context.index}
+                name={this.context.name}
+            />
+    };
+}
+
+
+/**
+ * A sortable column that renders a string
+ */
+export class SortableColumnString<T> extends BaseSortableColumn<T, string>{
+    renderCell(data: string | undefined, rowIndex: number): JSX.Element {
+        return <Cell>{data ?? ""}</Cell>
+    }
+
+    rank(n: string): number {
+        return n.length
+    }
+
+}
+
+/**
+ * A sortable column that renders a number
+ */
+export class SortableColumnNumber<T> extends BaseSortableColumn<T, number>{
+    renderCell(data: number | undefined): JSX.Element {
+        return <Cell>{data ?? ""}</Cell>
+    }
+
+    rank(n: number): number {
+        return n
+    }
+}
+
+/**
+ *  A sortable column that renders a date
+ */
+export class SortableColumnDate<T> extends BaseSortableColumn<T, Date>{
+    format(date: Date) {
+        const localDateTime = new Date(date);
+        localDateTime.setTime(localDateTime.getTime());
+        const formattedDateTime = localDateTime.toLocaleString("en-US", {
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            month: "long",
+            second: "2-digit",
+            weekday: "long",
+            year: "numeric",
+        });
+
+        return formattedDateTime;
+    }
+    renderCell(data: Date | undefined): JSX.Element {
+        const date = data !== undefined ? this.format(data) : ""
+        return <Cell><TruncatedFormat2 detectTruncation={true}>{date}</TruncatedFormat2></Cell>
+    }
+
+    rank(n: Date): number {
+        return new Date(n).getTime()
+    }
+
+}
+
+class SortableColumnButton<T> extends SortableColumnString<T>{
+    renderCell(data: string | undefined, rowIndex: number): JSX.Element {
+        return data ? <Cell 
+            ><Button 
+            small
+            style={
+            {
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                top: "0px",
+                left: "0px",    
+                fontWeight: "bold",
+                fontSize: "12px",
+                padding: "0px",
+            }
         }
+        onClick={() => console.log(this.context.data[rowIndex]?.[this.context.key]||"")} 
+        intent={Intent.WARNING} className={Classes.INPUT_GHOST} 
+        rightIcon={"menu-open"}>Open</Button></Cell> : <Cell></Cell>
     }
 }
 
+type CType = "string" | "number" | "date" | "button"
 
-export function createSortableColumnDate (key:string,index:number,ctx:{documents:IDocument[],setSortedIndex:(inputs:number[])=>void,sortedIndexMap: number[]}):SortableColumn<Date>{
-    return {
-        getColumn(index,name){
-            const cellRenderer = (rowIndex: number, columnIndex: number) => (
-                <Cell>{getCellData(this.key,ctx.sortedIndexMap,rowIndex,ctx.documents)}</Cell>
-            )
-            const columnHeaderCellRenderer = () => <ColumnHeaderCell2 name={name} menuRenderer={this.renderMenu.bind(this)} />;
-            return <Column
-                cellRenderer={cellRenderer}
-                columnHeaderCellRenderer={columnHeaderCellRenderer}
-                key={index}
-                name={name}
-            />
-        },
-        compare(a,b){
-            return (this.rank(a)-this.rank(b))
-        },
-        rank(n){
-            return n.getTime()
-        },
-        renderMenu(){
-            const sortAsc = () => sortColumn(this.key, (a, b) => this.compare(a, b),ctx.setSortedIndex, ctx.documents);
-            const sortDesc = () => sortColumn(this.key, (a, b) => this.compare(b, a),ctx.setSortedIndex, ctx.documents);
-            return <Menu> <MenuItem icon="sort-desc" onClick={sortDesc} text="Sort Rank Desc" />
-                <MenuItem icon="sort-asc" onClick={sortAsc} text="Sort Rank Asc" />
-            </Menu>
-        },
-        index,
-        key
-    }
+export const CTypeString: CType = "string"
+export const CTypeNumber: CType = "number"
+export const CTypeDate: CType = "date"
+export const CTypeButton: CType = "button"
+
+
+/**
+ *  Properties for the Sortable Columns component
+ */
+interface GeneratorColumn<T>{
+    key: keyof T
+    name: string
+    type: CType
 }
 
-export function createSortableColumnString (key:string,index:number,ctx:{documents:IDocument[],setSortedIndex:(inputs:number[])=>void,sortedIndexMap: number[]}):SortableColumn<string>{
-    return{
-        getColumn(index,name){
-            const cellRenderer = (rowIndex: number, columnIndex: number) => (
-                <Cell>{getCellData(this.key,ctx.sortedIndexMap,rowIndex,ctx.documents)}</Cell>
-            )
-            const columnHeaderCellRenderer = () => <ColumnHeaderCell2 name={name} menuRenderer={this.renderMenu.bind(this)} />;
-            return <Column
-                cellRenderer={cellRenderer}
-                columnHeaderCellRenderer={columnHeaderCellRenderer}
-                key={index}
-                name={name}
-            />
-        },
-        compare(a,b){
-            console.log(a)
-            return a.localeCompare(b)
-        },
-        rank(n){
-            return 0
-        },
-        renderMenu(){
-            const sortAsc = () => sortColumn(this.key, (a, b) => this.compare(a, b),ctx.setSortedIndex, ctx.documents);
-            const sortDesc = () => sortColumn(this.key, (a, b) => this.compare(b, a),ctx.setSortedIndex, ctx.documents);
-            return <Menu> <MenuItem icon="sort-desc" onClick={sortDesc} text="Sort Rank Desc" />
-                <MenuItem icon="sort-asc" onClick={sortAsc} text="Sort Rank Asc" />
-            </Menu>
-        },
-        index,
-        key
-    }
-    
+/**
+ * generates a list of sortable columns
+ * @param context the context for the columns
+ * @param columns the columns to generate
+ * @returns 
+ */
+export function generateColumns<T>(context:  Omit<Context<T>, "index" | "key" | "name">, columns: GeneratorColumn<T>[]): BaseSortableColumn<T, string | number | Date>[] {
+    return columns.map((column, index) => {
+        switch(column.type){
+            case CTypeString:
+                return new SortableColumnString<T>({...context, index, key: column.key, name: column.name})
+            case CTypeNumber:
+                return new SortableColumnNumber<T>({...context, index, key: column.key, name: column.name})
+            case CTypeDate:
+                return new SortableColumnDate<T>({...context, index, key: column.key, name: column.name})
+            case CTypeButton:
+                return new SortableColumnButton<T>({...context, index, key: column.key, name: column.name})
+            default:    
+                return new SortableColumnString<T>({...context, index, key: column.key, name: column.name})
+        }
+    })
 }
-

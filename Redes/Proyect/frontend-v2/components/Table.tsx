@@ -1,46 +1,65 @@
-import { HotkeysProvider, Menu, MenuItem } from "@blueprintjs/core";
-import { CellTower } from "@blueprintjs/icons/lib/esm/generated/16px/paths";
-import { Cell,Column, ColumnHeaderCell2, Table2, Utils } from "@blueprintjs/table";
-import { RowHeader } from "@blueprintjs/table/lib/esm/headers/rowHeader";
-import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
-import { Retryer } from "react-query/types/core/retryer";
-import { SortAsc } from "@blueprintjs/icons/lib/esm/generated/20px/paths";
-import { createSortableColumnNumber, createSortableColumnString, SortableColumn, SortableColumnGenerator } from "./Columns";
+import { CTypeButton, CTypeDate, CTypeString, generateColumns } from "./Columns";
+import React, { useMemo } from "react";
+import { RenderMode, Table2, TableLoadingOption } from "@blueprintjs/table";
 import { IDocument } from "types";
 
 
-interface IColumn{
-    name:string,
-    generateColumn: SortableColumnGenerator
-    key:string
-}
-
 interface TableProps {
     documents: IDocument[]
+    loading?: boolean
 } 
 
-export const Table = ({documents}: TableProps)=>{
-
-
+export const Table = ({documents, loading = false }: TableProps)=>{
     const [sortedIndexMap, setSortedIndexMap] = React.useState<number[]>([])
- 
-    const [columns,setColumns]= React.useState<IColumn[]>([{key:"expediente", name:"No.Expediente", generateColumn: createSortableColumnString},{key:"folio", name:"No.Folio", generateColumn: createSortableColumnString},{key:"area", name:"Area", generateColumn: createSortableColumnString}]);
-    const renderColumns = columns.map((value,index)=>{
-        return value.generateColumn(value.key,index,{sortedIndexMap,documents,setSortedIndex:setSortedIndexMap}).getColumn(index,value.name)
-    })
+    const renderColumns = useMemo(() => {
+        console.log("rendering columns")
+        return generateColumns(
+            { 
+                data: documents,
+                sortedIndexMap,
+                onChangeSortedIndex: setSortedIndexMap,            
+            },
+            [
+                { name: "Title", key: "title", type: CTypeString},
+                { name: "Expediente", key: "expediente", type: CTypeString},
+                { name: "Folio", key: "folio", type: CTypeString},
+                { name: "Created At", key: "createdAt", type: CTypeDate},
+                { name: "Logs", key: "logs", type: CTypeButton},
+            
+            ]
+        )
 
+    }, [documents, setSortedIndexMap, sortedIndexMap])
+  
+    const getLoadingOptions = () => {
+        const loadingOptions: TableLoadingOption[] = [];
+        if (loading) {
+            loadingOptions.push(TableLoadingOption.CELLS);
+            loadingOptions.push(TableLoadingOption.COLUMN_HEADERS);
+            loadingOptions.push(TableLoadingOption.ROW_HEADERS);
+        }
 
+        return loadingOptions;
+    };
 
-    useEffect(()=>{
-        console.log(sortedIndexMap)
-    },
-    [sortedIndexMap])
+    // const ref = React.useRef<Table2>(null)
 
     return (
-    <Table2 numRows={documents.length} cellRendererDependencies={[sortedIndexMap]}>
-    {renderColumns}
-
+    <Table2 
+        numRows={20}    
+        cellRendererDependencies={[sortedIndexMap]}
+        loadingOptions={getLoadingOptions()} 
+        enableColumnResizing
+        enableGhostCells
+        getCellClipboardData={(row, col) => renderColumns[col].getClipboardData(row)}
+        // onCopy={(e) => {console.log(ref.current)}}
+        // onCompleteRender={() => {
+        //     ref.current?.resizeRowsByApproximateHeight(() => "jjjj")
+        // }}
+        renderMode={RenderMode.BATCH}
+        // ref={ref}
+        >
+        {renderColumns.map((column) => column.getColumn())}
     </Table2>
     )
 }

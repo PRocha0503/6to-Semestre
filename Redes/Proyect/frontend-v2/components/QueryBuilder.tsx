@@ -1,12 +1,13 @@
 import { Button, ControlGroup, FormGroup, IInputGroupState, InputGroup, Intent } from "@blueprintjs/core";
-import { ITag } from "types";
+import { ITag, ITagForm } from "types";
+import React, { useEffect } from "react";
 import Query from "./Query";
-import React from "react";
 import { TagSelector } from "./TagSelect";
 
 import QueryBuilderClasses from '../styles/QueryBuilder.module.css';
 import QueryTag from "./QueryTag";
 import { useRouter } from "next/router";
+import useTags from "@hooks/tags/useTags";
 
 interface QueryBuilderProps {
     queries: Query[];
@@ -14,22 +15,39 @@ interface QueryBuilderProps {
     maxTags?: number;
     maxQueries?: number;
     noContent?: React.ReactNode;
-    tags: ITag[];
-    onChangeTags: (tags: ITag[]) => void;
+    tags: ITagForm[];
+    onChangeTags: (tags: ITagForm[]) => void;
 
 }
+
+const DEFAULT_QUERY: Query = {
+    header: "title",
+    operator: "eq",
+    value: "",
+}
+
 
 const QueryBuilder = ({ queries = [], onChangeQuery, tags, onChangeTags, maxQueries,maxTags, noContent }: QueryBuilderProps) => {
     // const tags =  useTags();
     const router = useRouter()
 
-    const headers = ["_id", "titulo", "folio", "expediente", "creadoEn", "creadoPor"];
-    const etags: ITag[] = [
-        { name: "jaldjaslkjdlkasjdlkasjdlkasjdlkasjdlkajdklasjdklajslkj", icon: "badge", color: "red" },
-        { name: "tag2", icon: "badge", color: "blue" },
-        { name: "tag3", icon: "badge", color: "green" },
-        { name: "tag4", icon: "badge", color: "yellow" },
-    ]
+    const headers = ["_id", "title", "folio", "expediente", "createdAt", "createdBy"];
+
+    // fetch tags from area
+    const { data, isLoading, isError, error } = useTags("Finanzas")
+    
+    const [ menuTags, setMenuTags ] = React.useState<ITagForm[]>([]);
+
+    // transform tags to ITagForm
+    useEffect(() => {
+        const mappedTags: ITagForm[] = data?.tags.map((tag: ITag) => {
+            return {
+                name: tag.name,
+                // icon: "area-of-interest", // TODO: get icon from tag
+        }}) || [];
+
+        setMenuTags(mappedTags);
+    }, [data])
 
     const handleRemoveQuery = (index: number) => {
         const newQueries = [...queries];
@@ -64,11 +82,8 @@ const QueryBuilder = ({ queries = [], onChangeQuery, tags, onChangeTags, maxQuer
         )
     }
 
-    const [queryInput, setQueryInput] = React.useState<Query>({
-        header: "titulo",
-        operator: "eq",
-        value: "",
-    });
+
+    const [queryInput, setQueryInput] = React.useState<Query>(DEFAULT_QUERY);
 
     return (
         <div className={QueryBuilderClasses.builder}>
@@ -78,11 +93,10 @@ const QueryBuilder = ({ queries = [], onChangeQuery, tags, onChangeTags, maxQuer
             >
                 <ControlGroup>
                     <TagSelector
-                        tags={etags}
+                        tags={menuTags}
                         selectedTags={tags}
                         onChangeSelectedTags={onChangeTags}
                     />
-
                 </ControlGroup>
             </FormGroup>
             <FormGroup

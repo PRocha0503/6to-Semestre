@@ -42,6 +42,7 @@ const login = async (req, res) => {
 		res
 			.cookie("accessToken", accessToken, { httpOnly: true })
 			.send({ accessToken, refreshToken });
+		return
 	} catch (e) {
 		console.log(e);
 		return res.status(500).json({
@@ -67,6 +68,7 @@ const refreshTokens = async (req, res) => {
 const logged = (req, res) => {
 	const user = req.user;
 	res.status(200).send(user);
+	return
 };
 
 module.exports = {
