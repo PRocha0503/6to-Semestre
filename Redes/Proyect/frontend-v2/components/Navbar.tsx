@@ -29,6 +29,12 @@ const CustomNavBar = () => {
 					<Navbar.Group align={Alignment.RIGHT}>
 						<Navbar.Heading>{user.username}</Navbar.Heading>
 						<Navbar.Divider />
+						<Button
+							className="bp4-minimal"
+							icon="home"
+							text="Home"
+							onClick={() => router.push("/")}
+						/>
 						<Button className="bp4-minimal" icon="user" text="Perfil" />
 						<Button
 							className="bp4-minimal"
