@@ -113,7 +113,7 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ dark, tags=[], selecte
             popoverProps={{ minimal: true, matchTargetWidth: false, popoverClassName: dark ? Classes.DARK : "", className: TagClasses.popover }}
             popoverRef={popeverRef}
             tagInputProps={{ fill: false, large: true, leftIcon: "tag", className: Classes.INPUT_GHOST, tagProps: getTagProps}}
-            noResults={<MenuItem2 disabled={true} text="No results." roleStructure="listoption" className={dark ? Classes.DARK : ""} />}
+            noResults={<MenuItem2 disabled={true} text="Sin resultados." roleStructure="listoption" className={dark ? Classes.DARK : ""} />}
         />
     )
 }

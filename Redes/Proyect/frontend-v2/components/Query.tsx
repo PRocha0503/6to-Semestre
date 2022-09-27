@@ -67,7 +67,7 @@ const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, onEnter, 
     return (
           <ControlGroup className={QueryClasses.query}>
                 <FormGroup
-                    label="Header"
+                    label="Encabezado"
                     inline
                     disabled={readonly}
                 >
@@ -91,7 +91,7 @@ const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, onEnter, 
                     </HeaderSelect>
                 </FormGroup>
                 <FormGroup
-                    label="Operator"
+                    label="Operador"
                     inline
                     disabled={readonly}
                 >
@@ -108,12 +108,12 @@ const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, onEnter, 
                     </OperatorSelect>
                 </FormGroup>
                 <FormGroup
-                    label="Value"
+                    label="Valor"
                     inline
                     disabled={readonly}
                 >
                     <InputGroup
-                        placeholder="Value"
+                        placeholder="Valor"
                         value={query.value ?? ""}
                         onChange={(e) => onChangeQuery({ ...query, value: e.target.value })}
                         disabled={readonly}

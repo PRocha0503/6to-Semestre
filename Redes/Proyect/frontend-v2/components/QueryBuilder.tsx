@@ -49,7 +49,6 @@ const QueryBuilder = ({ queries = [], onChangeQuery, tags, onChangeTags, maxQuer
         setMenuTags(mappedTags);
     }, [data])
 
-
     const handleRemoveQuery = (index: number) => {
         const newQueries = [...queries];
         newQueries.splice(index, 1);
@@ -78,10 +77,11 @@ const QueryBuilder = ({ queries = [], onChangeQuery, tags, onChangeTags, maxQuer
         }
         return (
             <div className={QueryBuilderClasses.noContent}>
-                <p>No queries added yet</p>
+                <p>Ninguna consulta agregada</p>
             </div>
         )
     }
+
 
     const [queryInput, setQueryInput] = React.useState<Query>(DEFAULT_QUERY);
 
@@ -89,7 +89,7 @@ const QueryBuilder = ({ queries = [], onChangeQuery, tags, onChangeTags, maxQuer
         <div className={QueryBuilderClasses.builder}>
             <FormGroup
                 label="Tags"
-                subLabel="Select tags to filter by"
+                subLabel="Seleccionar etiquetas que se usaran para filtrar los documentos"
             >
                 <ControlGroup>
                     <TagSelector
@@ -100,8 +100,8 @@ const QueryBuilder = ({ queries = [], onChangeQuery, tags, onChangeTags, maxQuer
                 </ControlGroup>
             </FormGroup>
             <FormGroup
-                label="Add Query"
-                subLabel="Add a query to filter the results"
+                label="Añadir consulta"
+                subLabel="Añadir una consulta para filtrar los resultados"
             >
                 <ControlGroup className={QueryBuilderClasses.queryGroup}>
                     <Query headers={headers} query={queryInput} onChangeQuery={setQueryInput} onEnter={handleAddQuery}/>
@@ -109,8 +109,8 @@ const QueryBuilder = ({ queries = [], onChangeQuery, tags, onChangeTags, maxQuer
                 </ControlGroup>
             </FormGroup>
             <FormGroup
-                label="Queries"
-                subLabel="The queries that will be used to filter the results"
+                label="Consultas"
+                subLabel="Las consultas que se usarán para filtrar los resultados"
             >
                 <div className={QueryBuilderClasses.queryTags}>{
                     queries.length > 0 ? queries.map((q, i) => (
