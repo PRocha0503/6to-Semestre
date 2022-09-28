@@ -144,6 +144,12 @@ export class SortableColumnDate<T> extends BaseSortableColumn<T, Date>{
 }
 
 class SortableColumnButton<T> extends SortableColumnString<T>{
+    context!: Context<T> & { onClick?: (item: T) => void; };
+    constructor(context: Context<T> & {onClick?: (item: T) => void}) {
+        super(context)
+        context.onClick = context.onClick?.bind(this)
+    }
+
     renderCell(data: string | undefined, rowIndex: number): JSX.Element {
         return data ? <Cell 
             ><Button 
@@ -160,7 +166,10 @@ class SortableColumnButton<T> extends SortableColumnString<T>{
                 padding: "0px",
             }
         }
-        onClick={() => console.log(this.context.data[rowIndex]?.[this.context.key]||"")} 
+        onClick={() => {
+            console.log("click")
+            this.context.onClick?.(this.context.data[rowIndex])
+        }} 
         intent={Intent.WARNING} className={Classes.INPUT_GHOST} 
         rightIcon={"menu-open"}>Open</Button></Cell> : <Cell></Cell>
     }
@@ -173,23 +182,20 @@ export const CTypeNumber: CType = "number"
 export const CTypeDate: CType = "date"
 export const CTypeButton: CType = "button"
 
-
-/**
- *  Properties for the Sortable Columns component
- */
-interface GeneratorColumn<T>{
+type GCBase<T> = {
     key: keyof T
     name: string
     type: CType
+    onClick?: (item: T) => void
 }
-
+                                        
 /**
  * generates a list of sortable columns
  * @param context the context for the columns
  * @param columns the columns to generate
  * @returns 
  */
-export function generateColumns<T>(context:  Omit<Context<T>, "index" | "key" | "name">, columns: GeneratorColumn<T>[]): BaseSortableColumn<T, string | number | Date>[] {
+export function generateColumns<T>(context:  Omit<Context<T>, "index" | "key" | "name">, columns: GCBase<T>[]): BaseSortableColumn<T, string | number | Date>[] {
     return columns.map((column, index) => {
         switch(column.type){
             case CTypeString:
@@ -199,7 +205,7 @@ export function generateColumns<T>(context:  Omit<Context<T>, "index" | "key" | 
             case CTypeDate:
                 return new SortableColumnDate<T>({...context, index, key: column.key, name: column.name})
             case CTypeButton:
-                return new SortableColumnButton<T>({...context, index, key: column.key, name: column.name})
+                return new SortableColumnButton<T>({...context, index, key: column.key, name: column.name, onClick: column?.onClick})
             default:    
                 return new SortableColumnString<T>({...context, index, key: column.key, name: column.name})
         }
