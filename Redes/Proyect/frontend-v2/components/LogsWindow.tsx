@@ -20,16 +20,16 @@ import { IDocument } from "types";
 
 interface WindowProps {
     documents: IDocument[],
-    onClose: () => void,
     isOpen: boolean
+    onClose: any
 }
 
 
 
-export const LogsWindow = ({documents, onClose, isOpen}: WindowProps) =>{
+export const LogsWindow = ({documents, isOpen, onClose}: WindowProps) =>{
 
     return(
-        <Drawer icon="info-sign" onClose={()=>onClose()} title="Palantir Foundry">
+        <Drawer icon="info-sign" isOpen={isOpen} title="Palantir Foundry" onClose={()=>onClose(false)}>
     <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
             <p>
