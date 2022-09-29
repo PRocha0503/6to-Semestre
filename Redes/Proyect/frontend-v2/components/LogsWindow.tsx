@@ -29,13 +29,12 @@ interface WindowProps {
 export const LogsWindow = ({document, onClose, isOpen}: WindowProps) =>{
 
     return(
-        <Drawer isOpen={isOpen} icon="info-sign" onClose={()=>onClose()} title="Palantir Foundry">
+        <Drawer isOpen={isOpen} icon="info-sign" onClose={()=>onClose()} hasBackdrop={false}  title={JSON.stringify(document.title)}>
     <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
             <p>
                 <strong>
-                    Data integration is the seminal problem of the digital age. For over ten years,
-                    we’ve helped the world’s premier organizations rise to the challenge.
+                    Registros de visualización
                 </strong>
             </p>
             <p>
