@@ -16,6 +16,10 @@ const UserSchema = Schema({
 			ref: "Area",
 		},
 	],
+	isAdmin: {
+		type: Boolean,
+		default: false,
+	},
 });
 
 UserSchema.methods.toJSON = function () {

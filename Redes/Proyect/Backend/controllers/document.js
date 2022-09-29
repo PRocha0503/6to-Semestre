@@ -115,11 +115,7 @@ const previewFile = async (req, res) => {
 
 const getDocumentDetails = async (req, res) => {
 	try {
-		const { id: _id } = req.params;
-		const doc = await Document.findOne(
-			{ _id, area: { $in: [...req.user.areas] }, area: { $ne: null } },
-			"-file"
-		).populate("createdBy");
+		const doc = req.doc.populate("createdBy");
 		res.json(doc);
 	} catch (e) {
 		console.log(e);
@@ -199,6 +195,19 @@ const queryDocuments = async (req, res) => {
 	}
 };
 
+const getLogs = async (req, res) => {
+	try {
+		const doc = req.doc;
+		doc.populate("logs");
+		res.json({ logs: doc.logs });
+	} catch (e) {
+		console.log(e);
+		res.status(400).send({
+			e,
+		});
+	}
+};
+
 module.exports = {
 	addDocument,
 	loadDocument,
@@ -207,4 +216,5 @@ module.exports = {
 	getDocumentDetails,
 	getDocuments,
 	queryDocuments,
+	getLogs,
 };
