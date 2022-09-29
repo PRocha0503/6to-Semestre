@@ -1,4 +1,5 @@
 export interface IUser {
 	username: string;
-	permissions: any[];
+	areas: any[];
+	isAdmin: boolean;
 }

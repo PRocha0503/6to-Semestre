@@ -1,14 +1,4 @@
-import {
-	Alignment,
-	Button,
-	Classes,
-	H5,
-	Navbar,
-	NavbarDivider,
-	NavbarGroup,
-	NavbarHeading,
-	Switch,
-} from "@blueprintjs/core";
+import { Alignment, Button, Navbar } from "@blueprintjs/core";
 
 import { useUser } from "@hooks/user";
 import { useRouter } from "next/router";
@@ -35,7 +25,12 @@ const CustomNavBar = () => {
 							text="Home"
 							onClick={() => router.push("/")}
 						/>
-						<Button className="bp4-minimal" icon="user" text="Perfil" />
+						<Button
+							className="bp4-minimal"
+							icon="user"
+							text="Perfil"
+							onClick={() => router.push("/profile")}
+						/>
 						<Button
 							className="bp4-minimal"
 							icon="log-out"

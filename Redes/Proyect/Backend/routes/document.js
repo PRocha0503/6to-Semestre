@@ -8,6 +8,7 @@ const {
 	getDocumentDetails,
 	getDocuments,
 	queryDocuments,
+	getLogs,
 } = require("../controllers/document.js");
 const { validateJWT, createLog, isDocument } = require("../middleware");
 
@@ -44,5 +45,6 @@ router.get(
 	[validateJWT, isDocument, createLog(logType)],
 	previewFile
 );
+router.get("/logs/:id", [validateJWT, isDocument, createLog(logType)], getLogs);
 
 module.exports = router;
