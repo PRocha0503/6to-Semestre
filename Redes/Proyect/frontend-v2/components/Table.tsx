@@ -7,12 +7,16 @@ import { IDocument } from "types";
 interface TableProps {
     documents: IDocument[]
     loading?: boolean
+    onLogOpen?: (document: IDocument) => void
 } 
 
-export const Table = ({documents, loading = false }: TableProps)=>{
+export const Table = ({documents, loading = false, onLogOpen }: TableProps)=>{
     const [sortedIndexMap, setSortedIndexMap] = React.useState<number[]>([])
     const renderColumns = useMemo(() => {
         console.log("rendering columns")
+        function test(el:any){
+             onLogOpen?.(el)
+        }
         return generateColumns(
             { 
                 data: documents,
@@ -20,16 +24,16 @@ export const Table = ({documents, loading = false }: TableProps)=>{
                 onChangeSortedIndex: setSortedIndexMap,            
             },
             [
-                { name: "Title", key: "title", type: CTypeString},
+                { name: "Title", key: "title", type: CTypeString },
                 { name: "Expediente", key: "expediente", type: CTypeString},
                 { name: "Folio", key: "folio", type: CTypeString},
                 { name: "Created At", key: "createdAt", type: CTypeDate},
-                { name: "Logs", key: "logs", type: CTypeButton},
+                { name: "Logs", key: "logs", type: CTypeButton, onClick: test},
             
             ]
         )
 
-    }, [documents, setSortedIndexMap, sortedIndexMap])
+    }, [documents, setSortedIndexMap, sortedIndexMap, onLogOpen])
   
     const getLoadingOptions = () => {
         const loadingOptions: TableLoadingOption[] = [];

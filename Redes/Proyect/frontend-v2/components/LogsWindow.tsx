@@ -19,17 +19,17 @@ import {
 import { IDocument } from "types";
 
 interface WindowProps {
-    documents: IDocument[],
+    document: Partial<IDocument>,
     onClose: () => void,
     isOpen: boolean
 }
 
 
 
-export const LogsWindow = ({documents, onClose, isOpen}: WindowProps) =>{
+export const LogsWindow = ({document, onClose, isOpen}: WindowProps) =>{
 
     return(
-        <Drawer icon="info-sign" onClose={()=>onClose()} title="Palantir Foundry">
+        <Drawer isOpen={isOpen} icon="info-sign" onClose={()=>onClose()} title="Palantir Foundry">
     <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
             <p>
@@ -51,11 +51,7 @@ export const LogsWindow = ({documents, onClose, isOpen}: WindowProps) =>{
                 shop.
             </p>
             <p>
-                In Foundry, tables, applications, reports, presentations, and spreadsheets operate as
-                data integrations in their own right. Access controls, transformation logic, and data
-                quality flow from original data source to intermediate analysis to presentation in real
-                time. Every end product created in Foundry becomes a new data source that other users
-                can build upon. And the enterprise data foundation goes where the business drives it.
+            document: {JSON.stringify(document)}
             </p>
             <p>Start the revolution. Unleash the power of data integration with Palantir Foundry.</p>
         </div>
