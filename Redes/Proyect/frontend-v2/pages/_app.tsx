@@ -4,7 +4,7 @@ import "@blueprintjs/select/lib/css/blueprint-select.css";
 import "@blueprintjs/popover2/lib/css/blueprint-popover2.css";
 import "@blueprintjs/table/lib/css/table.css";
 import { useEffect, useState } from "react";
-import { Intent, ProgressBar } from "@blueprintjs/core";
+import { Intent, Spinner } from "@blueprintjs/core";
 import "../styles/globals.css";
 
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 							padding: "5rem",
 						}}
 					>
-						<ProgressBar intent={Intent.WARNING} />
+						<Spinner intent={Intent.WARNING} />
 					</div>
 				)}
 			</UserContext.Provider>

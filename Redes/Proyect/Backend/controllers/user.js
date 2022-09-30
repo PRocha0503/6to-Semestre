@@ -1,7 +1,23 @@
 const User = require("../models/user");
 const Area = require("../models/area");
 const bcryptjs = require("bcryptjs");
-
+//Function to get users from the database
+const getUsers = async (req, res) => {
+	try {
+		const users = await User.find({}, "-isAdmin").populate(
+			"areas",
+			"-_id name"
+		);
+		res.json({
+			users,
+		});
+	} catch (e) {
+		console.log(e);
+		res.status(400).send({
+			e,
+		});
+	}
+};
 //Function to add a suer to the database
 const addUser = async (req, res) => {
 	try {
@@ -53,6 +69,7 @@ const addArea = async (req, res) => {
 };
 
 module.exports = {
+	getUsers,
 	addUser,
 	addArea,
 };

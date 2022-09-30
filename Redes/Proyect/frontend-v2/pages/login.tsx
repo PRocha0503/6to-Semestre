@@ -13,6 +13,7 @@ import {
 import { Tooltip2 } from "@blueprintjs/popover2";
 import useLogin from "../hooks/auth/useAuth";
 import { useRouter } from "next/router";
+import Notifications from "@components/Notifications";
 
 import styles from "../styles/Login.module.css";
 
@@ -37,15 +38,15 @@ const Login: NextPage = () => {
 		username,
 	});
 
-	const [toast, setToast] = useState([]);
+	const [toast, setToast] = useState<any>([]);
 
 	useEffect(() => {
 		if (isSuccess) {
+			setToast([{ message: "Login success", type: "success" }]);
 			router.push("/");
-		} // do something
-		else if (isError) {
-			setToast([error]);
-		} // do something
+		} else if (isError) {
+			setToast([...toast, { message: error.message, type: "danger" }]);
+		}
 	}, [isSuccess, isError]);
 
 	const loginButton = async () => {
@@ -54,23 +55,8 @@ const Login: NextPage = () => {
 
 	return (
 		<div className={styles.root}>
-			{isError ? (
-				<Toaster>
-					{toast.map((t, i) => {
-						return (
-							<Toast
-								message={t.message}
-								icon="error"
-								intent={Intent.DANGER}
-								timeout={3000}
-								onDismiss={() => {
-									setToast((toast) => toast.filter((_, index) => index !== i));
-								}}
-							/>
-						);
-					})}
-				</Toaster>
-			) : null}
+			<Notifications toast={toast} setToast={setToast} />
+
 			<div className={styles.useArea}>
 				<img
 					src="/images/aa_logo.png"

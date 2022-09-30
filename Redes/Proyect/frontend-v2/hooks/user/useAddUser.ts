@@ -24,7 +24,5 @@ const addUser = async ({
 };
 
 export default function useAddUser(req: AuthRequest) {
-	return useMutation<AddUserResponse, Error>(() => addUser(req), {
-		onError: (error) => {},
-	});
+	return useMutation<AddUserResponse, Error>(() => addUser(req), {});
 }
