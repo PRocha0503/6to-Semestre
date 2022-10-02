@@ -1,4 +1,4 @@
-import { Button, ControlGroup, FormGroup, IInputGroupState, InputGroup, Intent } from "@blueprintjs/core";
+import { Button, ControlGroup, Divider, FormGroup, IInputGroupState, InputGroup, Intent } from "@blueprintjs/core";
 import { ITag, ITagForm } from "types";
 import React, { useEffect } from "react";
 import Query from "./Query";
@@ -100,6 +100,7 @@ const QueryBuilder = ({ queries = [], onChangeQuery, tags, onChangeTags, maxQuer
                     />
                 </ControlGroup>
             </FormGroup>
+            <Divider /> 
             <FormGroup
                 label="Añadir consulta"
                 subLabel="Añadir una consulta para filtrar los resultados"
@@ -109,11 +110,7 @@ const QueryBuilder = ({ queries = [], onChangeQuery, tags, onChangeTags, maxQuer
                     <Button icon="add" onClick={() => handleAddQuery(queryInput)} />
                 </ControlGroup>
             </FormGroup>
-            <FormGroup
-                label="Consultas"
-                subLabel="Las consultas que se usarán para filtrar los resultados"
-            >
-                <div className={QueryBuilderClasses.queryTags}>{
+            <div className={QueryBuilderClasses.queryTags}>{
                     queries.length > 0 ? queries.map((q, i) => (
                         <ControlGroup key={i}>
                             <QueryTag query={q} onRemoveQuery={() => handleRemoveQuery(i)} />
@@ -122,7 +119,12 @@ const QueryBuilder = ({ queries = [], onChangeQuery, tags, onChangeTags, maxQuer
 
                 }
                 </div>
-            </FormGroup>
+            {/* <FormGroup
+                label="Consultas"
+                subLabel="Las consultas que se usarán para filtrar los resultados"
+            >
+               
+            </FormGroup> */}
         </div>
     )
 }
