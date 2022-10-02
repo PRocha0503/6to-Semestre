@@ -90,6 +90,7 @@ const QueryBuilder = ({ queries = [], onChangeQuery, tags, onChangeTags, maxQuer
             <FormGroup
                 label="Tags"
                 subLabel="Seleccionar etiquetas que se usaran para filtrar los documentos"
+                
             >
                 <ControlGroup>
                     <TagSelector

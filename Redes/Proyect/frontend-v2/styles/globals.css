@@ -28,3 +28,8 @@ a {
     background: rgb(255, 255, 255);
   }
 }
+
+.bp4-form-group > .bp4-label {
+  color: rgb(48, 57, 119) !important;
+  font-weight: 600;
+}
