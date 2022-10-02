@@ -184,8 +184,6 @@ const queryDocuments = async (req, res) => {
 	}
 };
 
-<<<<<<< Updated upstream
-=======
 const getLogs = async (req, res) => {
 	try {
 		console.log(req.doc)
@@ -205,7 +203,6 @@ const getLogs = async (req, res) => {
 	}
 };
 
->>>>>>> Stashed changes
 module.exports = {
 	addDocument,
 	loadDocument,
