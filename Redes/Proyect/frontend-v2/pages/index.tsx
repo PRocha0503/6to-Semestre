@@ -9,6 +9,7 @@ import { LogsWindow } from "@components/LogsWindow";
 import type { NextPage } from "next";
 import QueryBuilder from "@components/QueryBuilder";
 import { Table } from "@components/Table";
+import UploadModal from "@components/upload/UploadModal";
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
 
@@ -67,6 +68,8 @@ const Home: NextPage = () => {
 	});
 
 	const { data, isLoading, isError, error } = useQueryDocuments(queryRequest);
+
+	const [isModalOpen, setIsModalOpen] = React.useState<boolean>(true);
 
 	// javascript creates a ne function every frame so we need to memoize it
 	const handleUpdateURL = useCallback(async () => {
@@ -132,6 +135,7 @@ const Home: NextPage = () => {
 				
 			/>
 			{getTableData()}
+			<UploadModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
 			<LogsWindow document={logDocument} onClose={() => setIsOpen(false)} isOpen={isOpen} />
 		</div>
 	);

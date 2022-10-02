@@ -13,9 +13,8 @@ import {
 	TruncatedFormat2,
 	Utils,
 } from "@blueprintjs/table";
-import React, { useEffect } from "react";
-import { IDocument } from "types";
-import { type } from "os";
+import React from "react";
+
 
 /**
  * Context for the table
@@ -353,3 +352,5 @@ export function generateColumns<T>(
 		}
 	});
 }
+
+

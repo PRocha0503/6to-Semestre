@@ -19,7 +19,8 @@
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-query": "^3.39.2",
-    "react-redux": "^8.0.4"
+    "react-redux": "^8.0.4",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/node": "18.0.0",
