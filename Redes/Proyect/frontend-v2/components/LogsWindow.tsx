@@ -36,7 +36,6 @@ export const LogsWindow = ({document, onClose, isOpen}: WindowProps) =>{
     const {data} = useLogs(document._id || "")
     useEffect(()=>{
         if(data){
-            console.log(data.logs)
             setLogs(data.logs)
         }
     },[data])
