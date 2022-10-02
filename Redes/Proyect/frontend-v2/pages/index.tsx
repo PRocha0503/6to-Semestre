@@ -62,12 +62,14 @@ const Home: NextPage = () => {
 		title: "hello",
 	});
 
-	const [queryRequest, setQueryRequest] = React.useState<QueryDocumentRequest>({
-		queries: [],
-		tags: [],
-	});
-
-	const { data, isLoading, isError, error } = useQueryDocuments(queryRequest);
+  
+  const [queryRequest, setQueryRequest] = React.useState<QueryDocumentRequest>({
+    queries: [],
+    tags: [],
+  })
+      
+  const { data, isLoading, isError, error } = useQueryDocuments(queryRequest)
+  
 
 	const [isModalOpen, setIsModalOpen] = React.useState<boolean>(true);
 

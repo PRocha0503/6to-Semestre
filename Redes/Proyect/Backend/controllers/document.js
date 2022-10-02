@@ -198,7 +198,12 @@ const queryDocuments = async (req, res) => {
 const getLogs = async (req, res) => {
 	try {
 		const doc = req.doc;
-		doc.populate("logs");
+		await doc.populate({
+			path: "logs",
+			populate: {
+				path:"user"
+			}
+		});
 		res.json({ logs: doc.logs });
 	} catch (e) {
 		console.log(e);

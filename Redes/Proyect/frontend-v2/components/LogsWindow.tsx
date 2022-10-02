@@ -17,6 +17,8 @@ import {
     Switch,
 } from "@blueprintjs/core";
 import { IDocument } from "types";
+import LogPreview from "./LogPreview";
+import useLogs from "@hooks/document/useLogs";
 
 interface WindowProps {
     document: Partial<IDocument>,
@@ -27,32 +29,18 @@ interface WindowProps {
 
 
 export const LogsWindow = ({document, onClose, isOpen}: WindowProps) =>{
-
+    const {data} = useLogs(document._id || "")
     return(
         <Drawer isOpen={isOpen} icon="info-sign" onClose={()=>onClose()} hasBackdrop={false}  title={JSON.stringify(document.title)}>
     <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
-            <p>
-                <strong>
-                    Registros de visualización
-                </strong>
-            </p>
-            <p>
-                Palantir Foundry radically reimagines the way enterprises interact with data by
-                amplifying and extending the power of data integration. With Foundry, anyone can source,
-                fuse, and transform data into any shape they desire. Business analysts become data
-                engineers — and leaders in their organization’s data revolution.
-            </p>
-            <p>
-                Foundry’s back end includes a suite of best-in-class data integration capabilities: data
-                provenance, git-style versioning semantics, granular access controls, branching,
-                transformation authoring, and more. But these powers are not limited to the back-end IT
-                shop.
-            </p>
-            <p>
-            document: {JSON.stringify(document)}
-            </p>
-            <p>Start the revolution. Unleash the power of data integration with Palantir Foundry.</p>
+            
+            {data?.logs?.map((value,index)=>{
+                return (
+                    <LogPreview log={value} key={value.date + "_" + index}></LogPreview>
+                )
+            })}
+            
         </div>
     </div>
     <div className={Classes.DRAWER_FOOTER}>Footer</div>
