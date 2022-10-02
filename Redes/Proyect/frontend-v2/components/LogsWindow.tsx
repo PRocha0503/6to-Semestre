@@ -19,6 +19,9 @@ import {
 import { IDocument } from "types";
 import LogPreview from "./LogPreview";
 import useLogs from "@hooks/document/useLogs";
+import { type } from "os";
+import { ILog } from "types/logs";
+import { useEffect } from "react";
 
 interface WindowProps {
     document: Partial<IDocument>,
@@ -29,13 +32,20 @@ interface WindowProps {
 
 
 export const LogsWindow = ({document, onClose, isOpen}: WindowProps) =>{
+    const [logs, setLogs] = React.useState<ILog[]>([])
     const {data} = useLogs(document._id || "")
+    useEffect(()=>{
+        if(data){
+            console.log(data.logs)
+            setLogs(data.logs)
+        }
+    },[data])
     return(
         <Drawer isOpen={isOpen} icon="info-sign" onClose={()=>onClose()} hasBackdrop={false}  title={JSON.stringify(document.title)}>
     <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
             
-            {data?.logs?.map((value,index)=>{
+            {logs?.map((value,index)=>{
                 return (
                     <LogPreview log={value} key={value.date + "_" + index}></LogPreview>
                 )

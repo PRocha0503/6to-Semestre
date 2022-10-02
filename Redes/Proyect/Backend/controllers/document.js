@@ -197,8 +197,7 @@ const queryDocuments = async (req, res) => {
 
 const getLogs = async (req, res) => {
 	try {
-		const doc = req.doc;
-		await doc.populate({
+		const doc = await req.doc.populate({
 			path: "logs",
 			populate: {
 				path:"user"

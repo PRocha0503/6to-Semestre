@@ -45,6 +45,6 @@ router.get(
 	[validateJWT, isDocument, createLog(logType)],
 	previewFile
 );
-router.get("/logs/:id", [validateJWT, isDocument, createLog(logType)], getLogs);
+router.get("/logs/:id", [validateJWT, isDocument,createLog(logType)], getLogs);
 
 module.exports = router;

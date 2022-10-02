@@ -113,6 +113,7 @@ const Home: NextPage = () => {
 		}
 
 		return <Table onLogOpen={(it) => {
+			console.log(it)
 			setLogDocument(it)
 			setIsOpen(true)
 		}} documents={data.documents} loading={isLoading} />;

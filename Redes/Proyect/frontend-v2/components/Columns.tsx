@@ -234,7 +234,6 @@ class SortableColumnButton<T> extends SortableColumnString<T> {
 						padding: "0px",
 					}}
 					onClick={() => {
-						console.log("click");
 						this.context.onClick?.(this.context.data[rowIndex]);
 					}}
 					intent={Intent.WARNING}

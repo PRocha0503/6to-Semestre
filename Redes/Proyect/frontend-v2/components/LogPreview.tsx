@@ -6,7 +6,6 @@ interface LogProps{
 }
 
 const LogPreview:React.FC<LogProps> = ({log})=>{
-    console.log(log)
     const localDateTime = new Date(log.date);
 		localDateTime.setTime(localDateTime.getTime());
 		const formattedDateTime = localDateTime.toLocaleString("en-US", {
