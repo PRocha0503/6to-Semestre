@@ -1,6 +1,7 @@
 const Document = require("../models/document");
 const stream = require("stream");
 const { parseQuery } = require("../utils/parseQuery");
+const user = require("../models/user");
 
 const addDocument = async (req, res) => {
 	try {
@@ -183,6 +184,28 @@ const queryDocuments = async (req, res) => {
 	}
 };
 
+<<<<<<< Updated upstream
+=======
+const getLogs = async (req, res) => {
+	try {
+		console.log(req.doc)
+		const doc = req.doc;
+		await doc.populate({
+			path:"logs",
+			populate: {
+				path: "user"
+			}
+		});
+		res.json({ logs: doc.logs });
+	} catch (e) {
+		console.log(e);
+		res.status(400).send({
+			e,
+		});
+	}
+};
+
+>>>>>>> Stashed changes
 module.exports = {
 	addDocument,
 	loadDocument,

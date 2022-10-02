@@ -25,4 +25,5 @@ const LogSchema = Schema({
 	},
 });
 
+
 module.exports = model("Log", LogSchema);

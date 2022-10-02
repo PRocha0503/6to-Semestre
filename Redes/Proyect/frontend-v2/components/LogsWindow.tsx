@@ -17,6 +17,8 @@ import {
     Switch,
 } from "@blueprintjs/core";
 import { IDocument } from "types";
+import useLogs from "../hooks/document/useLogs";
+import LogPreview from "./LogPreview";
 
 interface WindowProps {
     documents: IDocument[],
@@ -28,10 +30,13 @@ interface WindowProps {
 
 export const LogsWindow = ({documents, isOpen, onClose}: WindowProps) =>{
 
+    const { data, isLoading, isError, error } = useLogs(document?._id || "");
+
     return(
         <Drawer icon="info-sign" isOpen={isOpen} title="Palantir Foundry" onClose={()=>onClose(false)}>
     <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
+<<<<<<< Updated upstream
             <p>
                 <strong>
                     Data integration is the seminal problem of the digital age. For over ten years,
@@ -58,6 +63,15 @@ export const LogsWindow = ({documents, isOpen, onClose}: WindowProps) =>{
                 can build upon. And the enterprise data foundation goes where the business drives it.
             </p>
             <p>Start the revolution. Unleash the power of data integration with Palantir Foundry.</p>
+=======
+            
+            {data?.logs?.map((value,index)=>{
+                return (
+                    <LogPreview log={value} key={value.date + "_" + index}></LogPreview>
+                )
+            })}
+            
+>>>>>>> Stashed changes
         </div>
     </div>
     <div className={Classes.DRAWER_FOOTER}>Footer</div>

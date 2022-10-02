@@ -50,4 +50,9 @@ const DocumentSchema = Schema({
 	},
 });
 
+DocumentSchema.methods.toJSON = function () {
+	const { __v, ...document } = this.toObject();
+	return document;
+};
+
 module.exports = model("Document", DocumentSchema);
