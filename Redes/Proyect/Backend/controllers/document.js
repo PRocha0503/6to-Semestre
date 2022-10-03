@@ -115,8 +115,7 @@ const previewFile = async (req, res) => {
 
 const getDocumentDetails = async (req, res) => {
 	try {
-		const { id: _id } = req.params;
-		const doc = await Document.findOne({ _id }, "-file").populate("createdBy");
+		const doc = req.doc.populate("createdBy");
 		res.json(doc);
 	} catch (e) {
 		console.log(e);
@@ -128,7 +127,15 @@ const getDocumentDetails = async (req, res) => {
 
 const getDocuments = async (req, res) => {
 	try {
-		const documents = await Document.find({}, "-file").populate("createdBy");
+		console.log(req.user.areas);
+		const documents = await Document.find(
+			{
+				area: { $in: [...req.user.areas] },
+				area: { $ne: null },
+			},
+
+			"-file"
+		).populate("createdBy");
 		res.json(documents);
 	} catch (e) {
 		console.log(e);
@@ -143,7 +150,10 @@ const queryDocuments = async (req, res) => {
 	try {
 		if (req.query.query === undefined || req.query.query === "") {
 			console.log("No query");
-			const documents = await Document.find({}, "-file").populate("createdBy");
+			const documents = await Document.find(
+				{ area: { $in: [...req.user.areas] }, area: { $ne: null } },
+				"-file"
+			).populate("createdBy");
 			res.json({ documents });
 			return;
 		}
@@ -156,6 +166,8 @@ const queryDocuments = async (req, res) => {
 		// add validations for each query
 		const documents = await Document.find(
 			{
+				area: { $in: [...req.user.areas] },
+				area: { $ne: null },
 				$and: parsedQueries.map((query) => {
 					return {
 						[query.key]: {
@@ -183,6 +195,23 @@ const queryDocuments = async (req, res) => {
 	}
 };
 
+const getLogs = async (req, res) => {
+	try {
+		const doc = await req.doc.populate({
+			path: "logs",
+			populate: {
+				path:"user"
+			}
+		});
+		res.json({ logs: doc.logs });
+	} catch (e) {
+		console.log(e);
+		res.status(400).send({
+			e,
+		});
+	}
+};
+
 module.exports = {
 	addDocument,
 	loadDocument,
@@ -191,4 +220,5 @@ module.exports = {
 	getDocumentDetails,
 	getDocuments,
 	queryDocuments,
+	getLogs,
 };

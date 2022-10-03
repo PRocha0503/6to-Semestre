@@ -3,9 +3,10 @@ import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import "@blueprintjs/select/lib/css/blueprint-select.css";
 import "@blueprintjs/popover2/lib/css/blueprint-popover2.css";
 import "@blueprintjs/table/lib/css/table.css";
-import { useEffect, useState } from "react";
-import { Intent, ProgressBar } from "@blueprintjs/core";
 import "../styles/globals.css";
+import { Intent, Spinner } from "@blueprintjs/core";
+import { useEffect, useState } from "react";
+import { HotkeysProvider } from "@blueprintjs/core";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 import type { AppProps } from "next/app";
@@ -36,28 +37,32 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	return (
 		// Provide the client to your App
+
 		<QueryClientProvider client={queryClient}>
 			<UserContext.Provider value={user}>
-				{authRoute ? (
-					<Component {...pageProps} />
-				) : user ? (
-					<>
-						<CustomNavBar />
+				<HotkeysProvider>
+					{authRoute ? (
+
 						<Component {...pageProps} />
-					</>
-				) : (
-					<div
-						style={{
-							display: "flex",
-							justifyContent: "center",
-							alignItems: "center",
-							height: "100vh",
-							padding: "5rem",
-						}}
-					>
-						<ProgressBar intent={Intent.WARNING} />
-					</div>
-				)}
+					) : user ? (
+						<>
+							<CustomNavBar />
+							<Component {...pageProps} />
+						</>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+								height: "100vh",
+								padding: "5rem",
+							}}
+						>
+							<Spinner intent={Intent.WARNING} />
+						</div>
+					)}
+				</HotkeysProvider>
 			</UserContext.Provider>
 		</QueryClientProvider>
 	);

@@ -1,0 +1,16 @@
+.Dropzone:hover {
+    cursor: pointer;
+}
+
+.DropzoneActive {
+    color: whitesmoke;
+    background: rgba(12, 149, 105, 0.809);
+}
+
+.DropzoneDragActive > *{
+    opacity: 0.5;
+}
+
+.DropzoneDragActive{
+    opacity: 0.5;
+}
