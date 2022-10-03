@@ -14,7 +14,7 @@ interface IProps {
 const SheetSelect = Select2.ofType<Sheet>();
 
 const FilePreview: React.FC<IProps> = ({ file, previewItems }) => {
-    const { sheets, isLoading, error } = useSheets(file, false);
+    const { sheets, isLoading, error } = useSheets(file, true);
     const [selectedSheet, setSelectedSheet] = useState<Sheet | null>(null);
 
     const getLoadingOptions = () => {

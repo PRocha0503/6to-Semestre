@@ -1,4 +1,4 @@
-import { Cell, Column, ColumnHeaderCell2 } from "@blueprintjs/table";
+import { Cell, Column, ColumnHeaderCell2, TruncatedFormat2 } from "@blueprintjs/table";
 import type { Sheet, SheetCell } from "@hooks/csv/useSheets";
 import { BaseSortableColumn } from "@components/Columns";
 import { Classes } from "@blueprintjs/core";
@@ -40,12 +40,11 @@ abstract class MatrixColumn<T> implements SheetColumnProps<T> {
 
     private renderName(name: string) {
         return (
-            <div style={{ lineHeight: "24px" }}>
+            <Cell style={{ lineHeight: "24px" }}>
                 <div className={Classes.TEXT_LARGE}>
-                    <strong>{name}</strong>
+                    <strong><TruncatedFormat2 >{name ? name : "Sin Titulo"}</TruncatedFormat2></strong>
                 </div>
-                <div className={Classes.MONOSPACE_TEXT}>{this.index}</div>
-            </div>
+            </Cell>
         );
     }
 
