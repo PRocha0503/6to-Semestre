@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+  server:
+    image: "nginx:alpine"
+    depends_on:
+      - api
+      - frontend
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - mynetwork
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/certs:/etc/nginx/certs
+      - ./nginx/logs:/var/log/nginx
+  db:
+    image: mongo
+    restart: always
+    volumes:
+      - db_data:/data/db
+    env_file:
+      - mongo.env
+    ports:
+      - 27017:27017
+    networks:
+      - mynetwork
+  api:
+    build: ./Backend
+    restart: always
+    env_file:
+      - ./Backend/.env
+    ports:
+      - 8090:8090
+    networks:
+      - mynetwork
+    depends_on:
+      - db
+  frontend:
+    build: ./frontend-v2
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - mynetwork
+    depends_on:
+      - api
+
+networks:
+  mynetwork:
+
+volumes:
+  db_data:
