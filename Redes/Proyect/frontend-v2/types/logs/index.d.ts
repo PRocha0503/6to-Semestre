@@ -15,3 +15,7 @@ export interface ILog {
     user: IUser,
     date: string,
 }
+
+export interface IUser{
+    username:string,
+}

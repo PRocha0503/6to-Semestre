@@ -5,6 +5,7 @@ interface LogProps{
     log: ILog,
 }
 
+
 const LogPreview:React.FC<LogProps> = ({log})=>{
     const localDateTime = new Date(log.date);
 		localDateTime.setTime(localDateTime.getTime());
@@ -18,16 +19,28 @@ const LogPreview:React.FC<LogProps> = ({log})=>{
             minute: "2-digit",
             second: "2-digit"
 		});
+    const endpointAction = {string: log.endpoint}
+        
 
     return(
         <div style={{
-            padding: "1rem"
+            display:"grid",
+            gridTemplateColumns:"120px 120px",
+            columnGap:"1px",
+            margin:"5px"
+
         }}>
-            <div>
+            <div style={{
+                display:"grid"
+            }}>
             {formattedDateTime}
+            <strong style={{color:"blue"}}>{formattedHourTime}</strong>
             </div>
-            <div>
-            <strong>{formattedHourTime}</strong>
+            <div style={{
+                display:"grid"
+            }}>
+            <strong>{log.user.username}</strong>
+            {log.endpoint}
             </div>
         </div>
     )
