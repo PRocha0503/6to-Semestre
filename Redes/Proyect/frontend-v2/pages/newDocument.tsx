@@ -23,13 +23,14 @@ import styles from "../styles/newDocument.module.css";
 
 const NewDocument: NextPage = () => {
 	return (
-		<div>
-			<h1 className="bp4-heading">Subir Archivo	</h1>
+		<div className={styles.center}>
 			<div className={styles.textInputs}>
+				<h1 className="bp4-heading">Subir Archivo	</h1>
 				<Label as="h1">Los apartados marcados con * son obligatorios</Label>
 
 				<div className={styles.textInput}>
 					<FileInput
+						fill = {true}
 						disabled={false} 
 						text="Escoger archivo..."  
 						typeof="file.pdf"
@@ -67,7 +68,6 @@ const NewDocument: NextPage = () => {
 				<div className={styles.textInput}>
 				<InputGroup
 					large={true}
-					fill={false}
 					type="folio"
 					leftElement={<Icon icon="numerical" />}
 					placeholder="Folio*"
@@ -75,25 +75,15 @@ const NewDocument: NextPage = () => {
 				</div>
 
 				<div className={styles.textInput}>
-				<InputGroup
-					//TODO cambiar el tipo de input a DateInput2
-					large={true}
-					fill={false}
-					type="text"
-					leftElement={<Icon icon="folder-close" />}
-					// onChange={this.handleTagChange}
-					placeholder="Fecha*"
-					// rightElement={resultsTag}
-					// small={true}
-					// value={tagValue}
-				/>
-				</div>
-
-				<div className={styles.textInput}>
 				<DateInput
+					
+					fill = {true}
+					showActionsBar={true}
+					timePickerProps={{ precision: "minute" }}
+					placeholder="Fecha*"
     				formatDate={date => date.toLocaleString()}
+					todayButtonText="Hoy"
     				parseDate={str => new Date(str)}
-    				placeholder="M/D/YYYY"
 				/>
 
 				</div>
@@ -101,7 +91,6 @@ const NewDocument: NextPage = () => {
 				<div className={styles.textInput}>
 				<InputGroup
 					large={true}
-					fill={false}
 					type="text"
 					leftElement={<Icon icon="tag" />}
 					placeholder="Etiquetas*"
