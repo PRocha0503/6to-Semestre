@@ -16,7 +16,11 @@ const router = Router();
 
 const logType = "Document";
 
-router.get("/", [validateJWT, createLog(logType)], getDocuments);
+router.get(
+	"/",
+	[validateJWT, createLog(logType, "Se obtubo un documento")],
+	getDocuments
+);
 
 router.post("/", [validateJWT, createLog(logType)], addDocument);
 
@@ -45,6 +49,6 @@ router.get(
 	[validateJWT, isDocument, createLog(logType)],
 	previewFile
 );
-router.get("/logs/:id", [validateJWT, isDocument,createLog(logType)], getLogs);
+router.get("/logs/:id", [validateJWT, isDocument, createLog(logType)], getLogs);
 
 module.exports = router;
