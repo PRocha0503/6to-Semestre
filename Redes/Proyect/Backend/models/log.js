@@ -14,6 +14,9 @@ const LogSchema = Schema({
 		type: String,
 		required: [true, "Endpoint is mandatory"],
 	},
+	message: {
+		type: String,
+	},
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: "User",
