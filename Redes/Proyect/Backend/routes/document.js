@@ -16,11 +16,7 @@ const router = Router();
 
 const logType = "Document";
 
-router.get(
-	"/",
-	[validateJWT, createLog(logType, "Se obtubo un documento")],
-	getDocuments
-);
+router.get("/", [validateJWT, createLog(logType)], getDocuments);
 
 router.post("/", [validateJWT, createLog(logType)], addDocument);
 
