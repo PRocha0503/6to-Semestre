@@ -1,5 +1,5 @@
 const Area = require("../models/area");
-
+const User = require("../models/user");
 //Function to get all areas from the database
 const getAreas = async (req, res) => {
 	try {
@@ -35,7 +35,31 @@ const addArea = async (req, res) => {
 	}
 };
 
+const getUserAvailableAreas = async (req, res) => {
+	try {
+		const { userId } = req.params;
+		const user = await User.findById(userId);
+		const areas = await Area.find({});
+		if (!user) {
+			res.status(404).send({ message: "User not found" });
+			return;
+		}
+		const filteredAreas = areas.filter((area) => {
+			return !user.areas.includes(area.id);
+		});
+		res.json({
+			areas: filteredAreas,
+		});
+	} catch (e) {
+		console.log(e);
+		res.status(400).send({
+			e,
+		});
+	}
+};
+
 module.exports = {
 	addArea,
 	getAreas,
+	getUserAvailableAreas,
 };

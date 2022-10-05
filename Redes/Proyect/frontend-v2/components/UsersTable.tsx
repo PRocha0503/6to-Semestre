@@ -11,15 +11,12 @@ import { RenderMode, Table2, TableLoadingOption } from "@blueprintjs/table";
 import { Menu, MenuItem, MenuDivider } from "@blueprintjs/core";
 import { IDocument } from "types";
 import AreaSelector from "./AreaSelector";
+import { IUser } from "types/user";
 
 export const UsersTable = ({ users, loading = false }: any) => {
 	const [sortedIndexMap, setSortedIndexMap] = useState<number[]>([]);
-	const test = (el: any) => {
-		console.log(el);
-	};
-	const renderColumns = useMemo(() => {
-		console.log("rendering columns");
 
+	const renderColumns = useMemo(() => {
 		return generateColumns(
 			{
 				data: users,
@@ -27,15 +24,15 @@ export const UsersTable = ({ users, loading = false }: any) => {
 				onChangeSortedIndex: setSortedIndexMap,
 			},
 			[
-				{ name: "ID", key: "_id", type: CTypeNumber },
+				// { name: "ID", key: "_id", type: CTypeNumber },
 				{ name: "Username", key: "username", type: CTypeString },
 				{ name: "Area", key: "areas", type: CTypeList, field: "name" },
 				{
 					name: "Add Area",
 					key: "_id",
 					type: CTypeCustom,
-					render: () => {
-						return <AreaSelector />;
+					render: ({ _id, ...user }: any) => {
+						return <AreaSelector user={user} _id={_id} />;
 					},
 				},
 			]
