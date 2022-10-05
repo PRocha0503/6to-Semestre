@@ -8,7 +8,9 @@ const DocumentSchema = Schema({
 	file: {
 		type: Buffer,
 	},
-
+	batchId: {
+		type: String,
+	},
 	folio: {
 		type: String,
 		required: [true, "Folio by is mandatory"],
