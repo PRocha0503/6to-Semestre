@@ -9,7 +9,8 @@ const DocumentSchema = Schema({
 		type: Buffer,
 	},
 	batchId: {
-		type: String,
+		type: Schema.Types.ObjectId,
+		ref: "Batch",
 	},
 	folio: {
 		type: String,

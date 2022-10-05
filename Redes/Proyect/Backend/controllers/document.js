@@ -50,6 +50,9 @@ const loadDocument = async (req, res) => {
 		const document = req.doc;
 		document.logs = [req.log];
 		document.size = size;
+
+		// encrypt file
+
 		document.file = file;
 
 		//Save to db
@@ -231,7 +234,7 @@ const batchDocuments = async (req, res) => {
 		file = file.data;
 		const size = file.length; //In bytes
 		
-		if (size > 10000000) {
+		if (size > MaxSize) {
 			res.status(400).json({ message: "File size too large" });
 			return;
 		}
@@ -250,38 +253,36 @@ const batchDocuments = async (req, res) => {
 
 		const sheet = workbook.Sheets[sheet_name_list[0]];
 
-		// generate batch id
-		const batchId = v4();
+		const batch = new Batch({
+			createdBy: req.user._id,
+			area: req.user.areas[0] || null,
+			name: sheet_name_list[0],
+			size: size,
+		})
 
 		// validate json
-		const documents = parseBatch(sheet, batchId, {
+		const documents = parseBatch(sheet, batch._id, {
 			createdBy: req.user._id,
 			logs: [req.log],
 			area: req.user.areas[0] || null,
 		});
 
+		await batch.save();
+
 		// save documents
 		// session.startTransaction(); // needs to use replica set to enable feature, todo
-		const batch = new Batch({
-			createdBy: req.user._id,
-			area: req.user.areas[0] || null,
-			name: sheet_name_list[0],
-			items: documents.length,
-			size: size,
-		})
-
-		await batch.save();
 
 		// error boundary for batch save
 		try {
 			const r = await Document.insertMany(documents,{ordered:false, writeConcern: { w: 1 }});
-			await batch.updateOne({status: "success"});
-			res.json({ message: "Document uploaded successfully", batchId });
+			await batch.updateOne({status: "success", items: r.length});
+			res.json({ message: "Document uploaded successfully", batchId: batch._id });
 			return 
 
 		} catch (e) {
 			// rollback documents in batch
-			await Document.deleteMany({ batchId });
+			await Document.deleteMany({ batchId: batch._id });
+			console.log(e);
 			res.status(400).json({ message: `Batch write failed due to invalid documents` });
 			// update batch status
 			await batch.updateOne({ status: "failed" });
@@ -290,6 +291,55 @@ const batchDocuments = async (req, res) => {
 	}
 
 	catch(e) {
+		console.log(e.message);
+		res.status(500).send({
+			message: "Internal server error",
+		});
+	}
+};
+
+const getBatches = async (req, res) => {
+	try {
+		console.log(req.user.areas);
+		const batches = await Batch.find({area: { $in: [...req.user.areas] }});
+		res.json({ batches });
+	} catch (e) {
+		console.log(e.message);
+		res.status(500).send({
+			message: "Internal server error",
+		});
+	}
+};
+
+const rollBackBatch = async (req, res) => {
+	try {
+		const batch = await Batch.findById(req.params.id);
+		if (batch === null) {
+			res.status(400).json({ message: "Batch not found" });
+			return;
+		}
+
+		if (batch.status === "failed") {
+			res.status(400).json({ message: "Batch already failed" });
+			return;
+		}
+
+		if (batch.status === "rolledback") {
+			res.status(400).json({ message: "Batch already rolledback" });
+			return;
+		}
+
+		if (batch.status === "success") {
+			await Document.deleteMany({ batchId: batch._id });
+			await batch.updateOne({ status: "rolledback" });
+			res.json({ message: "Batch rolled back successfully" });
+			return;
+		}
+
+		res.status(400).json({ message: "Batch status unknown" });
+		return;
+	} catch (e) {
+		console.log(e.message);
 		res.status(500).send({
 			message: "Internal server error",
 		});
@@ -306,4 +356,6 @@ module.exports = {
 	queryDocuments,
 	getLogs,
 	batchDocuments,
+	getBatches,
+	rollBackBatch
 };

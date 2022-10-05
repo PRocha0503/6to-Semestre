@@ -10,16 +10,14 @@ const {
 	queryDocuments,
 	batchDocuments,
 	getLogs,
+	getBatches,
+	rollBackBatch
 } = require("../controllers/document.js");
 const { validateJWT, createLog, isDocument } = require("../middleware");
 
 const router = Router();
 
 const logType = "Document";
-
-router.get("/", [validateJWT, createLog(logType)], getDocuments);
-
-router.post("/", [validateJWT, createLog(logType)], addDocument);
 
 router.post(
 	"/load/:id",
@@ -28,12 +26,6 @@ router.post(
 );
 
 router.get("/query", [validateJWT], queryDocuments);
-
-router.get(
-	"/:id",
-	[validateJWT, isDocument, createLog(logType)],
-	getDocumentDetails
-);
 
 router.get(
 	"/download/:id",
@@ -49,6 +41,18 @@ router.get(
 
 router.get("/logs/:id", [validateJWT, isDocument,createLog(logType)], getLogs);
 
+router.get("/batch", [validateJWT, createLog(logType)], getBatches);
 router.post("/batch", [validateJWT, createLog(logType)], batchDocuments);
+router.post("/batch/:id/rollback", [validateJWT, createLog(logType)], rollBackBatch);
+
+router.get("/", [validateJWT, createLog(logType)], getDocuments);
+router.post("/", [validateJWT, createLog(logType)], addDocument);
+
+router.get(
+	"/:id",
+	[validateJWT, isDocument, createLog(logType)],
+	getDocumentDetails
+);
+
 
 module.exports = router;
