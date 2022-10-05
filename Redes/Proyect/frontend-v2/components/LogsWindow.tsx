@@ -12,8 +12,6 @@ import {
     Label,
     Menu,
     MenuItem,
-    OptionProps,
-    Position,
     Switch,
 } from "@blueprintjs/core";
 import { IDocument } from "types";
