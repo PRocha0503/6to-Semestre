@@ -15,6 +15,8 @@ import {
 } from "@blueprintjs/table";
 import React from "react";
 
+import styles from "../styles/Columns.module.css";
+
 /**
  * Context for the table
  */
@@ -256,7 +258,7 @@ class SortableColumnCustom<T> extends SortableColumnString<T> {
 
 	renderCell(data: string | undefined, rowIndex: number): JSX.Element {
 		return data ? (
-			<Cell>
+			<Cell className={styles.custom}>
 				<>{this.context.render(this.context.data[rowIndex])}</>
 			</Cell>
 		) : (
