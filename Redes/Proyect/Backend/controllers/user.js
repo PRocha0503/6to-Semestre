@@ -45,8 +45,9 @@ const addUser = async (req, res) => {
 const addArea = async (req, res) => {
 	try {
 		const { areaId } = req.body;
+		const { userId } = req.params;
 
-		const user = req.user;
+		const user = await User.findById(userId).populate("areas");
 		const area = await Area.findById(areaId);
 		if (!area) {
 			res.status(404).send({ message: "Area not found" });

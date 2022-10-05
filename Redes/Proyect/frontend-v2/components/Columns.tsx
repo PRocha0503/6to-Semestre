@@ -15,7 +15,6 @@ import {
 } from "@blueprintjs/table";
 import React from "react";
 
-
 /**
  * Context for the table
  */
@@ -351,5 +350,3 @@ export function generateColumns<T>(
 		}
 	});
 }
-
-

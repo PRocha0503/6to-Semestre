@@ -1,3 +1,13 @@
-.textInput {
+.textInputs {
 	max-width: 400px;
+}
+
+.textInput {
+	padding-bottom: 5px;
+}
+
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
