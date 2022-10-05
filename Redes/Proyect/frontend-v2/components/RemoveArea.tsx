@@ -1,15 +1,23 @@
 import React, { useState, useCallback, useEffect } from "react";
 import useUserAvailableAreas from "@hooks/area/useUserAvailableAreas";
 
-import { Classes, Popover2 } from "@blueprintjs/popover2";
+import {
+	Classes,
+	Placement,
+	PlacementOptions,
+	Popover2,
+	Popover2InteractionKind,
+	Popover2SharedProps,
+	StrictModifierNames,
+} from "@blueprintjs/popover2";
 import { Button, MenuItem, Intent, H5 } from "@blueprintjs/core";
 import { ItemRenderer, Select2, Select2Props } from "@blueprintjs/select";
 import { IArea } from "types/area";
 import { IUser } from "types/user";
-import useAddUserArea from "@hooks/user/useAddUserArea";
+import deleteUserArea from "@hooks/user/useDeleteUserArea";
 import Notifications from "./Notifications";
 
-import styles from "../styles/AreaSelector.module.css";
+import styles from "../styles/RemoveArea.module.css";
 
 const AreaSelect = Select2.ofType<IArea>();
 
@@ -19,41 +27,33 @@ interface AreaSelectorProps {
 }
 
 // eslint-disable-next-line import/no-default-export
-const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
+const RemoveArea = ({ user, _id }: AreaSelectorProps) => {
 	const [toasts, setToasts] = useState<any>([]);
-	const [areas, setAreas] = useState<IArea[]>([]);
+	const [areas, setAreas] = useState<IArea[]>(user.areas);
 	const [open, setOpen] = useState<boolean>(false);
 	const [selectedArea, setSelectedArea] = useState<IArea | null>(null);
-	const { data, isLoading, isError, error, isSuccess } =
-		useUserAvailableAreas(_id);
 	const {
 		mutate,
-		isSuccess: addAreaToUserIsSuccess,
-		isError: addAreaToUserIsError,
-	} = useAddUserArea({
+		isSuccess: deleteAreaToUserIsSuccess,
+		isError: deleteAreaToUserIsError,
+	} = deleteUserArea({
 		userId: _id,
-		areaId: selectedArea?._id || "dd",
+		areaId: selectedArea?._id || "",
 	});
 	useEffect(() => {
-		if (isError) {
-			console.log(error);
+		if (deleteAreaToUserIsSuccess) {
 			setToasts([
 				...toasts,
-				{ message: "No se pudieron cargar areas", type: "danger" },
+				{ message: "Area quitada exitosamente", type: "success" },
 			]);
-		} else if (isSuccess && data) {
-			setAreas(data.areas);
-		}
-		if (addAreaToUserIsSuccess) {
-			setToasts([...toasts, { message: "Area añadida", type: "success" }]);
 			window.location.reload();
-		} else if (addAreaToUserIsError) {
+		} else if (deleteAreaToUserIsError) {
 			setToasts([
 				...toasts,
-				{ message: "Error añadiendo area", type: "danger" },
+				{ message: "Error quitando area", type: "danger" },
 			]);
 		}
-	}, [isError, isSuccess, addAreaToUserIsSuccess, addAreaToUserIsError]);
+	}, [deleteAreaToUserIsSuccess, deleteAreaToUserIsError]);
 
 	const itemRenderer = useCallback<ItemRenderer<IArea>>(
 		(area, props) => {
@@ -95,7 +95,6 @@ const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
 					icon="group-objects"
 					rightIcon="caret-down"
 					text={selectedArea ? `${selectedArea.name}` : "No selection"}
-					loading={isLoading}
 				/>
 			</AreaSelect>
 			<div
@@ -115,14 +114,14 @@ const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
 					Cancel
 				</Button>
 				<Button
-					intent={Intent.SUCCESS}
+					intent={Intent.DANGER}
 					onClick={() => {
 						mutate();
 						setOpen(false);
 					}}
 					disabled={selectedArea == null ? true : false}
 				>
-					Agregar
+					Quitar
 				</Button>
 			</div>
 		</div>
@@ -143,10 +142,10 @@ const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
 					}}
 					className={styles.root}
 				>
-					Agregar area
+					Quitar area
 				</p>
 			</Popover2>
 		</>
 	);
 };
-export default AreaSelector;
+export default RemoveArea;

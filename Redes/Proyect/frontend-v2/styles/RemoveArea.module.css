@@ -1,0 +1,15 @@
+.root {
+	display: flex;
+	background-color: rgba(214, 88, 96, 0.5);
+	font-weight: 600;
+	border-radius: 5px;
+	padding: 0.2rem;
+}
+
+.popover {
+	padding: 15px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
