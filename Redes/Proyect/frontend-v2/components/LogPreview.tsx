@@ -1,3 +1,5 @@
+import { Method } from "axios";
+import { loadDefaultErrorComponents } from "next/dist/server/load-components";
 import * as React from "react";
 import { ILog } from "types/logs";
 
@@ -5,6 +7,14 @@ interface LogProps{
     log: ILog,
 }
 
+const typeOfEndpoint = (endp: Method) =>{
+    switch(endp){
+        case "GET":
+            return("Acceso");
+        case "POST":
+            return("Subir")
+    }
+}
 
 const LogPreview:React.FC<LogProps> = ({log})=>{
     const localDateTime = new Date(log.date);
@@ -19,7 +29,7 @@ const LogPreview:React.FC<LogProps> = ({log})=>{
             minute: "2-digit",
             second: "2-digit"
 		});
-    const endpointAction = {string: log.endpoint}
+
         
 
     return(
@@ -40,7 +50,7 @@ const LogPreview:React.FC<LogProps> = ({log})=>{
                 display:"grid"
             }}>
             <strong>{log.user.username}</strong>
-            {log.endpoint}
+            {log.message}
             </div>
         </div>
     )

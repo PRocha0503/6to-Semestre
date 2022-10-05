@@ -14,6 +14,7 @@ export interface ILog {
     endpoint: string,
     user: IUser,
     date: string,
+    message: string,
 }
 
 export interface IUser{
