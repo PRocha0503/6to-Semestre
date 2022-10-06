@@ -43,11 +43,7 @@ const NewDocument: NextPage = () => {
 					fill={false}
 					type="text"
 					leftElement={<Icon icon="document" />}
-					// onChange={this.handleTagChange}
 					placeholder="Titulo*"
-					// rightElement={resultsTag}
-					// small={true}
-					// value={tagValue}
 				/>
 				</div>
 
@@ -57,11 +53,7 @@ const NewDocument: NextPage = () => {
 					fill={false}
 					type="text"
 					leftElement={<Icon icon="folder-close" />}
-					// onChange={this.handleTagChange}
 					placeholder="Expediente*"
-					// rightElement={resultsTag}
-					// small={true}
-					// value={tagValue}
 				/>
 				</div>
 
