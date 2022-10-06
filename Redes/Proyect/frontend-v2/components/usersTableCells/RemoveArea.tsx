@@ -15,9 +15,9 @@ import { ItemRenderer, Select2, Select2Props } from "@blueprintjs/select";
 import { IArea } from "types/area";
 import { IUser } from "types/user";
 import deleteUserArea from "@hooks/user/useDeleteUserArea";
-import Notifications from "./Notifications";
+import Notifications from "../Notifications";
 
-import styles from "../styles/RemoveArea.module.css";
+import styles from "../../styles/RemoveArea.module.css";
 
 const AreaSelect = Select2.ofType<IArea>();
 
@@ -136,14 +136,15 @@ const RemoveArea = ({ user, _id }: AreaSelectorProps) => {
 				enforceFocus={true}
 				isOpen={open}
 			>
-				<p
+				<Button
+					small={true}
+					intent={Intent.DANGER}
 					onClick={() => {
 						setOpen(!open);
 					}}
-					className={styles.root}
 				>
 					Quitar area
-				</p>
+				</Button>
 			</Popover2>
 		</>
 	);

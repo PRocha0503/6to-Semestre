@@ -7,9 +7,9 @@ import { ItemRenderer, Select2, Select2Props } from "@blueprintjs/select";
 import { IArea } from "types/area";
 import { IUser } from "types/user";
 import useAddUserArea from "@hooks/user/useAddUserArea";
-import Notifications from "./Notifications";
+import Notifications from "../Notifications";
 
-import styles from "../styles/AreaSelector.module.css";
+import styles from "../../styles/AreaSelector.module.css";
 
 const AreaSelect = Select2.ofType<IArea>();
 
@@ -137,14 +137,15 @@ const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
 				enforceFocus={true}
 				isOpen={open}
 			>
-				<p
+				<Button
+					small={true}
+					intent={Intent.SUCCESS}
 					onClick={() => {
 						setOpen(!open);
 					}}
-					className={styles.root}
 				>
 					Agregar area
-				</p>
+				</Button>
 			</Popover2>
 		</>
 	);

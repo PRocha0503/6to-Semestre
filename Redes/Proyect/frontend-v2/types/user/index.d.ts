@@ -4,4 +4,5 @@ export interface IUser {
 	areas: IArea[];
 	isAdmin: boolean;
 	_id?: string;
+	isAdmin?: boolean;
 }

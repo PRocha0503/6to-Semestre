@@ -8,9 +8,10 @@ import {
 } from "./Columns";
 import React, { useMemo, useState, useRef } from "react";
 import { RenderMode, Table2, TableLoadingOption } from "@blueprintjs/table";
-import AreaSelector from "./AreaSelector";
-import RemoveArea from "./RemoveArea";
-
+import AreaSelector from "./usersTableCells/AreaSelector";
+import RemoveArea from "./usersTableCells/RemoveArea";
+import DeleteUser from "./usersTableCells/DeleteUser";
+import MakeAdmin from "./usersTableCells/MakeAdmin";
 import styles from "../styles/UsersTable.module.css";
 
 export const UsersTable = ({ users, loading = false }: any) => {
@@ -42,6 +43,22 @@ export const UsersTable = ({ users, loading = false }: any) => {
 					type: CTypeCustom,
 					render: ({ _id, ...user }: any) => {
 						return <RemoveArea user={user} _id={_id} />;
+					},
+				},
+				{
+					name: "Borrar Usuario",
+					key: "_id",
+					type: CTypeCustom,
+					render: ({ _id, ...user }: any) => {
+						return <DeleteUser user={user} _id={_id} />;
+					},
+				},
+				{
+					name: "Hacer Admin",
+					key: "_id",
+					type: CTypeCustom,
+					render: ({ _id, ...user }: any) => {
+						return <MakeAdmin user={user} _id={_id} />;
 					},
 				},
 			]
