@@ -1,7 +1,8 @@
-import { Cell, Column, ColumnHeaderCell2, TruncatedFormat2 } from "@blueprintjs/table";
+import { Cell, Column, ColumnHeaderCell2, ColumnProps, TruncatedFormat2 } from "@blueprintjs/table";
 import type { Sheet, SheetCell } from "@hooks/csv/useSheets";
 import { BaseSortableColumn } from "@components/Columns";
 import { Classes } from "@blueprintjs/core";
+import { MenuItem2 } from "@blueprintjs/popover2";
 
 interface SheetColumnProps<T> {
     index: number;
@@ -30,14 +31,6 @@ abstract class MatrixColumn<T> implements SheetColumnProps<T> {
         return String(data);
     }
 
-    public renderHeader() {
-        return (
-            <ColumnHeaderCell2
-                name={this.name}
-            />
-        );
-    }
-
     private renderName(name: string) {
         return (
             <Cell style={{ lineHeight: "24px" }}>
@@ -48,15 +41,21 @@ abstract class MatrixColumn<T> implements SheetColumnProps<T> {
         );
     }
 
+    protected abstract renderHeader(columnIndex: number): JSX.Element;
+
     public getColumn() {
         // render the column header cell
-        const columnHeaderCellRenderer = () => (
+        let columnHeaderCellRenderer = (column: number) => (
             <ColumnHeaderCell2
                 name={this.name}
                 menuIcon={"chevron-down"}
                 nameRenderer={this.renderName.bind(this)}
             />
         );
+        
+        // get header cell
+        columnHeaderCellRenderer = this.renderHeader ? this.renderHeader.bind(this) : columnHeaderCellRenderer;
+        
 
         // render column
         return (
@@ -70,10 +69,39 @@ abstract class MatrixColumn<T> implements SheetColumnProps<T> {
     }
 }
 
+
+interface SheetBaseColumnProps {
+    renderHeaderCell: (columnIndex: number, name: string) => void;
+}
+
 /**
  * A columnn from a sheet
  */
 export class SheetBaseColumn extends MatrixColumn<SheetCell> {
+    extra: SheetBaseColumnProps
+    selectedColumn: number | null;
+
+    constructor(index: number, name: string, data: SheetCell[][], extra: SheetBaseColumnProps) {
+        super(index, name, data);
+        this.extra = extra;
+        
+        this.selectedColumn = null;
+
+    }
+
+
+    protected renderHeader(columnIndex: number): JSX.Element {
+        return (
+            <ColumnHeaderCell2
+                name={this.name}
+                menuIcon={"chevron-down"}
+            >
+                {this.extra.renderHeaderCell(columnIndex, this.name)}
+            </ColumnHeaderCell2>
+        );
+        
+    }
+    
     protected renderCell(rowIndex: number, columnIndex: number): JSX.Element {
         const dta = this.data[rowIndex][columnIndex];
 
@@ -99,10 +127,10 @@ export class SheetBaseColumn extends MatrixColumn<SheetCell> {
  * @param sheet
  * @returns
  */
-export function generateColumnsSheet(sheet: Sheet): SheetBaseColumn[] {
+export function generateColumnsSheet(sheet: Sheet, extra: SheetBaseColumnProps): SheetBaseColumn[] {
     const columns: SheetBaseColumn[] = [];
     for (let i = 0; i < (sheet?.data?.length || 0); i++) {
-        const column = new SheetBaseColumn(i, sheet?.headers[i] || "", sheet?.data || []);
+        const column = new SheetBaseColumn(i, sheet?.headers[i] || "", sheet?.data || [], extra);
         columns.push(column);
     }
     return columns;
