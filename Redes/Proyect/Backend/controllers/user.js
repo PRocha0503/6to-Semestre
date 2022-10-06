@@ -4,10 +4,7 @@ const bcryptjs = require("bcryptjs");
 //Function to get users from the database
 const getUsers = async (req, res) => {
 	try {
-		const users = await User.find({}, "-isAdmin").populate(
-			"areas",
-			"-_id name"
-		);
+		const users = await User.find({}).populate("areas");
 		res.json({
 			users,
 		});
@@ -69,8 +66,70 @@ const addArea = async (req, res) => {
 	}
 };
 
+const removeArea = async (req, res) => {
+	try {
+		const { areaId } = req.body;
+		const { userId } = req.params;
+
+		const user = await User.findById(userId);
+		const area = await Area.findById(areaId);
+		if (!area) {
+			res.status(404).send({ message: "Area not found" });
+			return;
+		}
+		if (!user.areas.includes(areaId)) {
+			console.log(user.areas);
+			res.status(400).send({ message: "Area not in user" });
+			return;
+		}
+		user.areas.remove(area);
+		await user.save();
+		res.json({
+			user,
+		});
+	} catch (e) {
+		console.log(e);
+		res.status(400).send({
+			e,
+		});
+	}
+};
+
+const deleteUser = async (req, res) => {
+	try {
+		const { userId } = req.params;
+		const user = await User.findByIdAndDelete(userId);
+		res.json({
+			user,
+		});
+	} catch (e) {
+		res.status(400).send({
+			e,
+		});
+	}
+};
+
+const makeAdmin = async (req, res) => {
+	try {
+		const { userId } = req.params;
+		const user = await User.findById(userId);
+		user.isAdmin = true;
+		await user.save();
+		res.json({
+			user,
+		});
+	} catch (e) {
+		res.status(400).send({
+			e,
+		});
+	}
+};
+
 module.exports = {
 	getUsers,
 	addUser,
 	addArea,
+	removeArea,
+	deleteUser,
+	makeAdmin,
 };

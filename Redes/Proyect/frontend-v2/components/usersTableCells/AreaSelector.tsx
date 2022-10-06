@@ -1,21 +1,15 @@
 import React, { useState, useCallback, useEffect } from "react";
 import useUserAvailableAreas from "@hooks/area/useUserAvailableAreas";
 
-import {
-	Classes,
-	Placement,
-	PlacementOptions,
-	Popover2,
-	Popover2InteractionKind,
-	Popover2SharedProps,
-	StrictModifierNames,
-} from "@blueprintjs/popover2";
+import { Classes, Popover2 } from "@blueprintjs/popover2";
 import { Button, MenuItem, Intent, H5 } from "@blueprintjs/core";
 import { ItemRenderer, Select2, Select2Props } from "@blueprintjs/select";
 import { IArea } from "types/area";
 import { IUser } from "types/user";
 import useAddUserArea from "@hooks/user/useAddUserArea";
-import Notifications from "./Notifications";
+import Notifications from "../Notifications";
+
+import styles from "../../styles/AreaSelector.module.css";
 
 const AreaSelect = Select2.ofType<IArea>();
 
@@ -28,6 +22,7 @@ interface AreaSelectorProps {
 const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
 	const [toasts, setToasts] = useState<any>([]);
 	const [areas, setAreas] = useState<IArea[]>([]);
+	const [open, setOpen] = useState<boolean>(false);
 	const [selectedArea, setSelectedArea] = useState<IArea | null>(null);
 	const { data, isLoading, isError, error, isSuccess } =
 		useUserAvailableAreas(_id);
@@ -39,7 +34,6 @@ const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
 		userId: _id,
 		areaId: selectedArea?._id || "dd",
 	});
-	console.log(_id);
 	useEffect(() => {
 		if (isError) {
 			console.log(error);
@@ -52,6 +46,7 @@ const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
 		}
 		if (addAreaToUserIsSuccess) {
 			setToasts([...toasts, { message: "Area añadida", type: "success" }]);
+			window.location.reload();
 		} else if (addAreaToUserIsError) {
 			setToasts([
 				...toasts,
@@ -61,20 +56,23 @@ const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
 	}, [isError, isSuccess, addAreaToUserIsSuccess, addAreaToUserIsError]);
 
 	const itemRenderer = useCallback<ItemRenderer<IArea>>(
-		(film, props) => {
+		(area, props) => {
 			return (
 				<MenuItem
 					{...props}
-					text={film.name}
-					selected={film === selectedArea}
-					onClick={() => setSelectedArea(film)}
+					text={area.name}
+					selected={area === selectedArea}
+					onClick={() => {
+						console.log(area);
+						setSelectedArea(area);
+					}}
 				></MenuItem>
 			);
 		},
 		[selectedArea]
 	);
 	const attempt = (
-		<div style={{ padding: 15 }}>
+		<div className={styles.popover}>
 			<H5>Agregar Area a usuario</H5>
 			<p>Seleciona un area para agregar al usuario.</p>
 
@@ -109,7 +107,9 @@ const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
 				}}
 			>
 				<Button
-					className={Classes.POPOVER2_DISMISS}
+					onClick={() => {
+						setOpen(false);
+					}}
 					style={{ marginRight: 10 }}
 				>
 					Cancel
@@ -118,6 +118,7 @@ const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
 					intent={Intent.SUCCESS}
 					onClick={() => {
 						mutate();
+						setOpen(false);
 					}}
 					disabled={selectedArea == null ? true : false}
 				>
@@ -129,8 +130,22 @@ const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
 	return (
 		<>
 			<Notifications toast={toasts} setToast={setToasts} />
-			<Popover2 content={attempt} captureDismiss={true}>
-				<div>Agregar area</div>
+			<Popover2
+				content={attempt}
+				captureDismiss={true}
+				popoverClassName={Classes.POPOVER2_CONTENT_SIZING}
+				enforceFocus={true}
+				isOpen={open}
+			>
+				<Button
+					small={true}
+					intent={Intent.SUCCESS}
+					onClick={() => {
+						setOpen(!open);
+					}}
+				>
+					Agregar area
+				</Button>
 			</Popover2>
 		</>
 	);

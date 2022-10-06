@@ -1,6 +1,8 @@
+import { IArea } from "types/area";
 export interface IUser {
 	username: string;
-	areas: any[];
+	areas: IArea[];
 	isAdmin: boolean;
 	_id?: string;
+	isAdmin?: boolean;
 }
