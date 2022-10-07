@@ -1,3 +1,4 @@
+import { Tag } from "@blueprintjs/core";
 import { Method } from "axios";
 import { loadDefaultErrorComponents } from "next/dist/server/load-components";
 import * as React from "react";
@@ -10,9 +11,15 @@ interface LogProps{
 const typeOfEndpoint = (endp: Method) =>{
     switch(endp){
         case "GET":
-            return("Acceso");
+            return "Acceso";
         case "POST":
-            return("Subir")
+            return "Subir"
+        case "DELETE":
+            return "Eliminar"
+        case "PUT":
+            return "Actualizar"
+        default:
+            return "Desconocido"
     }
 }
 
@@ -30,27 +37,78 @@ const LogPreview:React.FC<LogProps> = ({log})=>{
             second: "2-digit"
 		});
 
+        const endpoint = React.useCallback(()=>{
+            return typeOfEndpoint(log.method as Method)
+        },[log.method])
+
+        const color = React.useCallback(()=>{
+            console.log(log.method)
+            switch(log.method){
+                case "GET":
+                    return "#06b73c";
+                case "POST":
+                    return "#2B93FF"
+                case "DELETE":
+                    return "#FF6060"
+                case "PUT":
+                    return "#ffb32b"
+                default:
+                    return "gray"
+            }
+        }
+        ,[log.method])
+
+
         
 
     return(
         <div style={{
             display:"grid",
-            gridTemplateColumns:"120px 120px",
+            gridTemplateColumns:"1fr 1fr 1fr ",
             columnGap:"1px",
-            margin:"5px"
+            padding:"10px"
 
         }}>
+
+            <div
+                style={{
+                    alignSelf:"center",
+                    margin: "auto",
+                }}
+            >
+                <Tag
+                    style={{
+                        backgroundColor:color(),
+             
+                        // minWidth:"100px",
+                    }}
+                >{endpoint()}</Tag>
+            </div>
+
             <div style={{
-                display:"grid"
+                display:"flex",
+                fontFamily: "monospace",
+                justifyContent:"space-around",
+                alignItems:"center",
+                flexDirection:"column",
+                textAlign:"center"
+                
             }}>
             {formattedDateTime}
-            <strong style={{color:"blue"}}>{formattedHourTime}</strong>
+            <strong style={{}}>{formattedHourTime}</strong>
             </div>
             <div style={{
-                display:"grid"
+                display:"flex",
+                justifyContent:"space-around",
+                alignItems:"center",
+                flexDirection:"column",
+                textAlign:"center"
+
             }}>
             <strong>{log.user.username}</strong>
-            {log.message}
+            <span style={{
+                fontWeight:"normal",
+            }}>{log.message}</span>
             </div>
         </div>
     )

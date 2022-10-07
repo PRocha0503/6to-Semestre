@@ -1,4 +1,4 @@
-export enum ILogType {
+export declare enum ILogType {
 	User = "User",
 	Document = "Document",
 	Area = "Area",
@@ -8,7 +8,7 @@ export enum ILogType {
 	Other = "Other",
 }
 
-export interface ILog {
+export declare interface ILog {
     type: ILogType,
     method: Method,
     endpoint: string,
@@ -17,6 +17,6 @@ export interface ILog {
     message: string,
 }
 
-export interface IUser{
+export declare interface IUser{
     username:string,
 }
