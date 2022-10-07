@@ -154,10 +154,9 @@ const Home: NextPage = () => {
 			<div>
 				{/* temporary while we decide how to organize the view */}
 				<Button onClick={() => setIsModalOpen(true)} icon={"panel-table"}>Subir Excel</Button>
-				<Button onClick={() => setIsModalOpen(true)} icon={"add"}>Agregar Registro</Button>
 				<Button
-					text={"Subir Archivo"}
-					icon={"document-share"}
+					text={"Agregar Registro"}
+					icon={"add"}
 					onClick={() => router.push("/newDocument")}
 				/>
 			</div>

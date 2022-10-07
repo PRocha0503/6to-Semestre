@@ -125,7 +125,7 @@ const previewFile = async (req, res) => {
 
 const getDocumentDetails = async (req, res) => {
 	try {
-		const doc = req.doc.populate("createdBy");
+		const doc = await req.doc.populate("createdBy");
 		res.json(doc);
 	} catch (e) {
 		console.log(e);
@@ -161,7 +161,7 @@ const queryDocuments = async (req, res) => {
 		if (req.query.query === undefined || req.query.query === "") {
 			console.log("No query");
 			const documents = await Document.find(
-				{ area: { $in: [...req.user.areas] }, area: { $ne: null } },
+				{ area: { $ne: null , $in: [...req.user.areas] } },
 				"-file"
 			).populate("createdBy");
 			res.json({ documents });
@@ -173,11 +173,11 @@ const queryDocuments = async (req, res) => {
 
 		const parsedQueries = parseQuery(req.query.query);
 
+		console.log(req.user.areas)
 		// add validations for each query
 		const documents = await Document.find(
 			{
-				area: { $in: [...req.user.areas] },
-				area: { $ne: null },
+				area: { $ne: null,  $in: [...req.user.areas] },
 				$and: parsedQueries.map((query) => {
 					return {
 						[query.key]: {
