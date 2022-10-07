@@ -125,7 +125,7 @@ const previewFile = async (req, res) => {
 
 const getDocumentDetails = async (req, res) => {
 	try {
-		const doc = req.doc.populate("createdBy");
+		const doc = await req.doc.populate("createdBy");
 		res.json(doc);
 	} catch (e) {
 		console.log(e);

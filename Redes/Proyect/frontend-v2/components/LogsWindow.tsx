@@ -12,8 +12,6 @@ import {
     Label,
     Menu,
     MenuItem,
-    OptionProps,
-    Position,
     Switch,
 } from "@blueprintjs/core";
 import { IDocument } from "types";
@@ -36,7 +34,6 @@ export const LogsWindow = ({document, onClose, isOpen}: WindowProps) =>{
     const {data} = useLogs(document._id || "")
     useEffect(()=>{
         if(data){
-            console.log(data.logs)
             setLogs(data.logs)
         }
     },[data])

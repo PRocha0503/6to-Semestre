@@ -19,6 +19,14 @@ const router = Router();
 
 const logType = "Document";
 
+router.get(
+	"/",
+	[validateJWT, createLog(logType, "Se obtuvo un documento")],
+	getDocuments
+);
+
+router.post("/", [validateJWT, createLog(logType, "Se subio un docuemnto")], addDocument);
+
 router.post(
 	"/load/:id",
 	[validateJWT, isDocument, createLog(logType)],
@@ -29,7 +37,7 @@ router.get("/query", [validateJWT], queryDocuments);
 
 router.get(
 	"/download/:id",
-	[validateJWT, isDocument, createLog(logType)],
+	[validateJWT, isDocument, createLog(logType, "Se descargo un doucmento")],
 	downloadFile
 );
 

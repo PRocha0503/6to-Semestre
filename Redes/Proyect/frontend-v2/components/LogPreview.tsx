@@ -1,8 +1,19 @@
+import { Method } from "axios";
+import { loadDefaultErrorComponents } from "next/dist/server/load-components";
 import * as React from "react";
 import { ILog } from "types/logs";
 
 interface LogProps{
     log: ILog,
+}
+
+const typeOfEndpoint = (endp: Method) =>{
+    switch(endp){
+        case "GET":
+            return("Acceso");
+        case "POST":
+            return("Subir")
+    }
 }
 
 const LogPreview:React.FC<LogProps> = ({log})=>{
@@ -19,15 +30,27 @@ const LogPreview:React.FC<LogProps> = ({log})=>{
             second: "2-digit"
 		});
 
+        
+
     return(
         <div style={{
-            padding: "1rem"
+            display:"grid",
+            gridTemplateColumns:"120px 120px",
+            columnGap:"1px",
+            margin:"5px"
+
         }}>
-            <div>
+            <div style={{
+                display:"grid"
+            }}>
             {formattedDateTime}
+            <strong style={{color:"blue"}}>{formattedHourTime}</strong>
             </div>
-            <div>
-            <strong>{formattedHourTime}</strong>
+            <div style={{
+                display:"grid"
+            }}>
+            <strong>{log.user.username}</strong>
+            {log.message}
             </div>
         </div>
     )

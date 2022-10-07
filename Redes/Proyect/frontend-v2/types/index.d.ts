@@ -4,8 +4,7 @@ export declare type DocumentQueryKeys = "document" | "documents";
 
 interface IDocument {
     tags: ITag[],
-    _id: number,
-	_id: number;
+    _id: string,
 	title: string;
 	folio: string;
 	expediente: string;

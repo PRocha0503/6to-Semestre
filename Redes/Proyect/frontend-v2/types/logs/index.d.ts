@@ -9,9 +9,14 @@ export enum ILogType {
 }
 
 export interface ILog {
-	type: ILogType;
-	method: Method;
-	endpoint: string;
-	user: IUser;
-	date: string;
+    type: ILogType,
+    method: Method,
+    endpoint: string,
+    user: IUser,
+    date: string,
+    message: string,
+}
+
+export interface IUser{
+    username:string,
 }
