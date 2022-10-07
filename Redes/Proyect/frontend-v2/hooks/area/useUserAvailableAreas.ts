@@ -6,12 +6,14 @@ interface AreaResponse {
 	areas: IArea[];
 }
 
-const fetchUserAvailableAreas = async (id: string): Promise<AreaResponse> => {
-	return (await client.get(`/area/${id}`)).data;
+const fetchUserAvailableAreas = async (
+	userId: string
+): Promise<AreaResponse> => {
+	return (await client.get(`/area/${userId}`)).data;
 };
 
-export default function useUserAvailableAreas(id: string) {
-	return useQuery<AreaResponse, Error>(["get-areas", id], () =>
-		fetchUserAvailableAreas(id)
+export default function useUserAvailableAreas(userId: string) {
+	return useQuery<AreaResponse, Error>(["get-areas", userId], () =>
+		fetchUserAvailableAreas(userId)
 	);
 }

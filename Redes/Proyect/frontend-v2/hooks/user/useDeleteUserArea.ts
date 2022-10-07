@@ -1,7 +1,7 @@
 import { IUser } from "./../../types/user";
 // import { IDocument } from "types";
 import client from "@services/http";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 interface AuthRequest {
 	areaId: string;
@@ -27,5 +27,11 @@ const deleteUserArea = async ({
 };
 
 export default function useDeleteUserArea(req: AuthRequest) {
-	return useMutation<AddUserResponse, Error>(() => deleteUserArea(req), {});
+	const queryClient = useQueryClient();
+	return useMutation<AddUserResponse, Error>(() => deleteUserArea(req), {
+		onSuccess: () => {
+			queryClient.invalidateQueries(["get-areas", req.userId]);
+			queryClient.invalidateQueries(["query-users"]);
+		},
+	});
 }

@@ -46,7 +46,6 @@ const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
 		}
 		if (addAreaToUserIsSuccess) {
 			setToasts([...toasts, { message: "Area añadida", type: "success" }]);
-			window.location.reload();
 		} else if (addAreaToUserIsError) {
 			setToasts([
 				...toasts,

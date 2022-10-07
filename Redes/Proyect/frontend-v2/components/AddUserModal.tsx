@@ -67,7 +67,10 @@ const AddUserModal = ({ open, onClose, addToast }: AddUserModalProps) => {
 					<Button
 						icon="add"
 						className={styles.button}
-						onClick={() => mutate()}
+						onClick={() => {
+							mutate();
+							onClose(false);
+						}}
 						loading={isLoading}
 						intent={Intent.SUCCESS}
 					>

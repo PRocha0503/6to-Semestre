@@ -24,7 +24,6 @@ const MakeAdmin = ({ _id, user }: DeleteUserProps) => {
 					type: "success",
 				},
 			]);
-			window.location.reload();
 		} else if (isError) {
 			setToasts([
 				...toasts,
@@ -63,7 +62,7 @@ const MakeAdmin = ({ _id, user }: DeleteUserProps) => {
 					intent={Intent.PRIMARY}
 					onClick={() => {
 						mutate();
-						window.location.reload();
+						Classes.POPOVER2_DISMISS;
 					}}
 				>
 					Hacer Administrador

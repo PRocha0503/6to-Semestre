@@ -1,7 +1,7 @@
 import { IUser } from "../../types/user";
 // import { IDocument } from "types";
 import client from "@services/http";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 interface AuthRequest {
 	userId: string;
@@ -12,5 +12,10 @@ const deleteUser = async ({ userId }: AuthRequest): Promise<IUser> => {
 };
 
 export default function useDeleteUser(req: AuthRequest) {
-	return useMutation<IUser, Error>(() => deleteUser(req), {});
+	const queryClient = useQueryClient();
+	return useMutation<IUser, Error>(() => deleteUser(req), {
+		onSuccess: () => {
+			queryClient.invalidateQueries(["query-users"]);
+		},
+	});
 }

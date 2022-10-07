@@ -3,10 +3,11 @@ const Tag = require("../models/tag");
 //Function to add a tag to the database
 const addTag = async (req, res) => {
 	try {
-		const { name } = req.body;
+		const { name, color, icon } = req.body;
+		console.log(name, color, icon);
 
 		//Create tag
-		const tag = new Tag({ name });
+		const tag = new Tag({ name, color, icon });
 
 		//Save to db
 		await tag.save();
@@ -44,8 +45,22 @@ const getTags = async (req, res) => {
 		const response = tags.map((tag) => {
 			return { id: tag._id, name: tag.name };
 		});
-		res.status(200).json(response);
+		res.status(200).json(tags);
 	} catch (e) {
+		res.status(500).send({ message: "Internal server error" });
+	}
+};
+
+const deleteTag = async (req, res) => {
+	try {
+		const tag = req.tag;
+		const area = req.area;
+		area.tags = area.tags.filter((t) => t._id != tag._id);
+		await area.save();
+		await tag.remove();
+		res.status(200).json({ message: "Tag deleted" });
+	} catch (e) {
+		console.log(e);
 		res.status(500).send({ message: "Internal server error" });
 	}
 };
@@ -53,4 +68,5 @@ const getTags = async (req, res) => {
 module.exports = {
 	addTag,
 	getTags,
+	deleteTag,
 };

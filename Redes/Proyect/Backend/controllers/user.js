@@ -125,6 +125,24 @@ const makeAdmin = async (req, res) => {
 	}
 };
 
+const getProfile = async (req, res) => {
+	try {
+		const { user } = req;
+		const fullUser = await User.findById(user._id).populate({
+			path: "areas",
+			populate: {
+				path: "tags",
+			},
+		});
+
+		res.json({ user: fullUser });
+	} catch (e) {
+		res.status(400).send({
+			message: e.message,
+		});
+	}
+};
+
 module.exports = {
 	getUsers,
 	addUser,
@@ -132,4 +150,5 @@ module.exports = {
 	removeArea,
 	deleteUser,
 	makeAdmin,
+	getProfile,
 };

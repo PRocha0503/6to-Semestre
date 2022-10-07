@@ -21,7 +21,6 @@ const DeleteUser = ({ _id, user }: DeleteUserProps) => {
 				...toasts,
 				{ message: "Usario eliminado exitosamente", type: "success" },
 			]);
-			window.location.reload();
 		} else if (isError) {
 			setToasts([
 				...toasts,
@@ -55,7 +54,6 @@ const DeleteUser = ({ _id, user }: DeleteUserProps) => {
 					intent={Intent.DANGER}
 					onClick={() => {
 						mutate();
-						window.location.reload();
 					}}
 				>
 					Borrar usuario

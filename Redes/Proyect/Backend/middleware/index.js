@@ -4,6 +4,7 @@ const { isArea } = require("./isArea");
 const { isDocument } = require("./isDocument");
 const { isAdmin } = require("./isAdmin");
 const { userHasAccess } = require("./userHasAccess");
+const { isTag } = require("./isTag");
 
 module.exports = {
 	validateJWT,
@@ -12,4 +13,5 @@ module.exports = {
 	isDocument,
 	isAdmin,
 	userHasAccess,
+	isTag,
 };

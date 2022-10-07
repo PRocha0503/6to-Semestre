@@ -1,7 +1,7 @@
 import { IUser } from "./../../types/user";
 // import { IDocument } from "types";
 import client from "@services/http";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 interface AuthRequest {
 	areaId: string;
@@ -23,5 +23,11 @@ const addUserArea = async ({
 };
 
 export default function useAddUserArea(req: AuthRequest) {
-	return useMutation<AddUserResponse, Error>(() => addUserArea(req), {});
+	const queryClient = useQueryClient();
+	return useMutation<AddUserResponse, Error>(() => addUserArea(req), {
+		onSuccess: () => {
+			queryClient.invalidateQueries(["get-areas", req.userId]);
+			queryClient.invalidateQueries(["query-users"]);
+		},
+	});
 }

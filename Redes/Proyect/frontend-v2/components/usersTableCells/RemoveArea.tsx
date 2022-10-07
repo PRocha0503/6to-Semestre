@@ -46,7 +46,6 @@ const RemoveArea = ({ user, _id }: AreaSelectorProps) => {
 				...toasts,
 				{ message: "Area quitada exitosamente", type: "success" },
 			]);
-			window.location.reload();
 		} else if (deleteAreaToUserIsError) {
 			setToasts([
 				...toasts,
