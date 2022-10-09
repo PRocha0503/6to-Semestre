@@ -71,7 +71,7 @@ const Home: NextPage = () => {
   const { data, isLoading, isError, error } = useQueryDocuments(queryRequest)
   
 
-	const [isModalOpen, setIsModalOpen] = React.useState<boolean>(true);
+	const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
 
 	// javascript creates a ne function every frame so we need to memoize it
 	const handleUpdateURL = useCallback(async () => {

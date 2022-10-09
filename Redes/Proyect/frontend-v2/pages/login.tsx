@@ -42,10 +42,21 @@ const Login: NextPage = () => {
 
 	useEffect(() => {
 		if (isSuccess) {
-			setToast([{ message: "Login success", type: "success" }]);
+			setToast([{ message: "Autenticado Correctamente", type: "success" }]);
 			router.push("/");
 		} else if (isError) {
-			setToast([...toast, { message: error.message, type: "danger" }]);
+			switch (error.code) {
+				case "ERR_BAD_REQUEST":
+				 setToast([
+					{
+						message: "Usuario o contraseña incorrectos",
+						type: "danger",
+					},
+				]);
+				return;
+			default:
+				setToast([...toast, { message: error.message, type: "danger" }]);
+			} 
 		}
 	}, [isSuccess, isError]);
 
@@ -74,6 +85,8 @@ const Login: NextPage = () => {
 								placeholder="usuario"
 								type={"text"}
 								value={username}
+								name="username"
+								data-cy="username"
 								onChange={(e) => setUsername(e.target.value)}
 							/>
 						</div>
@@ -86,11 +99,16 @@ const Login: NextPage = () => {
 								rightElement={lockButton}
 								type={showPassword ? "text" : "password"}
 								value={password}
+								name="password"
+								data-cy="password"
 								onChange={(e) => setPassord(e.target.value)}
 							/>
 						</div>
 
-						<Button icon="log-in" large onClick={loginButton}>
+						<Button icon="log-in" large type="submit" data-cy="login" onClick={(e) => {
+							e.preventDefault();
+							loginButton()
+						}}>
 							Iniciar Sesión
 						</Button>
 					</div>
