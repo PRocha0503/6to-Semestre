@@ -4,7 +4,7 @@ const stream = require("stream");
 const { parseQuery } = require("../utils/parseQuery");
 const { parseBatch } = require("../utils/parseBatch");
 const XLSX = require("xlsx");
-const {v4}  = require("uuid");
+const { v4 } = require("uuid");
 const { db } = require("../models/document");
 
 const MaxSize = 10000000;
@@ -54,6 +54,7 @@ const loadDocument = async (req, res) => {
 		// encrypt file
 
 		document.file = file;
+		document.hasFile = true;
 
 		//Save to db
 		await document.save();
@@ -161,7 +162,7 @@ const queryDocuments = async (req, res) => {
 		if (req.query.query === undefined || req.query.query === "") {
 			console.log("No query");
 			const documents = await Document.find(
-				{ area: { $ne: null , $in: [...req.user.areas] } },
+				{ area: { $ne: null, $in: [...req.user.areas] } },
 				"-file"
 			).populate("createdBy");
 			res.json({ documents });
@@ -173,11 +174,11 @@ const queryDocuments = async (req, res) => {
 
 		const parsedQueries = parseQuery(req.query.query);
 
-		console.log(req.user.areas)
+		console.log(req.user.areas);
 		// add validations for each query
 		const documents = await Document.find(
 			{
-				area: { $ne: null,  $in: [...req.user.areas] },
+				area: { $ne: null, $in: [...req.user.areas] },
 				$and: parsedQueries.map((query) => {
 					return {
 						[query.key]: {
@@ -210,8 +211,8 @@ const getLogs = async (req, res) => {
 		const doc = await req.doc.populate({
 			path: "logs",
 			populate: {
-				path:"user"
-			}
+				path: "user",
+			},
 		});
 		res.json({ logs: doc.logs });
 	} catch (e) {
@@ -233,7 +234,7 @@ const batchDocuments = async (req, res) => {
 		let { file } = req.files;
 		file = file.data;
 		const size = file.length; //In bytes
-		
+
 		if (size > MaxSize) {
 			res.status(400).json({ message: "File size too large" });
 			return;
@@ -243,12 +244,12 @@ const batchDocuments = async (req, res) => {
 
 		if (sheet_name_list.length === 0) {
 			res.status(400).json({ message: "No sheets found" });
-			return
+			return;
 		}
 
 		if (sheet_name_list.length > 1) {
 			res.status(400).json({ message: "Only one sheet allowed" });
-			return
+			return;
 		}
 
 		const sheet = workbook.Sheets[sheet_name_list[0]];
@@ -258,7 +259,7 @@ const batchDocuments = async (req, res) => {
 			area: req.user.areas[0] || null,
 			name: sheet_name_list[0],
 			size: size,
-		})
+		});
 
 		// validate json
 		const documents = parseBatch(sheet, batch._id, {
@@ -274,23 +275,28 @@ const batchDocuments = async (req, res) => {
 
 		// error boundary for batch save
 		try {
-			const r = await Document.insertMany(documents,{ordered:false, writeConcern: { w: 1 }});
-			await batch.updateOne({status: "success", items: r.length});
-			res.json({ message: "Document uploaded successfully", batchId: batch._id });
-			return 
-
+			const r = await Document.insertMany(documents, {
+				ordered: false,
+				writeConcern: { w: 1 },
+			});
+			await batch.updateOne({ status: "success", items: r.length });
+			res.json({
+				message: "Document uploaded successfully",
+				batchId: batch._id,
+			});
+			return;
 		} catch (e) {
 			// rollback documents in batch
 			await Document.deleteMany({ batchId: batch._id });
 			console.log(e);
-			res.status(400).json({ message: `Batch write failed due to invalid documents` });
+			res
+				.status(400)
+				.json({ message: `Batch write failed due to invalid documents` });
 			// update batch status
 			await batch.updateOne({ status: "failed" });
 			return;
 		}
-	}
-
-	catch(e) {
+	} catch (e) {
 		console.log(e.message);
 		res.status(500).send({
 			message: "Internal server error",
@@ -301,7 +307,7 @@ const batchDocuments = async (req, res) => {
 const getBatches = async (req, res) => {
 	try {
 		console.log(req.user.areas);
-		const batches = await Batch.find({area: { $in: [...req.user.areas] }});
+		const batches = await Batch.find({ area: { $in: [...req.user.areas] } });
 		res.json({ batches });
 	} catch (e) {
 		console.log(e.message);
@@ -357,5 +363,5 @@ module.exports = {
 	getLogs,
 	batchDocuments,
 	getBatches,
-	rollBackBatch
+	rollBackBatch,
 };

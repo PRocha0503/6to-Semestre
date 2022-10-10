@@ -13,6 +13,7 @@ interface IDocument {
 	area: string;
 	logs: string[];
 	meta: any;
+	hasFile: boolean;
 }
 
 export declare interface ITag {
