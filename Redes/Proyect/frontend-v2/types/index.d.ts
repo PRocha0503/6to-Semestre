@@ -12,6 +12,7 @@ interface IDocument {
 	createdBy: string;
 	area: string;
 	logs: string[];
+	meta: any;
 }
 
 export declare interface ITag {

@@ -163,6 +163,7 @@ const Home: NextPage = () => {
 			{getTableData()}
 			<UploadModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 			<LogsWindow document={logDocument} onClose={() => setIsOpen(false)} isOpen={isOpen} />
+			
 		</div>
 	);
 };
