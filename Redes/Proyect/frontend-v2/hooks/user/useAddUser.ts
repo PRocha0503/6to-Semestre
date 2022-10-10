@@ -1,6 +1,6 @@
 // import { IDocument } from "types";
 import client from "@services/http";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 interface AuthRequest {
 	username: string;
@@ -24,5 +24,10 @@ const addUser = async ({
 };
 
 export default function useAddUser(req: AuthRequest) {
-	return useMutation<AddUserResponse, Error>(() => addUser(req), {});
+	const queryClient = useQueryClient();
+	return useMutation<AddUserResponse, Error>(() => addUser(req), {
+		onSuccess: () => {
+			queryClient.invalidateQueries(["query-users"]);
+		},
+	});
 }

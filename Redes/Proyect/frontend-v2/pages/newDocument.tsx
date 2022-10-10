@@ -1,28 +1,53 @@
-import { NextPage } from "next";
 import {
-	Button,
-	H5,
-	Icon,
-	IconSize,
-	InputGroup,
-	FileInput,
-	Intent,
-	Menu,
-	MenuItem,
-	Spinner,
-	Switch,
-	Tag,
-	Label,
 	AnchorButton,
+	FileInput,
+	Icon,
+	InputGroup,
+	Label,
 } from "@blueprintjs/core";
-
 import { DateInput } from "@blueprintjs/datetime";
+import Notifications from "@components/Notifications";
+import useCreateDocument, { CreateDocumentRequest } from "@hooks/document/useCreateDocument";
+import { useUser } from "@hooks/user";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 
 import styles from "../styles/newDocument.module.css";
 
 const NewDocument: NextPage = () => {
+
+	const [title, setTitle] = useState("");
+	const [date, setDate] = useState<Date>(new Date());
+	const [file, setFile] = useState<File | null>(null);
+	const [expediente, setExpediente] = useState("");
+	const [folio, setFolio] = useState("");
+
+	const user = useUser()
+
+	const [ request, setRequest ] = useState<CreateDocumentRequest>({
+		title: "",
+		folio : "",
+		expediente : "",
+		area: user?.areas?.[0] || "",
+		onSuccess: () => router.push("/"),
+		onError: () => setToasts([...toasts, { message: "Error subiendo documento", type: "danger" }]),
+	});
+
+	const { mutate } = useCreateDocument(request)
+	
+	const router = useRouter();
+	
+	const uploadDocument = async () => {
+		mutate();
+	}
+
+	const [toasts, setToasts] = useState<any>([]);
+
 	return (
+		<>
+		<Notifications toast={toasts} setToast={setToasts} />
 		<div className={styles.center}>
 			<div className={styles.textInputs}>
 				<h1 className="bp4-heading">Subir Archivo	</h1>
@@ -34,6 +59,10 @@ const NewDocument: NextPage = () => {
 						disabled={false} 
 						text="Escoger archivo..."  
 						typeof="file.pdf"
+						onInputChange={(e) => {
+							setFile(e.target.files[0]);
+						}}
+						
 					/>
 				</div>
 
@@ -43,11 +72,14 @@ const NewDocument: NextPage = () => {
 					fill={false}
 					type="text"
 					leftElement={<Icon icon="document" />}
-					// onChange={this.handleTagChange}
 					placeholder="Titulo*"
-					// rightElement={resultsTag}
-					// small={true}
-					// value={tagValue}
+					value={request.title}
+					onChange={(e) => {
+						setRequest({
+							...request,
+							title: e.target.value
+						})
+					}}
 				/>
 				</div>
 
@@ -57,11 +89,14 @@ const NewDocument: NextPage = () => {
 					fill={false}
 					type="text"
 					leftElement={<Icon icon="folder-close" />}
-					// onChange={this.handleTagChange}
 					placeholder="Expediente*"
-					// rightElement={resultsTag}
-					// small={true}
-					// value={tagValue}
+					value={request.expediente}
+					onChange={(e) => {
+						setRequest({
+							...request,
+							expediente: e.target.value
+						})
+					}}
 				/>
 				</div>
 
@@ -71,6 +106,13 @@ const NewDocument: NextPage = () => {
 					type="folio"
 					leftElement={<Icon icon="numerical" />}
 					placeholder="Folio*"
+					value={request.folio}
+					onChange={(e) => {
+						setRequest({
+							...request,
+							folio: e.target.value
+						})
+					}}
 				/>
 				</div>
 
@@ -84,6 +126,14 @@ const NewDocument: NextPage = () => {
     				formatDate={date => date.toLocaleString()}
 					todayButtonText="Hoy"
     				parseDate={str => new Date(str)}
+					value={request.createdAt}
+					onChange={(date : Date | null, userChaned: boolean) => {
+							setRequest({
+								...request,
+								createdAt: date || new Date()
+							})
+					}}
+					
 				/>
 
 				</div>
@@ -103,10 +153,12 @@ const NewDocument: NextPage = () => {
 					rightIcon="upload"
 					fill = {true}
 					intent = "primary"
+					onClick={uploadDocument}
 				/>
 				</div>
 			</div>
 		</div>
+		</>
 	);
 };
 

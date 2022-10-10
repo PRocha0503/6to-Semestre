@@ -34,7 +34,8 @@ const CustomNavBar = () => {
 						<Button
 							className="bp4-minimal"
 							icon="log-out"
-							text="Logout"
+							data-cy="logout"
+							text="Cerrar Sesión"
 							onClick={logout}
 						/>
 					</Navbar.Group>

@@ -58,6 +58,9 @@ class Server {
 		this.app.use(this.paths.docs, require("../routes/document"));
 		this.app.use(this.paths.tag, require("../routes/tag"));
 		this.app.use(this.paths.area, require("../routes/area"));
+		if (process.env.MODE === "dev") {
+			this.app.use("/api/seed", require("../routes/seed"));
+		}
 	}
 
 	listen() {

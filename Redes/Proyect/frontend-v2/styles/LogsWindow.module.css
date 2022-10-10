@@ -1,0 +1,26 @@
+.Table > :nth-child(2n+1) {
+    background-color: #f0f0f0;
+}
+
+.Table > :nth-child(2n) {
+    background-color: #e0e0e0;
+}
+
+.Table > :nth-child(1) {
+    background-color: #d0d0d0;  
+    border-radius: 5px 5px 0 0;
+}
+
+.Table > :last-child {
+    border-radius: 0 0 5px 5px;
+}
+
+.TableHeader {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 10px;
+    font-weight: 600;
+    color: black;
+    text-align: center;
+    font-size: 1.2em;
+}

@@ -1,5 +1,6 @@
 // import { IDocument } from "types";
 import client from "@services/http";
+import { AxiosError } from "axios";
 import { useMutation } from "react-query";
 
 interface AuthRequest {
@@ -20,5 +21,5 @@ const login = async ({
 };
 
 export default function useLogin(req: AuthRequest) {
-	return useMutation<AuthResponse, Error>(() => login(req));
+	return useMutation<AuthResponse, AxiosError>(() => login(req));
 }

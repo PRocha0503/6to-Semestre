@@ -18,10 +18,11 @@
 		"paths": {
 			"@hooks/*": ["hooks/*"],
 			"@components/*": ["components/*"],
-			"@services/*": ["services/*"]
+			"@services/*": ["services/*"],
+			"@styles/*": ["styles/*"],
 		},
 		"typeRoots": ["./node_modules/@types", "./src/types/", "./src/types/user"]
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules","cypress.config.ts", "**/*.spec.ts"]
 }

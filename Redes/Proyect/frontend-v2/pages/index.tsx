@@ -1,5 +1,5 @@
 import { Button, Card, NonIdealState } from "@blueprintjs/core";
-import React, { useCallback, useEffect } from "react";
+import React, {useCallback, useEffect } from "react";
 import useQueryDocuments, {
 	QueryDocumentRequest,
 } from "@hooks/document/useQueryDocuments";
@@ -71,7 +71,7 @@ const Home: NextPage = () => {
   const { data, isLoading, isError, error } = useQueryDocuments(queryRequest)
   
 
-	const [isModalOpen, setIsModalOpen] = React.useState<boolean>(true);
+	const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
 
 	// javascript creates a ne function every frame so we need to memoize it
 	const handleUpdateURL = useCallback(async () => {
@@ -153,8 +153,12 @@ const Home: NextPage = () => {
 			
 			<div>
 				{/* temporary while we decide how to organize the view */}
-				<Button onClick={() => setIsModalOpen(true)} icon={"upload"}>Subir Excel</Button>
-				<Button onClick={() => setIsModalOpen(true)} icon={"add"}>Agregar Registro</Button>
+				<Button onClick={() => setIsModalOpen(true)} icon={"panel-table"}>Subir Excel</Button>
+				<Button
+					text={"Agregar Registro"}
+					icon={"add"}
+					onClick={() => router.push("/newDocument")}
+				/>
 			</div>
 			{getTableData()}
 			<UploadModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

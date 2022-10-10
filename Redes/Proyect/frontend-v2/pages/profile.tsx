@@ -1,97 +1,132 @@
 import { useEffect, useState, useMemo } from "react";
 import { useUser } from "@hooks/user";
 
-import { Button, InputGroup, Card, NonIdealState } from "@blueprintjs/core";
+import {
+	Button,
+	InputGroup,
+	Card,
+	NonIdealState,
+	Icon,
+	Intent,
+} from "@blueprintjs/core";
 
-import useAddUser from "@hooks/user/useAddUser";
 import useGetUsers from "@hooks/user/useGetUsers";
 import Notifications from "@components/Notifications";
+import AddUserModal from "@components/AddUserModal";
 import { UsersTable } from "@components/UsersTable";
+import useGetProfile from "@hooks/user/useGetProfile";
+import { CustomTag } from "@components/CustomTag";
+import AddLabelModal from "@components/AddLabelModal";
 
 const Profile = () => {
 	const user = useUser();
 	const isAdmin = user!.isAdmin;
-	const [newUsername, setNewUsername] = useState<string>("");
-	const [newPassword, setNewPassword] = useState<string>("");
+	const [addUserModalOpen, setAddUserModalOpen] = useState<boolean>(false);
 	const [toasts, setToasts] = useState<any>([]);
-	const { mutate, isError, isLoading, isSuccess, error } = useAddUser({
-		username: newUsername,
-		password: newPassword,
-	});
+	const [addLabelArea, setAddLabelArea] = useState<string>("");
 	// fetch tags from area
 	const {
-		data: data,
+		data,
 		isLoading: userLoading,
 		isError: userisError,
 		error: userError,
 	} = useGetUsers();
-	const [sortedIndexMap, setSortedIndexMap] = useState<number[]>([]);
+
+	const {
+		data: profile,
+		isLoading: profileLoading,
+		isError: profileError,
+	} = useGetProfile();
+
+	const addToast = (message: string, type: string) => {
+		setToasts([...toasts, { message, type }]);
+	};
 
 	useEffect(() => {
-		if (isSuccess) {
-			console.log("CORRECT");
-			setToasts([...toasts, { message: "Usuario añadido", type: "sucess" }]);
-		} else if (isError) {
-			console.log(error);
-			setToasts([
-				...toasts,
-				{ message: "El usuario no pudo ser añadido", type: "danger" },
-			]);
-		}
 		if (userisError && isAdmin) {
-			setToasts([
-				...toasts,
-				{ message: "No se pudo cargar los usuarios", type: "danger" },
-			]);
+			addToast("Error al cargar los usuarios", "danger");
 		}
-	}, [isSuccess, isError, userisError]);
-	const getTableData = () => {
-		if (isError) {
-			return <NonIdealState title="Error" description={error.message} />;
+		if (profileError) {
+			addToast("Error al cargar el perfil", "danger");
 		}
+	}, [userisError]);
 
+	const getTableData = () => {
 		if (!data || data?.users?.length === 0) {
 			return <NonIdealState title="No documents found" />;
 		}
-		console.log(data.users);
-
 		return <UsersTable users={data.users} loading={userLoading} />;
 	};
+	if (profileLoading || !profile) {
+		return <div>Loading...</div>;
+	}
 	return (
 		<Card>
 			<Notifications toast={toasts} setToast={setToasts} />
 			<h1 className="bp4-heading">{user?.username}</h1>
 			<h5 className="bp4-heading">Areas</h5>
-			{user?.areas.map((area) => {
-				return <p>{area}</p>;
+			{profile.areas.map((area) => {
+				return (
+					<div style={{ marginBottom: "1rem" }}>
+						<p>{area.name}</p>
+						<div
+							style={{
+								display: "flex",
+								width: "100%",
+								marginBottom: "5px",
+							}}
+						>
+							{area.tags.map((tag, i) => {
+								console.log(tag);
+								if (i < 10) {
+									return (
+										<>
+											<CustomTag
+												tag={tag}
+												addToast={addToast}
+												areaName={area.name}
+											/>
+										</>
+									);
+								}
+								if (i === 10) {
+									return <Icon icon="more" />;
+								}
+								return null;
+							})}
+						</div>
+						<Button
+							icon="plus"
+							small
+							minimal
+							onClick={() => setAddLabelArea(area.name)}
+						/>
+					</div>
+				);
 			})}
 			{isAdmin ? (
 				<>
 					<h1>Admin</h1>
-					<InputGroup
-						large
-						placeholder="New username"
-						leftIcon="user"
-						type={"text"}
-						value={newUsername}
-						onChange={(e) => setNewUsername(e.target.value)}
-					/>
-					<InputGroup
-						large
-						placeholder="Username password"
-						leftIcon="lock"
-						type={"text"}
-						value={newPassword}
-						onChange={(e) => setNewPassword(e.target.value)}
-					/>
-					<Button icon="add" onClick={() => mutate()} loading={isLoading}>
-						Add User
+					<Button icon="new-person" onClick={() => setAddUserModalOpen(true)}>
+						Añadir usuario
 					</Button>
+
 					{getTableData()}
 				</>
 			) : (
 				<></>
 			)}
+			<AddUserModal
+				open={addUserModalOpen}
+				onClose={setAddUserModalOpen}
+				addToast={addToast}
+			/>
+			<AddLabelModal
+				open={addLabelArea != ""}
+				areaName={addLabelArea}
+				addToast={addToast}
+				onClose={() => setAddLabelArea("")}
+			/>
 		</Card>
 	);
 };
