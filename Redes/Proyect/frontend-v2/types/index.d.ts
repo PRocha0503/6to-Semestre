@@ -12,6 +12,7 @@ interface IDocument {
 	createdBy: string;
 	area: string;
 	logs: string[];
+	hasFile: boolean;
 }
 
 export declare interface ITag {

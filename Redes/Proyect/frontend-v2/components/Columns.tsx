@@ -6,6 +6,7 @@ import {
 	Menu,
 	MenuItem,
 } from "@blueprintjs/core";
+import { BlueprintIcons_16Id } from "@blueprintjs/icons/lib/esm/generated/16px/blueprint-icons-16";
 import {
 	Cell,
 	Column,
@@ -213,10 +214,28 @@ export class SortableColumnDate<T> extends BaseSortableColumn<T, Date> {
 }
 
 class SortableColumnButton<T> extends SortableColumnString<T> {
-	context!: Context<T> & { onClick?: (item: T) => void };
-	constructor(context: Context<T> & { onClick?: (item: T) => void }) {
+	context!: Context<T> & {
+		onClick?: (item: T) => void;
+		icon?: BlueprintIcons_16Id;
+		text?: string;
+		color?: string;
+		disabled?: (item: T) => boolean;
+	};
+	constructor(
+		context: Context<T> & {
+			onClick?: (item: T) => void;
+			icon: BlueprintIcons_16Id;
+			text?: string;
+			color?: string;
+			disabled?: (item: T) => boolean;
+		}
+	) {
 		super(context);
 		context.onClick = context.onClick?.bind(this);
+		context.icon = context.icon;
+		context.text = context.text;
+		context.color = context.color;
+		context.disabled = context.disabled?.bind(this);
 	}
 
 	renderCell(data: string | undefined, rowIndex: number): JSX.Element {
@@ -233,15 +252,17 @@ class SortableColumnButton<T> extends SortableColumnString<T> {
 						fontWeight: "bold",
 						fontSize: "12px",
 						padding: "0px",
+						backgroundColor: this.context.color,
 					}}
 					onClick={() => {
 						this.context.onClick?.(this.context.data[rowIndex]);
 					}}
 					intent={Intent.WARNING}
 					className={Classes.INPUT_GHOST}
-					rightIcon={"menu-open"}
+					rightIcon={this.context.icon}
+					disabled={this.context.disabled?.(this.context.data[rowIndex])}
 				>
-					Open
+					{this.context.text}
 				</Button>
 			</Cell>
 		) : (
@@ -277,6 +298,10 @@ export const CTypeList: CType = "list";
 export const CTypeCustom: CType = "custom";
 
 type GCBase<T> = {
+	disabled?: (item: T) => boolean;
+	color?: string;
+	text?: string;
+	icon?: BlueprintIcons_16Id;
 	key: keyof T;
 	name: string;
 	type: CType;
@@ -325,6 +350,10 @@ export function generateColumns<T>(
 					key: column.key,
 					name: column.name,
 					onClick: column?.onClick,
+					icon: column?.icon,
+					text: column?.text,
+					color: column?.color,
+					disabled: column?.disabled,
 				});
 			case CTypeList:
 				return new SortableColumnList<T>({

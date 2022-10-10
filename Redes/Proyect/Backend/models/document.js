@@ -48,6 +48,10 @@ const DocumentSchema = Schema({
 			ref: "Log",
 		},
 	],
+	hasFile: {
+		type: Boolean,
+		default: false,
+	},
 	metadata: {
 		type: Object,
 	},
