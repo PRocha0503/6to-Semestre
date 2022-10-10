@@ -16,7 +16,7 @@ const validateJWT = async (req = request, res = response, next) => {
 		const user = await User.findById(uid);
 		if (!user) {
 			return res.status(401).json({
-				msg: "INVALID TOKEN",
+				msg: "TOKEN INVALIDO",
 			});
 		}
 		req.user = user;
@@ -24,7 +24,7 @@ const validateJWT = async (req = request, res = response, next) => {
 	} catch (err) {
 		console.log(err);
 		return res.status(401).json({
-			msg: "INVALID TOKEN",
+			msg: "TOKEN INVALIDO",
 		});
 	}
 };
