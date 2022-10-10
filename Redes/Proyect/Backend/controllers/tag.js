@@ -26,7 +26,7 @@ const addTag = async (req, res) => {
 		switch (e.code) {
 			case 11000:
 				res.status(400).send({
-					message: "Tag already exists",
+					message: "Tag ya existe",
 				});
 				break;
 			default:
