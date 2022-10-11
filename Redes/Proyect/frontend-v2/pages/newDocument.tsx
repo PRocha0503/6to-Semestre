@@ -7,10 +7,17 @@ import {
 } from "@blueprintjs/core";
 import { DateInput } from "@blueprintjs/datetime";
 import Notifications from "@components/Notifications";
+import { ITag, ITagForm } from "types";
+import useTags from "@hooks/tags/useTags";
+import useQueryDocuments, {
+	QueryDocumentRequest,
+} from "@hooks/document/useQueryDocuments";
 import useCreateDocument, { CreateDocumentRequest } from "@hooks/document/useCreateDocument";
 import { useUser } from "@hooks/user";
 import { NextPage } from "next";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
+import { TagSelector } from "@components/TagSelect";
 import { useState } from "react";
 
 
@@ -24,16 +31,41 @@ const NewDocument: NextPage = () => {
 	const [expediente, setExpediente] = useState("");
 	const [folio, setFolio] = useState("");
 
+	const [menuTags, setMenuTags] = React.useState<ITagForm[]>([]);
 	const user = useUser()
+
+	//fetch tags from area
+	const { data, isLoading, isError, error } = useTags(
+		user!._id ? user!._id : ""
+	);
+
+	// transform tags to ITagForm
+	useEffect(() => {
+		const mappedTags: ITagForm[] =
+			data?.tags.map((tag: ITag) => {
+				return {
+					name: tag.name,
+					// icon: "area-of-interest", // TODO: get icon from tag
+				};
+			}) || [];
+
+		setMenuTags(mappedTags);
+	}, [data]);
 
 	const [ request, setRequest ] = useState<CreateDocumentRequest>({
 		title: "",
 		folio : "",
+		tags: [],
 		expediente : "",
 		area: user?.areas?.[0] || "",
 		onSuccess: () => router.push("/"),
 		onError: () => setToasts([...toasts, { message: "Error subiendo documento", type: "danger" }]),
 	});
+
+	const [queryRequest, setQueryRequest] = React.useState<QueryDocumentRequest>({
+		queries: [],
+		tags: [],
+	  })
 
 	const { mutate } = useCreateDocument(request)
 	
@@ -57,7 +89,7 @@ const NewDocument: NextPage = () => {
 					<FileInput
 						fill = {true}
 						disabled={false} 
-						text="Escoger archivo..."  
+						text="Escoger archivo*..."  
 						typeof="file.pdf"
 						onInputChange={(e) => {
 							setFile(e.target.files[0]);
@@ -138,14 +170,20 @@ const NewDocument: NextPage = () => {
 
 				</div>
 
-				<div className={styles.textInput}>
+				{/* <div className={styles.textInput}>
 				<InputGroup
 					large={true}
 					type="text"
 					leftElement={<Icon icon="tag" />}
 					placeholder="Etiquetas*"
 				/>
-				</div>
+				</div> */}
+
+				<TagSelector
+					tags={menuTags}
+					selectedTags={queryRequest.tags}
+					onChangeSelectedTags={(tags: ITagForm[]) => {void 0}}
+				/>
 
 				<div className={styles.textInput}>
 				<AnchorButton 
