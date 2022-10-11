@@ -4,12 +4,12 @@ import { useQuery } from "react-query";
 
 //TODO make correct
 
-const downloadDocument = async (id: string): Promise<IDocument> => {
-	return client.get(`/docs/${id}`);
+const downloadDocument = async (id: string): Promise<any> => {
+	return client.get(`/docs/download/${id}`);
 };
 
-export default function useDocument(id: string) {
-	return useQuery<IDocument, Error>("query-document-by-id", () =>
+export default function useDownloadDocument(id: string) {
+	return useQuery<any, Error>(["get-download-document", id], () =>
 		downloadDocument(id)
 	);
 }

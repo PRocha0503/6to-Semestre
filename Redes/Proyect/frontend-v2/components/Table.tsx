@@ -9,6 +9,8 @@ import { RenderMode, Table2, TableLoadingOption } from "@blueprintjs/table";
 import { IDocument } from "types";
 import UploadFile from "./UploadFileModal";
 import UploadFileModal from "./UploadFileModal";
+import useDownloadDocument from "@hooks/document/useDownloadDocument";
+import axios from "axios";
 
 interface TableProps {
 	documents: IDocument[];
@@ -25,6 +27,7 @@ export const Table = ({
 }: TableProps) => {
 	const [sortedIndexMap, setSortedIndexMap] = React.useState<number[]>([]);
 	const [uploadFile, setUploadFile] = React.useState<number | null>(null);
+
 	const renderColumns = useMemo(() => {
 		console.log("rendering columns");
 		function test(el: any) {
@@ -57,10 +60,26 @@ export const Table = ({
 					name: "Descargar",
 					key: "_id",
 					type: CTypeButton,
-					onClick: () => {},
+					onClick: async (el) => {
+						const { data } = await axios.get(
+							"http://localhost:8090/api/docs/download/" + el._id,
+							{
+								withCredentials: true,
+								responseType: "blob",
+							}
+						);
+						let blob = new Blob([data], { type: "application/pdf" }),
+							url = window.URL.createObjectURL(blob);
+
+						window.open(url);
+					},
 					icon: "download",
 					text: "",
 					color: "none",
+					disabled: (item: IDocument) => {
+						console.log(item.hasFile);
+						return !item.hasFile;
+					},
 				},
 				{
 					name: "Subir Documento",
@@ -70,6 +89,7 @@ export const Table = ({
 					icon: "upload",
 					text: "",
 					color: "green",
+					disabled: (item: IDocument) => item.hasFile,
 				},
 				{
 					name: "Detalles",
@@ -117,11 +137,11 @@ export const Table = ({
 			>
 				{renderColumns.map((column) => column.getColumn())}
 			</Table2>
-			{/* <UploadFileModal
+			<UploadFileModal
 				_id={uploadFile}
 				onClose={setUploadFile}
 				addToast={() => {}}
-			/> */}
+			/>
 		</>
 	);
 };

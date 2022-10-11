@@ -3,20 +3,20 @@ import client from "@services/http";
 import { useQuery } from "react-query";
 
 interface ITagResponse {
-    tags: ITag[];
+	tags: ITag[];
 }
 
-const fetchTags = async (area: string): Promise<ITagResponse> => {
-    return (await client.get(`/tag/${area}`)).data;
+const fetchTags = async (id: string): Promise<ITagResponse> => {
+	return (await client.get(`/tag/${id}`)).data;
 };
 
 export default function useTags(area: string) {
-    return useQuery<ITagResponse, Error>(
-        ["get-tags", area], () => fetchTags(area),
-        {
-            retry: false,
-            staleTime: 20000, // only eligible to refetch after 20 seconds
-        }
-    )
-
+	return useQuery<ITagResponse, Error>(
+		["get-tags", area],
+		() => fetchTags(area),
+		{
+			retry: false,
+			staleTime: 20000, // only eligible to refetch after 20 seconds
+		}
+	);
 }

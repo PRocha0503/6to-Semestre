@@ -6,7 +6,7 @@ const { validateJWT, isArea, isTag } = require("../middleware");
 const router = Router();
 
 router.post("/:area", [validateJWT, isArea], addTag);
-router.get("/:area", [validateJWT, isArea], getTags);
+router.get("/:userID", [validateJWT], getTags);
 router.delete("/:area/:tagId", [validateJWT, isTag, isArea], deleteTag);
 
 module.exports = router;
