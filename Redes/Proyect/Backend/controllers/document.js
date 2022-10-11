@@ -43,6 +43,7 @@ const loadDocument = async (req, res) => {
 	try {
 		//Get file and details
 		let { file } = req.files;
+		console.log("FILE", file);
 		file = file.data;
 		const size = file.length; //In bytes
 
@@ -63,6 +64,7 @@ const loadDocument = async (req, res) => {
 			title: document.title,
 		});
 	} catch (e) {
+		console.log(e);
 		switch (e.code) {
 			case 11000:
 				res.status(400).json({ message: "Document already exists" });

@@ -1,4 +1,5 @@
 const Tag = require("../models/tag");
+const Area = require("../models/area");
 
 //Function to add a tag to the database
 const addTag = async (req, res) => {
@@ -39,14 +40,19 @@ const addTag = async (req, res) => {
 // Function to get all tags
 const getTags = async (req, res) => {
 	try {
-		const area = req.area;
-		const tags = area.tags;
-		console.log(tags);
-		const response = tags.map((tag) => {
-			return { id: tag._id, name: tag.name };
+		const user = req.user;
+		const areas = await Area.find({
+			_id: { $in: user.areas },
+		}).populate("tags");
+		const tags = [];
+		areas.forEach((area) => {
+			area.tags.forEach((tag) => {
+				tags.push(tag);
+			});
 		});
-		res.status(200).json(tags);
+		res.status(200).json({ tags });
 	} catch (e) {
+		console.log(e);
 		res.status(500).send({ message: "Internal server error" });
 	}
 };
