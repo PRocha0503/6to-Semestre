@@ -50,7 +50,7 @@ export const Table = ({
 					onClick: test,
 					icon: "menu-open",
 					text: "",
-					color: "blue",
+					color: "#FFB3B3",
 				},
 				{
 					name: "Descargar",
@@ -71,7 +71,7 @@ export const Table = ({
 					},
 					icon: "download",
 					text: "",
-					color: "none",
+					color: "#FFDBA4",
 					disabled: (item: IDocument) => {
 						console.log(item.hasFile);
 						return !item.hasFile;
@@ -84,7 +84,7 @@ export const Table = ({
 					onClick: ({ _id }) => setUploadFile(_id),
 					icon: "upload",
 					text: "",
-					color: "green",
+					color: "#C1EFFF",
 					disabled: (item: IDocument) => item.hasFile,
 				},
 			]
