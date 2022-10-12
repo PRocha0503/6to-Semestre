@@ -1,5 +1,6 @@
 import { Tag } from "@blueprintjs/core";
 import { Method } from "axios";
+import { isArrayLike } from "cypress/types/lodash";
 import { loadDefaultErrorComponents } from "next/dist/server/load-components";
 import * as React from "react";
 import { IDocument } from "types";
@@ -42,6 +43,10 @@ const DocPreview:React.FC<DocProps> = ({doc}) =>{
                 <div className={styles.item}>
                 <span className={styles.title}>Hora de Creación:</span> 
                 <span>{formattedHourTime}</span>
+                </div>
+                <div className={styles.item}>
+                <span className={styles.title}>Area:</span>
+                <span>{doc.area}</span>
                 </div>
                 <div className={styles.item}>
                 <span className={styles.title}>Expediente:</span>
