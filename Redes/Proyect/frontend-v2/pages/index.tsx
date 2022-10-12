@@ -12,6 +12,7 @@ import { Table } from "@components/Table";
 import UploadModal from "@components/upload/UploadModal";
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
+import DocWindow from "@components/DocWindow";
 
 
 const operators = [
@@ -57,8 +58,12 @@ const Home: NextPage = () => {
 	// const [isOpen, setIsOpen] = React.useState;
 	const onClose = () => { };
 	const [isOpen, setIsOpen] = React.useState<boolean>(false);
+	const [isOpen2, setIsOpen2] = React.useState<boolean>(false);
 	const router = useRouter();
 	const [logDocument, setLogDocument] = React.useState<Partial<IDocument>>({
+		title: "hello",
+	});
+	const [details, setDetails] = React.useState<IDocument>({
 		title: "hello",
 	});
 
@@ -116,6 +121,10 @@ const Home: NextPage = () => {
 			console.log(it)
 			setLogDocument(it)
 			setIsOpen(true)
+		}} onDetOpen={(it) =>{
+			console.log(it)
+			setDetails(it)
+			setIsOpen2(true)
 		}} documents={data.documents} loading={isLoading} />;
 	};
 
@@ -163,6 +172,7 @@ const Home: NextPage = () => {
 			{getTableData()}
 			<UploadModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 			<LogsWindow document={logDocument} onClose={() => setIsOpen(false)} isOpen={isOpen} />
+			<DocWindow document={details} onClose={() => setIsOpen2(false)} isOpen={isOpen2}/>
 		</div>
 	);
 };

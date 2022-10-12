@@ -16,12 +16,14 @@ interface TableProps {
 	documents: IDocument[];
 	loading?: boolean;
 	onLogOpen?: (document: IDocument) => void;
+	onDetOpen?: (document: IDocument) => void;
 }
 
 export const Table = ({
 	documents,
 	loading = false,
 	onLogOpen,
+	onDetOpen
 }: TableProps) => {
 	const [sortedIndexMap, setSortedIndexMap] = React.useState<number[]>([]);
 	const [uploadFile, setUploadFile] = React.useState<number | null>(null);
@@ -31,7 +33,9 @@ export const Table = ({
 		function test(el: any) {
 			onLogOpen?.(el);
 		}
-
+		function openDatails(el:any) {
+			onDetOpen?.(el);
+		}
 		return generateColumns(
 			{
 				data: documents,
@@ -86,6 +90,15 @@ export const Table = ({
 					text: "",
 					color: "#C1EFFF",
 					disabled: (item: IDocument) => item.hasFile,
+				},
+				{
+					name: "Detalles",
+					key: "_id",
+					type: CTypeButton,
+					onClick: openDatails,
+					icon:"send-to",
+					text: "",
+					color: "grey",
 				},
 			]
 		);
