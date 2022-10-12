@@ -1,5 +1,5 @@
 import { Button, Card, NonIdealState } from "@blueprintjs/core";
-import React, {useCallback, useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import useQueryDocuments, {
 	QueryDocumentRequest,
 } from "@hooks/document/useQueryDocuments";
@@ -12,7 +12,6 @@ import { Table } from "@components/Table";
 import UploadModal from "@components/upload/UploadModal";
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
-
 
 const operators = [
 	"eq",
@@ -55,21 +54,19 @@ const parseQueries = (query: string): Query[] => {
 
 const Home: NextPage = () => {
 	// const [isOpen, setIsOpen] = React.useState;
-	const onClose = () => { };
+	const onClose = () => {};
 	const [isOpen, setIsOpen] = React.useState<boolean>(false);
 	const router = useRouter();
 	const [logDocument, setLogDocument] = React.useState<Partial<IDocument>>({
 		title: "hello",
 	});
 
-  
-  const [queryRequest, setQueryRequest] = React.useState<QueryDocumentRequest>({
-    queries: [],
-    tags: [],
-  })
-      
-  const { data, isLoading, isError, error } = useQueryDocuments(queryRequest)
-  
+	const [queryRequest, setQueryRequest] = React.useState<QueryDocumentRequest>({
+		queries: [],
+		tags: [],
+	});
+
+	const { data, isLoading, isError, error } = useQueryDocuments(queryRequest);
 
 	const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
 
@@ -112,11 +109,17 @@ const Home: NextPage = () => {
 			return <NonIdealState title="No documents found" />;
 		}
 
-		return <Table onLogOpen={(it) => {
-			console.log(it)
-			setLogDocument(it)
-			setIsOpen(true)
-		}} documents={data.documents} loading={isLoading} />;
+		return (
+			<Table
+				onLogOpen={(it) => {
+					console.log(it);
+					setLogDocument(it);
+					setIsOpen(true);
+				}}
+				documents={data.documents}
+				loading={isLoading}
+			/>
+		);
 	};
 
 	return (
@@ -132,28 +135,32 @@ const Home: NextPage = () => {
 				style={{
 					margin: "1rem",
 				}}
-			
-			>	
-				<h2 style={{
-					// nice blue color
-					color: "#106ba3",
-				}} >Busqueda de registros</h2>
+			>
+				<h2
+					style={{
+						// nice blue color
+						color: "#106ba3",
+					}}
+				>
+					Busqueda de registros
+				</h2>
 				<QueryBuilder
 					queries={queryRequest.queries}
 					onChangeQuery={(queries) =>
 						setQueryRequest({ ...queryRequest, queries })
 					}
 					tags={queryRequest.tags}
-					onChangeTags={(tags) => setQueryRequest({ ...queryRequest, })}
+					onChangeTags={(tags) => setQueryRequest({ ...queryRequest, tags })}
 					maxTags={5}
 					maxQueries={5}
-
 				/>
 			</Card>
-			
+
 			<div>
 				{/* temporary while we decide how to organize the view */}
-				<Button onClick={() => setIsModalOpen(true)} icon={"panel-table"}>Subir Excel</Button>
+				<Button onClick={() => setIsModalOpen(true)} icon={"panel-table"}>
+					Subir Excel
+				</Button>
 				<Button
 					text={"Agregar Registro"}
 					icon={"add"}
@@ -162,7 +169,11 @@ const Home: NextPage = () => {
 			</div>
 			{getTableData()}
 			<UploadModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-			<LogsWindow document={logDocument} onClose={() => setIsOpen(false)} isOpen={isOpen} />
+			<LogsWindow
+				document={logDocument}
+				onClose={() => setIsOpen(false)}
+				isOpen={isOpen}
+			/>
 		</div>
 	);
 };

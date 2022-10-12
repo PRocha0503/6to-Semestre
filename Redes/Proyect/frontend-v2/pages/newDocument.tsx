@@ -4,160 +4,170 @@ import {
 	Icon,
 	InputGroup,
 	Label,
+	MultistepDialog,
+	DialogStep,
 } from "@blueprintjs/core";
-import { DateInput } from "@blueprintjs/datetime";
 import Notifications from "@components/Notifications";
-import useCreateDocument, { CreateDocumentRequest } from "@hooks/document/useCreateDocument";
+import CustomUploader from "@components/upload/CustomUploader";
+import FileData from "@components/uploadFile/FileData";
+import useCreateDocument, {
+	CreateDocumentRequest,
+} from "@hooks/document/useCreateDocument";
+import useLoadFile from "@hooks/document/useLoadFile";
 import { useUser } from "@hooks/user";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
-
-
-import styles from "../styles/newDocument.module.css";
+import { useEffect, useState } from "react";
 
 const NewDocument: NextPage = () => {
+	const [toasts, setToasts] = useState<any>([]);
+	const [docId, setDocId] = useState<string>("");
+	const user = useUser();
 
-	const [title, setTitle] = useState("");
-	const [date, setDate] = useState<Date>(new Date());
-	const [file, setFile] = useState<File | null>(null);
-	const [expediente, setExpediente] = useState("");
-	const [folio, setFolio] = useState("");
-
-	const user = useUser()
-
-	const [ request, setRequest ] = useState<CreateDocumentRequest>({
+	const [request, setRequest] = useState<CreateDocumentRequest>({
 		title: "",
-		folio : "",
-		expediente : "",
+		folio: "",
+		expediente: "",
 		area: user?.areas?.[0] || "",
-		onSuccess: () => router.push("/"),
-		onError: () => setToasts([...toasts, { message: "Error subiendo documento", type: "danger" }]),
+		onSuccess: (data) => {
+			console.log("DATA", data._id);
+			setDocId(data._id!);
+		},
+		onError: () =>
+			setToasts([
+				...toasts,
+				{ message: "Error subiendo documento", type: "danger" },
+			]),
 	});
-
-	const { mutate } = useCreateDocument(request)
-	
+	const [file, setFile] = useState<File | null>(null);
+	const {
+		mutate,
+		isLoading: createLoading,
+		isSuccess: successCreate,
+	} = useCreateDocument(request);
+	const {
+		mutate: mutateFile,
+		isError,
+		isLoading,
+		isSuccess,
+		error,
+	} = useLoadFile({
+		id: docId,
+		file: file!,
+	});
 	const router = useRouter();
-	
+
+	useEffect(() => {
+		console.log("use effect");
+		console.log(docId);
+		if (
+			successCreate &&
+			!isSuccess &&
+			!isLoading &&
+			!isError &&
+			file &&
+			docId != ""
+		) {
+			console.log(docId);
+			console.log("success create");
+			mutateFile();
+		}
+		if (isSuccess) {
+			router.push("/");
+		}
+		if (isError) {
+			setToasts([
+				...toasts,
+				{ message: "Error subiendo documento", type: "danger" },
+			]);
+		}
+	}, [successCreate, isSuccess, isError]);
+
 	const uploadDocument = async () => {
 		mutate();
-	}
-
-	const [toasts, setToasts] = useState<any>([]);
+	};
 
 	return (
 		<>
-		<Notifications toast={toasts} setToast={setToasts} />
-		<div className={styles.center}>
-			<div className={styles.textInputs}>
-				<h1 className="bp4-heading">Subir Archivo	</h1>
-				<Label as="h1">Los apartados marcados con * son obligatorios</Label>
+			<Notifications toast={toasts} setToast={setToasts} />
+			<MultistepDialog
+				autoFocus
+				canEscapeKeyClose
+				canOutsideClickClose={false}
+				enforceFocus
+				isOpen={true}
+				// onClose={onClose}
+				title="Sube tus documentos"
+				closeButtonProps={{ minimal: true, text: "Cerrar" }}
+				isCloseButtonShown
+				showCloseButtonInFooter
+				navigationPosition="top"
+				initialStepIndex={0}
+				icon="upload"
+				transitionDuration={300}
+				finalButtonProps={{
+					text: "Subir",
+					onClick: () => {
+						uploadDocument();
+					},
+					loading: isLoading || createLoading,
+				}}
+				backButtonProps={{ text: "Atrás" }}
+			>
+				<DialogStep
+					id={0}
+					title="Rellena los campos"
+					panel={
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								justifyContent: "center",
+								alignItems: "center",
+								marginTop: "1rem",
+							}}
+						>
+							<FileData request={request} setRequest={setRequest} />
+						</div>
+					}
+					nextButtonProps={{
+						minimal: true,
+						text: "Siguiente",
 
-				<div className={styles.textInput}>
-					<FileInput
-						fill = {true}
-						disabled={false} 
-						text="Escoger archivo..."  
-						typeof="file.pdf"
-						onInputChange={(e) => {
-							setFile(e.target.files[0]);
-						}}
-						
-					/>
-				</div>
-
-				<div className={styles.textInput}>
-				<InputGroup
-					large={true}
-					fill={false}
-					type="text"
-					leftElement={<Icon icon="document" />}
-					placeholder="Titulo*"
-					value={request.title}
-					onChange={(e) => {
-						setRequest({
-							...request,
-							title: e.target.value
-						})
+						disabled:
+							request.title && request.expediente && request.area
+								? false
+								: true,
+						loading: createLoading,
 					}}
-				/>
-				</div>
-
-				<div className={styles.textInput}>
-				<InputGroup
-					large={true}
-					fill={false}
-					type="text"
-					leftElement={<Icon icon="folder-close" />}
-					placeholder="Expediente*"
-					value={request.expediente}
-					onChange={(e) => {
-						setRequest({
-							...request,
-							expediente: e.target.value
-						})
+				></DialogStep>
+				<DialogStep
+					id={1}
+					title="Selecciona el archivo"
+					panel={
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								justifyContent: "center",
+								alignItems: "center",
+								marginTop: "1rem",
+							}}
+						>
+							<CustomUploader
+								file={file}
+								onChange={setFile}
+								acceptedFileTypes=".pdf"
+							/>
+						</div>
+					}
+					nextButtonProps={{
+						minimal: true,
+						text: "Siguiente",
+						loading: isLoading,
 					}}
-				/>
-				</div>
-
-				<div className={styles.textInput}>
-				<InputGroup
-					large={true}
-					type="folio"
-					leftElement={<Icon icon="numerical" />}
-					placeholder="Folio*"
-					value={request.folio}
-					onChange={(e) => {
-						setRequest({
-							...request,
-							folio: e.target.value
-						})
-					}}
-				/>
-				</div>
-
-				<div className={styles.textInput}>
-				<DateInput
-					
-					fill = {true}
-					showActionsBar={true}
-					timePickerProps={{ precision: "minute" }}
-					placeholder="Fecha*"
-    				formatDate={date => date.toLocaleString()}
-					todayButtonText="Hoy"
-    				parseDate={str => new Date(str)}
-					value={request.createdAt}
-					onChange={(date : Date | null, userChaned: boolean) => {
-							setRequest({
-								...request,
-								createdAt: date || new Date()
-							})
-					}}
-					
-				/>
-
-				</div>
-
-				<div className={styles.textInput}>
-				<InputGroup
-					large={true}
-					type="text"
-					leftElement={<Icon icon="tag" />}
-					placeholder="Etiquetas*"
-				/>
-				</div>
-
-				<div className={styles.textInput}>
-				<AnchorButton 
-					text = "Subir" 
-					rightIcon="upload"
-					fill = {true}
-					intent = "primary"
-					onClick={uploadDocument}
-				/>
-				</div>
-			</div>
-		</div>
+				></DialogStep>
+			</MultistepDialog>
 		</>
 	);
 };
