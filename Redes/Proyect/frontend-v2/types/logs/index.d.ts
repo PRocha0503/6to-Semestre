@@ -17,6 +17,7 @@ export declare interface ILog {
     message: string,
 }
 
+
 export declare interface IUser{
     username:string,
 }
