@@ -118,11 +118,9 @@ const Home: NextPage = () => {
 		}
 
 		return <Table onLogOpen={(it) => {
-			console.log(it)
 			setLogDocument(it)
 			setIsOpen(true)
 		}} onDetOpen={(it) =>{
-			console.log(it)
 			setDetails(it)
 			setIsOpen2(true)
 		}} documents={data.documents} loading={isLoading} />;

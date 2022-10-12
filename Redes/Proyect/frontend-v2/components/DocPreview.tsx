@@ -1,4 +1,5 @@
 import { Tag } from "@blueprintjs/core";
+import useDocument from "@hooks/document/useDocument";
 import { Method } from "axios";
 import { isArrayLike } from "cypress/types/lodash";
 import { loadDefaultErrorComponents } from "next/dist/server/load-components";
@@ -12,7 +13,7 @@ interface DocProps{
 
 
 const DocPreview:React.FC<DocProps> = ({doc}) =>{
-    console.log(doc.tags)
+    console.log(doc)
     const localDateTime = new Date(doc.createdAt);
 		localDateTime.setTime(localDateTime.getTime());
 		const formattedDateTime = localDateTime.toLocaleString("es-MX", {
@@ -25,7 +26,6 @@ const DocPreview:React.FC<DocProps> = ({doc}) =>{
             minute: "2-digit",
             second: "2-digit",
 		});
-
     return( <>
                 <div className={styles.box}>
                 <div className={styles.item}>
@@ -46,7 +46,7 @@ const DocPreview:React.FC<DocProps> = ({doc}) =>{
                 </div>
                 <div className={styles.item}>
                 <span className={styles.title}>Area:</span>
-                <span>{doc.area}</span>
+                <span>{doc.area ? doc.area.name : "Sin Area"}</span>
                 </div>
                 <div className={styles.item}>
                 <span className={styles.title}>Expediente:</span>
@@ -69,11 +69,10 @@ const DocPreview:React.FC<DocProps> = ({doc}) =>{
                 : null}
                 <div className={styles.item}>
                 <span className={styles.title}>Tags:</span>
-                
+                {doc.tags.map(tag => <Tag>{tag.name}</Tag>)}
                 </div>
                 </div>
             </>
     )
 }
-
 export default DocPreview;

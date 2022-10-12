@@ -4,6 +4,7 @@ import {
 	CTypeString,
 	generateColumns,
 } from "./Columns";
+import { Tag } from "@blueprintjs/core";
 import React, { useMemo } from "react";
 import { RenderMode, Table2, TableLoadingOption } from "@blueprintjs/table";
 import { IDocument } from "types";
@@ -29,7 +30,6 @@ export const Table = ({
 	const [uploadFile, setUploadFile] = React.useState<number | null>(null);
 
 	const renderColumns = useMemo(() => {
-		console.log("rendering columns");
 		function test(el: any) {
 			onLogOpen?.(el);
 		}
@@ -77,7 +77,6 @@ export const Table = ({
 					text: "",
 					color: "none",
 					disabled: (item: IDocument) => {
-						console.log(item.hasFile);
 						return !item.hasFile;
 					},
 				},
@@ -120,7 +119,7 @@ export const Table = ({
 	return (
 		<>
 			<Table2
-				numRows={20}
+				numRows={documents.length}
 				cellRendererDependencies={[sortedIndexMap]}
 				loadingOptions={getLoadingOptions()}
 				enableColumnResizing

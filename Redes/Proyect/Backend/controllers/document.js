@@ -129,6 +129,7 @@ const previewFile = async (req, res) => {
 const getDocumentDetails = async (req, res) => {
 	try {
 		const doc = await req.doc.populate("createdBy");
+		console.log(doc);
 		res.json(doc);
 	} catch (e) {
 		console.log(e);
@@ -166,7 +167,7 @@ const queryDocuments = async (req, res) => {
 			const documents = await Document.find(
 				{ area: { $ne: null, $in: [...req.user.areas] } },
 				"-file"
-			).populate("createdBy");
+			).populate("createdBy").populate("area").populate("tags");
 			res.json({ documents });
 			return;
 		}
