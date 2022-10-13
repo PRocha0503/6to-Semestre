@@ -12,6 +12,16 @@ const AreaSchema = Schema({
 			ref: "Tag",
 		},
 	],
+	encryption: {
+		key: {
+			type: String,
+			required: [true, "Key is mandatory"],
+		},
+		iv: {
+			type: String,
+			required: [true, "IV is mandatory"],
+		},
+	},
 });
 
 module.exports = model("Area", AreaSchema);

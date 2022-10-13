@@ -1,19 +1,23 @@
 const Document = require("../models/document");
+const Area = require("../models/area");
 const Batch = require("../models/batch");
 const stream = require("stream");
 const { parseQuery } = require("../utils/parseQuery");
 const { parseBatch } = require("../utils/parseBatch");
 const XLSX = require("xlsx");
-const { v4 } = require("uuid");
-const { db } = require("../models/document");
+const fs = require("fs");
+const { privateEncrypt } = require("crypto");
+const { decryptFile, encryptFile, decryptKey } = require("../utils/generateKeys");
+const { Readable } = require("stream");
 
 const MaxSize = 10000000;
 
 const addDocument = async (req, res) => {
 	try {
-		console.log(req.body);
 		const { title, folio, expediente, createdAt, area, tags, metadata } =
 			req.body;
+
+		const areaData = await Area.findOne({ _id: area });
 
 		const createdBy = req.user;
 		const document = new Document({
@@ -22,7 +26,7 @@ const addDocument = async (req, res) => {
 			expediente,
 			createdAt,
 			createdBy,
-			area,
+			area: areaData._id,
 			tags,
 			metadata,
 		});
@@ -44,18 +48,23 @@ const loadDocument = async (req, res) => {
 	try {
 		//Get file and details
 		let { file } = req.files;
-		console.log("FILE", file);
+
 		file = file.data;
 		const size = file.length; //In bytes
+
 
 		//Get document and add new data
 		const document = req.doc;
 		document.logs = [req.log];
 		document.size = size;
-
+		
+	
 		// encrypt file
-
-		document.file = file;
+		const { key: ekey, iv: eiv } = document.area.encryption;
+		const { key, iv } =  decryptKey(ekey, eiv)
+		const encrypted = encryptFile(file, key, iv);
+	
+		document.file = encrypted;
 		document.hasFile = true;
 
 		//Save to db
@@ -82,18 +91,21 @@ const loadDocument = async (req, res) => {
 const downloadFile = async (req, res) => {
 	try {
 		const { id: _id } = req.params;
-		const document = await Document.findOne({ _id });
+		const document = await Document.findOne({ _id }).populate("area");
 		document.logs.push(req.log);
 		await document.save();
-		let fileContents = Buffer.from(document.file, "base64");
 
-		let readStream = new stream.PassThrough();
-		readStream.end(fileContents);
+	    const {key, iv } = decryptKey(document.area.encryption.key, document.area.encryption.iv)
+		const decrypted = decryptFile(document.file, key, iv)
+
+		const readable = new Readable()
+		readable.push(decrypted)
+		readable.push(null)
 
 		res.set("Content-disposition", "attachment; filename=" + document.title);
-		res.set("Content-Type", "application/pdf");
+		res.set("Content-Type","application/pdf");
 
-		readStream.pipe(res);
+		readable.pipe(res);
 	} catch (e) {
 		console.log(e);
 		res.status(400).send({
@@ -106,19 +118,21 @@ const downloadFile = async (req, res) => {
 const previewFile = async (req, res) => {
 	try {
 		const { id: _id } = req.params;
-		const document = await Document.findOne({ _id });
+		const document = await Document.findOne({ _id }).populate("area");
 		document.logs.push(req.log);
 		await document.save();
 
-		let fileContents = Buffer.from(document.file, "base64");
+		const { key, iv } = decryptKey(document.area.encryption.key, document.area.encryption.iv)
+		const decrypted = decryptFile(document.file, key, iv)
 
-		let readStream = new stream.PassThrough();
-		readStream.end(fileContents);
+		const readable = new Readable()
+		readable.push(decrypted)
+		readable.push(null)
 
 		res.set("Content-disposition", "inline; filename=" + document.title);
 		res.set("Content-Type", "application/pdf");
 
-		readStream.pipe(res);
+		readable.pipe(res);
 	} catch (e) {
 		console.log(e);
 		res.status(400).send({
