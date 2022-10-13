@@ -12,8 +12,14 @@ const {
 	getLogs,
 	getBatches,
 	rollBackBatch,
+	deleteDocument,
 } = require("../controllers/document.js");
-const { validateJWT, createLog, isDocument } = require("../middleware");
+const {
+	validateJWT,
+	createLog,
+	isDocument,
+	userHasAccess,
+} = require("../middleware");
 
 const router = Router();
 
@@ -67,6 +73,17 @@ router.get(
 	"/:id",
 	[validateJWT, isDocument, createLog(logType)],
 	getDocumentDetails
+);
+
+router.delete(
+	"/:id",
+	[
+		validateJWT,
+		isDocument,
+		// userHasAccess,
+		createLog(logType, "Se elimino un documento"),
+	],
+	deleteDocument
 );
 
 module.exports = router;
