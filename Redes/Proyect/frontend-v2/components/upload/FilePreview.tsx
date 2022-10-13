@@ -10,11 +10,13 @@ import HeaderSelector, { Header } from "./HeaderSelect";
 interface IProps {
     file: File | null;
     previewItems: number
+    onHeadersChange: (headers: Header[]) => void;
+    onSheetChange: (sheet: Sheet | null) => void;
 }
 
 const SheetSelect = Select2.ofType<Sheet>();
 
-const FilePreview: React.FC<IProps> = ({ file, previewItems }) => {
+const FilePreview: React.FC<IProps> = ({ file, previewItems, onHeadersChange, onSheetChange }) => {
     const { sheets, isLoading, error } = useSheets(file, true);
     const [selectedSheet, setSelectedSheet] = useState<Sheet | null>(null);
 
@@ -39,16 +41,20 @@ const FilePreview: React.FC<IProps> = ({ file, previewItems }) => {
                 shouldDismissPopover={true}
                 roleStructure="listoption"
                 selected={selectedSheet?.name === item.name}
-                onClick={() => setSelectedSheet(item)}
+                onClick={() => {
+                    setSelectedSheet(item)
+                    onSheetChange(item);
+                }}
             />
         );
     };
 
     const [ headers, setHeaders ] = useState<Header[]>([
         { name: "Nombre", selected: false, key: "title", column: -1 },
-        { name: "# de Expediente", selected: false, key: "expediente_id", column: -1 },
+        { name: "# de Expediente", selected: false, key: "expediente", column: -1 },
         { name: "Folio", selected: false, key: "folio", column: -1 },
     ]);
+    
 
     const headerSelection = useCallback((columnIndex: number, name: string) => {
         const getSelectedIndex = (): number => {
@@ -67,9 +73,11 @@ const FilePreview: React.FC<IProps> = ({ file, previewItems }) => {
                             if (h.key === header.key) {
                                 return {...header, column: header.selected ? columnIndex : -1};
                             }
+                            
+                           
                             return h;
-                        });
-                        
+                        });  
+                        onHeadersChange(newHeaders);
                         return newHeaders;
                     }
                         );
@@ -91,6 +99,7 @@ const FilePreview: React.FC<IProps> = ({ file, previewItems }) => {
     useEffect(() => {
         if (!isLoading && sheets.length > 0) {
             setSelectedSheet(sheets[0]);
+            onSheetChange(sheets[0]);
         }
 
     }, [isLoading, sheets]);

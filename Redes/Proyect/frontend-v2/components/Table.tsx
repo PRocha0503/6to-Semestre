@@ -107,7 +107,7 @@ export const Table = ({
 	return (
 		<>
 			<Table2
-				numRows={20}
+				numRows={300}
 				cellRendererDependencies={[sortedIndexMap]}
 				loadingOptions={getLoadingOptions()}
 				enableColumnResizing
