@@ -90,6 +90,10 @@ const NewDocument: NextPage = () => {
 		mutate();
 	};
 
+	const onClose = () => {
+		router.push("/");
+	};
+
 	return (
 		<>
 			<Notifications toast={toasts} setToast={setToasts} />
@@ -99,7 +103,7 @@ const NewDocument: NextPage = () => {
 				canOutsideClickClose={false}
 				enforceFocus
 				isOpen={true}
-				// onClose={onClose}
+				onClose={onClose}
 				title="Sube tus documentos"
 				closeButtonProps={{ minimal: true, text: "Cerrar" }}
 				isCloseButtonShown
