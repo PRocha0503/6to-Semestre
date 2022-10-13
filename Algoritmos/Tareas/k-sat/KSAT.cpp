@@ -23,28 +23,34 @@ temp.push_back(KLiteral(_const[i][j],true));
 }
 
 void KSAT::readFromFile(string fileName){
-  ifstream file;
-  bool matchedNumOfVariables = false;
+    ifstream file;
 
-  file.open(fileName);
-  if (!file){
-    cout << "Could not read file" << endl;
-    return;
-  }
-
-  smatch match;
-  string line;
-  while(getline(file, line)){
-    if (regex_match(line, match,"/([0-9]+)(?!cnf )(?= [0-9]+)/") && !matchedNumOfVariables){
-      numOfVariables = stoi(match[0].str());
-      matchedNumOfVariables = true;
+    file.open(fileName);
+    if (!file.is_open()){
+        cout << "Could not read file" << endl;
+        return;
     }
-    else if ()
 
-  }
+    regex reg ("[0-9]+(?!cnf )(?= [0-9]+)");
+    smatch match;
+    string line;
+    string number;
+    bool matchedNumOfVariables = false;
+    while(getline(file, line)){
+        while (regex_search(line, match, reg) && !matchedNumOfVariables){
+            numOfVariables = stoi(match.str());
+            matchedNumOfVariables = true;
+        }
+        if (!matchedNumOfVariables) continue;
+        for (auto x : line){
+            if (x == ' ' || x == '-')
+                number = "";
+            else
+                number += x;
+        }
 
-  int line1;
-  file.close();
+    }
+    file.close();
 }
 
 
