@@ -69,7 +69,7 @@ const DocPreview:React.FC<DocProps> = ({doc}) =>{
                 : null}
                 <div className={styles.item}>
                 <span className={styles.title}>Tags:</span>
-                {doc.tags.length!=0 ? doc.tags.map(tag => <Tag>{tag.name}</Tag>): <span>No Hay Tags</span>}
+                {doc.tags.length!=0 ? doc.tags.map(tag => <Tag style={{marginLeft:"2px"}}>{tag.name}</Tag>): <span>No Hay Tags</span>}
                 </div>
                 </div>
             </>
