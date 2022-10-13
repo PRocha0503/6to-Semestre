@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 //TODO make correct
 
 const downloadDocument = async (id: string): Promise<any> => {
-	return client.get(`/docs/download/${id}`);
+	return (await client.get(`/docs/download/${id}`)).data;
 };
 
 export default function useDownloadDocument(id: string) {
