@@ -5,6 +5,7 @@ import {
 	CTypeString,
 	generateColumns,
 } from "./Columns";
+import { Tag } from "@blueprintjs/core";
 import React, { useMemo } from "react";
 import {
 	Cell,
@@ -35,7 +36,6 @@ export const Table = ({
 	const [uploadFile, setUploadFile] = React.useState<number | null>(null);
 
 	const renderColumns = useMemo(() => {
-		console.log("rendering columns");
 		function test(el: any) {
 			onLogOpen?.(el);
 		}
@@ -91,7 +91,6 @@ export const Table = ({
 					text: "",
 					color: "#FFDBA4",
 					disabled: (item: IDocument) => {
-						console.log(item.hasFile);
 						return !item.hasFile;
 					},
 				},
