@@ -1,11 +1,18 @@
 import {
 	CTypeButton,
+	CTypeCustom,
 	CTypeDate,
 	CTypeString,
 	generateColumns,
 } from "./Columns";
+import { Tag } from "@blueprintjs/core";
 import React, { useMemo } from "react";
-import { RenderMode, Table2, TableLoadingOption } from "@blueprintjs/table";
+import {
+	Cell,
+	RenderMode,
+	Table2,
+	TableLoadingOption,
+} from "@blueprintjs/table";
 import { IDocument } from "types";
 import UploadFile from "./UploadFileModal";
 import UploadFileModal from "./UploadFileModal";
@@ -16,22 +23,25 @@ interface TableProps {
 	documents: IDocument[];
 	loading?: boolean;
 	onLogOpen?: (document: IDocument) => void;
+	onDetOpen?: (document: IDocument) => void;
 }
 
 export const Table = ({
 	documents,
 	loading = false,
 	onLogOpen,
+	onDetOpen,
 }: TableProps) => {
 	const [sortedIndexMap, setSortedIndexMap] = React.useState<number[]>([]);
 	const [uploadFile, setUploadFile] = React.useState<number | null>(null);
 
 	const renderColumns = useMemo(() => {
-		console.log("rendering columns");
 		function test(el: any) {
 			onLogOpen?.(el);
 		}
-
+		function openDatails(el: any) {
+			onDetOpen?.(el);
+		}
 		return generateColumns(
 			{
 				data: documents,
@@ -44,13 +54,21 @@ export const Table = ({
 				{ name: "Folio", key: "folio", type: CTypeString },
 				{ name: "Fecha de Creación", key: "createdAt", type: CTypeDate },
 				{
+					name: "Agregar Area",
+					key: "area",
+					type: CTypeCustom,
+					render: (c: any) => {
+						return <Cell>{c.area.name}</Cell>;
+					},
+				},
+				{
 					name: "Logs",
 					key: "logs",
 					type: CTypeButton,
 					onClick: test,
 					icon: "menu-open",
 					text: "",
-					color: "blue",
+					color: "#C1A0F8",
 				},
 				{
 					name: "Descargar",
@@ -71,9 +89,8 @@ export const Table = ({
 					},
 					icon: "download",
 					text: "",
-					color: "none",
+					color: "#FFDBA4",
 					disabled: (item: IDocument) => {
-						console.log(item.hasFile);
 						return !item.hasFile;
 					},
 				},
@@ -84,8 +101,17 @@ export const Table = ({
 					onClick: ({ _id }) => setUploadFile(_id),
 					icon: "upload",
 					text: "",
-					color: "green",
+					color: "#C1EFFF",
 					disabled: (item: IDocument) => item.hasFile,
+				},
+				{
+					name: "Detalles",
+					key: "_id",
+					type: CTypeButton,
+					onClick: openDatails,
+					icon: "send-to",
+					text: "",
+					color: "grey",
 				},
 			]
 		);
@@ -107,11 +133,11 @@ export const Table = ({
 	return (
 		<>
 			<Table2
-				numRows={300}
+				numRows={documents.length}
 				cellRendererDependencies={[sortedIndexMap]}
 				loadingOptions={getLoadingOptions()}
 				enableColumnResizing
-				enableGhostCells
+				// enableGhostCells
 				getCellClipboardData={(row, col) =>
 					renderColumns[col].getClipboardData(row)
 				}

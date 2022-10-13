@@ -3,8 +3,7 @@ const Document = require("../models/document");
 const isDocument = async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		console.log(id)
-		const doc = await Document.findOne({_id:id}, "-file");
+		const doc = await Document.findOne({ _id: id }, "-file").populate("area");
 		if (!doc) {
 			res.status(404).send({ message: "Document not found" });
 		}

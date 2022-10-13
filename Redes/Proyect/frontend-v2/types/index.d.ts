@@ -12,6 +12,7 @@ interface IDocument {
 	createdBy: string;
 	area: string;
 	logs: string[];
+	metadata: any;
 	hasFile: boolean;
 }
 
