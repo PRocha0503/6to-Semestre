@@ -17,11 +17,13 @@ import { UsersTable } from "@components/UsersTable";
 import useGetProfile from "@hooks/user/useGetProfile";
 import { CustomTag } from "@components/CustomTag";
 import AddLabelModal from "@components/AddLabelModal";
+import AddAreaModal from "@components/AddAreaModal";
 
 const Profile = () => {
 	const user = useUser();
 	const isAdmin = user!.isAdmin;
 	const [addUserModalOpen, setAddUserModalOpen] = useState<boolean>(false);
+	const [addAreaModalOpen, setAddAreaModalOpen] = useState<boolean>(false);
 	const [toasts, setToasts] = useState<any>([]);
 	const [addLabelArea, setAddLabelArea] = useState<string>("");
 	// fetch tags from area
@@ -110,6 +112,12 @@ const Profile = () => {
 					<Button icon="new-person" onClick={() => setAddUserModalOpen(true)}>
 						Añadir usuario
 					</Button>
+					<Button
+						icon="group-objects"
+						onClick={() => setAddAreaModalOpen(true)}
+					>
+						Añadir Area
+					</Button>
 
 					{getTableData()}
 				</>
@@ -119,6 +127,11 @@ const Profile = () => {
 			<AddUserModal
 				open={addUserModalOpen}
 				onClose={setAddUserModalOpen}
+				addToast={addToast}
+			/>
+			<AddAreaModal
+				open={addAreaModalOpen}
+				onClose={setAddAreaModalOpen}
 				addToast={addToast}
 			/>
 			<AddLabelModal
