@@ -11,6 +11,7 @@ const MaxSize = 10000000;
 
 const addDocument = async (req, res) => {
 	try {
+		console.log(req.body);
 		const { title, folio, expediente, createdAt, area, tags, metadata } =
 			req.body;
 

@@ -1,12 +1,18 @@
 import {
 	CTypeButton,
+	CTypeCustom,
 	CTypeDate,
 	CTypeString,
 	generateColumns,
 } from "./Columns";
 import { Tag } from "@blueprintjs/core";
 import React, { useMemo } from "react";
-import { RenderMode, Table2, TableLoadingOption } from "@blueprintjs/table";
+import {
+	Cell,
+	RenderMode,
+	Table2,
+	TableLoadingOption,
+} from "@blueprintjs/table";
 import { IDocument } from "types";
 import UploadFile from "./UploadFileModal";
 import UploadFileModal from "./UploadFileModal";
@@ -24,7 +30,7 @@ export const Table = ({
 	documents,
 	loading = false,
 	onLogOpen,
-	onDetOpen
+	onDetOpen,
 }: TableProps) => {
 	const [sortedIndexMap, setSortedIndexMap] = React.useState<number[]>([]);
 	const [uploadFile, setUploadFile] = React.useState<number | null>(null);
@@ -33,7 +39,7 @@ export const Table = ({
 		function test(el: any) {
 			onLogOpen?.(el);
 		}
-		function openDatails(el:any) {
+		function openDatails(el: any) {
 			onDetOpen?.(el);
 		}
 		return generateColumns(
@@ -48,13 +54,21 @@ export const Table = ({
 				{ name: "Folio", key: "folio", type: CTypeString },
 				{ name: "Fecha de Creación", key: "createdAt", type: CTypeDate },
 				{
+					name: "Agregar Area",
+					key: "area",
+					type: CTypeCustom,
+					render: (c: any) => {
+						return <Cell>{c.area.name}</Cell>;
+					},
+				},
+				{
 					name: "Logs",
 					key: "logs",
 					type: CTypeButton,
 					onClick: test,
 					icon: "menu-open",
 					text: "",
-					color: "#FFB3B3",
+					color: "#C1A0F8",
 				},
 				{
 					name: "Descargar",
@@ -95,7 +109,7 @@ export const Table = ({
 					key: "_id",
 					type: CTypeButton,
 					onClick: openDatails,
-					icon:"send-to",
+					icon: "send-to",
 					text: "",
 					color: "grey",
 				},
@@ -123,7 +137,7 @@ export const Table = ({
 				cellRendererDependencies={[sortedIndexMap]}
 				loadingOptions={getLoadingOptions()}
 				enableColumnResizing
-				enableGhostCells
+				// enableGhostCells
 				getCellClipboardData={(row, col) =>
 					renderColumns[col].getClipboardData(row)
 				}

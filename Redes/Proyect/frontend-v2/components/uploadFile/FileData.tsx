@@ -37,6 +37,7 @@ const FileData = ({ request, setRequest }: Props) => {
 		name: "",
 		tags: [],
 	});
+	const [areaTags, setAreaTags] = useState<any>([]);
 	const [tags, setTags] = useState<any>([]);
 
 	const { data: p, isError, isSuccess } = useGetProfile();
@@ -45,7 +46,11 @@ const FileData = ({ request, setRequest }: Props) => {
 		if (isSuccess) {
 			setProfile(p);
 		}
-	}, [profile, isSuccess]);
+		setRequest({
+			...request,
+			tags: tags.map((t: any) => t._id),
+		});
+	}, [profile, isSuccess, tags]);
 	if (!profile) return null;
 
 	const renderArea = (area: any) => {
@@ -53,6 +58,13 @@ const FileData = ({ request, setRequest }: Props) => {
 			<Button
 				onClick={() => {
 					setArea(area);
+					setAreaTags(area.tags);
+					setTags([]);
+					setRequest({
+						...request,
+						tags: [],
+						area: area._id,
+					});
 				}}
 			>
 				{area.name}
@@ -147,12 +159,10 @@ const FileData = ({ request, setRequest }: Props) => {
 					>
 						<Button fill={true} text={area.name} rightIcon="caret-down" />
 					</Select2>
-					{area && area.tags.length > 0 ? (
+					{area && areaTags.length > 0 ? (
 						<TagSelector
-							tags={area.tags.map((tag: any) => {
-								return {
-									name: tag.name,
-								};
+							tags={areaTags.map((t: any) => {
+								return { name: t.name, _id: t._id };
 							})}
 							selectedTags={tags}
 							onChangeSelectedTags={setTags}
@@ -160,17 +170,6 @@ const FileData = ({ request, setRequest }: Props) => {
 					) : (
 						<></>
 					)}
-					{tags.map((t: any) => {
-						return <Tag>{t}</Tag>;
-					})}
-					<div className={styles.textInput}>
-						<InputGroup
-							large={true}
-							type="text"
-							leftElement={<Icon icon="tag" />}
-							placeholder="Etiquetas*"
-						/>
-					</div>
 				</div>
 			</div>
 		</>
