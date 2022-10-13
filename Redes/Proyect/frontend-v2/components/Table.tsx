@@ -58,7 +58,7 @@ export const Table = ({
 					key: "area",
 					type: CTypeCustom,
 					render: (c: any) => {
-						return <Cell>{c.area.name}</Cell>;
+						return c.area.name;
 					},
 				},
 				{

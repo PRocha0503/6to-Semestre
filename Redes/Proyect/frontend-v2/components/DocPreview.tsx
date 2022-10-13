@@ -13,7 +13,7 @@ interface DocProps{
 
 
 const DocPreview:React.FC<DocProps> = ({doc}) =>{
-    console.log(doc)
+    console.log(doc.tags)
     const localDateTime = new Date(doc.createdAt);
 		localDateTime.setTime(localDateTime.getTime());
 		const formattedDateTime = localDateTime.toLocaleString("es-MX", {
@@ -69,7 +69,7 @@ const DocPreview:React.FC<DocProps> = ({doc}) =>{
                 : null}
                 <div className={styles.item}>
                 <span className={styles.title}>Tags:</span>
-                {doc.tags.length!=0 ? doc.tags.map(tag => <Tag style={{marginLeft:"2px"}}>{tag.name}</Tag>): <span>No Hay Tags</span>}
+                {doc.tags.length!=0 ? doc.tags.map(tag => <Tag style={{backgroundColor:tag.color}} icon={tag.icon} style={{marginLeft:"2px"}}>{tag.name}</Tag>): <span>No Hay Tags</span>}
                 </div>
                 </div>
             </>
