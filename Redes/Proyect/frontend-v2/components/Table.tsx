@@ -6,7 +6,12 @@ import {
 	generateColumns,
 } from "./Columns";
 import React, { useMemo } from "react";
-import { RenderMode, Table2, TableLoadingOption } from "@blueprintjs/table";
+import {
+	Cell,
+	RenderMode,
+	Table2,
+	TableLoadingOption,
+} from "@blueprintjs/table";
 import { IDocument } from "types";
 import UploadFile from "./UploadFileModal";
 import UploadFileModal from "./UploadFileModal";
@@ -53,7 +58,7 @@ export const Table = ({
 					key: "area",
 					type: CTypeCustom,
 					render: (c: any) => {
-						return <p>{c.area.name}</p>;
+						return <Cell>{c.area.name}</Cell>;
 					},
 				},
 				{
