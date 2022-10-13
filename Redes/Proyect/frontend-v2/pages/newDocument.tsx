@@ -28,7 +28,7 @@ const NewDocument: NextPage = () => {
 		title: "",
 		folio: "",
 		expediente: "",
-		area: user?.areas?.[0] || "",
+		area: undefined,
 		onSuccess: (data) => {
 			console.log("DATA", data._id);
 			setDocId(data._id!);
@@ -71,6 +71,9 @@ const NewDocument: NextPage = () => {
 			console.log(docId);
 			console.log("success create");
 			mutateFile();
+		}
+		if (successCreate && !file) {
+			router.push("/");
 		}
 		if (isSuccess) {
 			router.push("/");

@@ -64,6 +64,16 @@ const Home: NextPage = () => {
 	});
 	const [details, setDetails] = React.useState<IDocument>({
 		title: "hello",
+		tags: [],
+		_id: 1,
+		createdAt: new Date(),
+		folio: "123",
+		expediente: "123",
+		createdBy: "123",
+		area: "123",
+		logs: [],
+		metadata: {},
+		hasFile: false,
 	});
 
 	const [queryRequest, setQueryRequest] = React.useState<QueryDocumentRequest>({

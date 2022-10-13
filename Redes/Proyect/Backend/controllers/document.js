@@ -11,6 +11,7 @@ const MaxSize = 10000000;
 
 const addDocument = async (req, res) => {
 	try {
+		console.log(req.body);
 		const { title, folio, expediente, createdAt, area, tags, metadata } =
 			req.body;
 
@@ -166,7 +167,9 @@ const queryDocuments = async (req, res) => {
 			const documents = await Document.find(
 				{ area: { $ne: null, $in: [...req.user.areas] } },
 				"-file"
-			).populate("createdBy");
+			)
+				.populate("createdBy")
+				.populate("area");
 			res.json({ documents });
 			return;
 		}

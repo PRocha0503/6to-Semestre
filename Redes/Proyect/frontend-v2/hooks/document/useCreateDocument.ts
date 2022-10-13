@@ -1,3 +1,4 @@
+import { IArea } from "types/area";
 // import { IDocument } from "types";
 import { useMutation, useQueryClient } from "react-query";
 import client from "@services/http";
@@ -7,7 +8,7 @@ export interface CreateDocumentRequest {
 	folio: string;
 	expediente: string;
 	createdAt?: Date;
-	area?: string;
+	area?: IArea;
 	tags?: string[];
 	_id?: string;
 	metadata?: Record<string, string | number | boolean | Date>;
