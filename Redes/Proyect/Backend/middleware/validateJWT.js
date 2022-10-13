@@ -13,7 +13,7 @@ const validateJWT = async (req = request, res = response, next) => {
 	}
 	try {
 		const { uid } = jwt.verify(token, process.env.SECRETACCESS);
-		const user = await User.findById(uid);
+		const user = await User.findById(uid).populate("areas");
 		if (!user) {
 			return res.status(401).json({
 				msg: "TOKEN INVALIDO",

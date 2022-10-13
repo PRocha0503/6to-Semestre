@@ -1,5 +1,6 @@
 const Area = require("../models/area");
 const User = require("../models/user");
+const { generateKeyIV } = require("../utils/generateKeys");
 //Function to get all areas from the database
 const getAreas = async (req, res) => {
 	try {
@@ -20,8 +21,9 @@ const addArea = async (req, res) => {
 	try {
 		const { name } = req.body;
 
+		const encryption = generateKeyIV({ keyLength: 32, ivLength: 16 })
 		//Create user
-		const area = new Area({ name });
+		const area = new Area({ name, encryption });
 
 		//Save to db
 		await area.save();
