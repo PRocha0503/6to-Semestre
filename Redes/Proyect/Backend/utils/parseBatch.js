@@ -27,7 +27,7 @@ const validateValue = (value) => {
  * @returns 
  */
 const parseBatch = (sheet = [], batchId, extraParams) => {
-    const json = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+    const json = XLSX.utils.sheet_to_json(sheet);   
 
     const rows = [];
 
@@ -36,16 +36,16 @@ const parseBatch = (sheet = [], batchId, extraParams) => {
         throw new Error("No data found");
     }
 
-    const headers = json[0];
+    const headers = Object.keys(json[0]);
     const mapHeaderToIndex = {}
 
     // validate headers
     for (let i = 0; i < validHeaders.length; i++) {
         if (!headers.includes(validHeaders[i])) {
-            throw new Error(`Missing ${headers[i]} header`);
+            throw new Error(`Missing ${validHeaders[i]} header`);
         }
 
-        mapHeaderToIndex[headers[i]] = i;
+        mapHeaderToIndex[validHeaders[i]] = i;
     }
 
     // map headers to index
@@ -55,33 +55,29 @@ const parseBatch = (sheet = [], batchId, extraParams) => {
         }
     }
 
-    // get rows without headers
-    const dataSlice = json.slice(1);
-
     // remove empty rows
-    const fileredData = dataSlice.filter((row) => row.length > 0)
+    const fileredData = json.slice(0).filter((row) => Object.values(row).join("") !== "");
 
     for (let i = 0; i < fileredData.length; i++) {
         const row = fileredData[i];
-        const resultRow = { batchId, ...extraParams, metadata: {} };
-        
-        for (let j = 0; j < row.length; j++) {
-            const header = headers[j];
-            const value = row[j];
+        const knownFields = {};
+        const unknownFields = {};
 
-            // check if header is known
-            if (mapHeaderToIndex[header] === j) {
-                if (!validateValue(value)) {
-                    throw new Error(`Invalid value for header ${header}`);
-                }
-
-                resultRow[header] = value;
-                continue;
-            }
-
-            resultRow.metadata[header] = value;
+        for (let j = 0; j < validHeaders.length; j++) {
+            knownFields[validHeaders[j]] = row[validHeaders[j]];
         }
 
+        for (let j = 0; j < headers.length; j++) {
+            if (!validHeaders.includes(headers[j])) {
+                unknownFields[headers[j]] = row[headers[j]];
+            }
+        }
+
+        const resultRow = { batchId, ...extraParams, ...knownFields , metadata: {
+            ...unknownFields
+            }
+        }
+        
         rows.push(resultRow);
     }
 
