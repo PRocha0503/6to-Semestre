@@ -13,6 +13,7 @@ import { Table } from "@components/Table";
 import UploadModal from "@components/upload/UploadModal";
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
+import AddDocumentModal from "@components/AddDocumentModal";
 
 const operators = [
 	"es igual que",
@@ -86,6 +87,7 @@ const Home: NextPage = () => {
 	const { data, isLoading, isError, error } = useQueryDocuments(queryRequest);
 
 	const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+	const [isOpenDocumentModal, setIsOpenDocumentModal] = React.useState<boolean>(false);
 
 	// javascript creates a ne function every frame so we need to memoize it
 	const handleUpdateURL = useCallback(async () => {
@@ -197,11 +199,12 @@ const Home: NextPage = () => {
 					text={"Agregar Registro"}
 					icon={"add"}
 					className="new"
-					onClick={() => router.push("/newDocument")}
+					onClick={() => setIsOpenDocumentModal(true)}
 				/>
 			</div>
 			{getTableData()}
 			<UploadModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+			<AddDocumentModal isOpen={isOpenDocumentModal} onClose={() => setIsOpenDocumentModal(false)} />
 			<LogsWindow
 				document={logDocument}
 				onClose={() => setIsOpen(false)}

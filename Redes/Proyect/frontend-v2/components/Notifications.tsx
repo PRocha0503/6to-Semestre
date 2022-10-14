@@ -15,7 +15,7 @@ const Notifications: React.FC<any> = ({ toast, setToast }) => {
 	};
 	return (
 		<Toaster>
-			{toast.map((t: any, i: any) => {
+			{toast?.map((t: any, i: any) => {
 				console.log("t", t);
 				return (
 					<Toast

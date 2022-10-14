@@ -1,28 +1,27 @@
 import {
-	AnchorButton,
-	FileInput,
-	Icon,
-	InputGroup,
-	Label,
-	MultistepDialog,
 	DialogStep,
+	MultistepDialog,
 } from "@blueprintjs/core";
-import Notifications from "@components/Notifications";
-import CustomUploader from "@components/upload/CustomUploader";
-import FileData from "@components/uploadFile/FileData";
 import useCreateDocument, {
 	CreateDocumentRequest,
 } from "@hooks/document/useCreateDocument";
+import CustomUploader from "@components/upload/CustomUploader";
+import FileData from "@components/uploadFile/FileData";
+import Notifications from "@components/Notifications";
 import useLoadFile from "@hooks/document/useLoadFile";
-import { useUser } from "@hooks/user";
-import { NextPage } from "next";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 
-const NewDocument: NextPage = () => {
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
+interface Props {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+const AddDocumentModal: React.FC<Props> = ({ isOpen, onClose }) => {
 	const [toasts, setToasts] = useState<any>([]);
 	const [docId, setDocId] = useState<string>("");
-	const user = useUser();
 
 	const [request, setRequest] = useState<CreateDocumentRequest>({
 		title: "",
@@ -58,8 +57,6 @@ const NewDocument: NextPage = () => {
 	const router = useRouter();
 
 	useEffect(() => {
-		console.log("use effect");
-		console.log(docId);
 		if (
 			successCreate &&
 			!isSuccess &&
@@ -73,10 +70,10 @@ const NewDocument: NextPage = () => {
 			mutateFile();
 		}
 		if (successCreate && !file) {
-			router.push("/");
+			onClose();
 		}
 		if (isSuccess) {
-			router.push("/");
+			onClose();
 		}
 		if (isError) {
 			setToasts([
@@ -90,10 +87,6 @@ const NewDocument: NextPage = () => {
 		mutate();
 	};
 
-	const onClose = () => {
-		router.push("/");
-	};
-
 	return (
 		<>
 			<Notifications toast={toasts} setToast={setToasts} />
@@ -102,7 +95,7 @@ const NewDocument: NextPage = () => {
 				canEscapeKeyClose
 				canOutsideClickClose={false}
 				enforceFocus
-				isOpen={true}
+				isOpen={isOpen}
 				onClose={onClose}
 				title="Sube tus documentos"
 				closeButtonProps={{ minimal: true, text: "Cerrar" }}
@@ -179,4 +172,4 @@ const NewDocument: NextPage = () => {
 	);
 };
 
-export default NewDocument;
+export default AddDocumentModal;
