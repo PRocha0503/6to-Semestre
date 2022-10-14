@@ -6,12 +6,14 @@ import { loadDefaultErrorComponents } from "next/dist/server/load-components";
 import * as React from "react";
 import { IDocument } from "types";
 import styles from "../styles/Metadata.module.css";
+import Notifications from "./Notifications";
 
 interface DocProps {
 	doc: IDocument;
 }
 
 const DocPreview: React.FC<DocProps> = ({ doc }) => {
+	const [toast, setToast] = React.useState<any>(null);
 	const localDateTime = new Date(doc.createdAt);
 	localDateTime.setTime(localDateTime.getTime());
 	const formattedDateTime = localDateTime.toLocaleString("es-MX", {
@@ -24,9 +26,26 @@ const DocPreview: React.FC<DocProps> = ({ doc }) => {
 		minute: "2-digit",
 		second: "2-digit",
 	});
-	const { mutate } = useDeleteDocument({ documentId: doc._id });
+	const { mutate, isError, isSuccess } = useDeleteDocument({
+		documentId: doc._id,
+	});
+	React.useEffect(() => {
+		if (isSuccess) {
+			setToast({
+				message: "Documento eliminado",
+				type: "success",
+			});
+		}
+		if (isError) {
+			setToast({
+				message: "Error al eliminar documento",
+				type: "danger",
+			});
+		}
+	}, [isError, isSuccess]);
 	return (
 		<>
+			<Notifications toast={toast} setToast={setToast} />
 			<div className={styles.box}>
 				<div className={styles.item}>
 					<span className={styles.title}>Título:</span>
