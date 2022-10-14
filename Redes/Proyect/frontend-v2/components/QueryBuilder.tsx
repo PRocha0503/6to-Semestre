@@ -3,9 +3,6 @@ import {
 	ControlGroup,
 	Divider,
 	FormGroup,
-	IInputGroupState,
-	InputGroup,
-	Intent,
 } from "@blueprintjs/core";
 import { ITag, ITagForm } from "types";
 import React, { useEffect } from "react";
@@ -19,8 +16,8 @@ import useTags from "@hooks/tags/useTags";
 import { useUser } from "@hooks/user";
 
 interface QueryBuilderProps {
-	queries: Query[];
-	onChangeQuery: (query: Query[]) => void;
+	queries: ReadableQueryOperator[];
+	onChangeQuery: (query: ReadableQueryOperator[]) => void;
 	maxTags?: number;
 	maxQueries?: number;
 	noContent?: React.ReactNode;
@@ -28,9 +25,9 @@ interface QueryBuilderProps {
 	onChangeTags: (tags: ITagForm[]) => void;
 }
 
-const DEFAULT_QUERY: Query = {
+const DEFAULT_QUERY: ReadableQueryOperator = {
 	header: "title",
-	operator: "eq",
+	operator: "es igual que",
 	value: "",
 };
 
@@ -64,15 +61,9 @@ const QueryBuilder = ({
 
 	// transform tags to ITagForm
 	useEffect(() => {
-		const mappedTags: ITagForm[] =
-			data?.tags.map((tag: ITag) => {
-				return {
-					name: tag.name,
-					// icon: "area-of-interest", // TODO: get icon from tag
-				};
-			}) || [];
-
-		setMenuTags(mappedTags);
+		if (data) {
+			setMenuTags(data.tags);
+		}
 	}, [data]);
 
 	const handleRemoveQuery = (index: number) => {
@@ -81,7 +72,7 @@ const QueryBuilder = ({
 		onChangeQuery(newQueries);
 	};
 
-	const handleAddQuery = (query: Query) => {
+	const handleAddQuery = (query: ReadableQueryOperator) => {
 		if (maxQueries && queries.length >= maxQueries) {
 			return;
 		}
@@ -108,23 +99,10 @@ const QueryBuilder = ({
 		);
 	};
 
-	const [queryInput, setQueryInput] = React.useState<Query>(DEFAULT_QUERY);
+	const [queryInput, setQueryInput] = React.useState<ReadableQueryOperator>(DEFAULT_QUERY);
 
 	return (
 		<div className={QueryBuilderClasses.builder}>
-			<FormGroup
-				label="Tags"
-				subLabel="Seleccionar etiquetas que se usaran para filtrar los documentos"
-			>
-				<ControlGroup>
-					<TagSelector
-						tags={menuTags}
-						selectedTags={tags}
-						onChangeSelectedTags={onChangeTags}
-					/>
-				</ControlGroup>
-			</FormGroup>
-			<Divider />
 			<FormGroup
 				label="Añadir consulta"
 				subLabel="Añadir una consulta para filtrar los resultados"
@@ -136,21 +114,40 @@ const QueryBuilder = ({
 						onChangeQuery={setQueryInput}
 						onEnter={handleAddQuery}
 					/>
-					<Button icon="add" onClick={() => handleAddQuery(queryInput)} />
+					<Button icon="add" onClick={() => handleAddQuery(queryInput)} text={"Agregar Filtro"} />
+				</ControlGroup>
+			</FormGroup>
+			<FormGroup
+				label="Etiquetas"
+				subLabel="Seleccionar etiquetas que se usaran para filtrar los documentos"
+			>
+				<ControlGroup>
+					<TagSelector
+						tags={menuTags}
+						selectedTags={tags}
+						onChangeSelectedTags={onChangeTags}
+					/>
 				</ControlGroup>
 			</FormGroup>
 			<div className={QueryBuilderClasses.queryTags}>
-				{queries.length > 0
-					? queries.map((q, i) => (
-							<ControlGroup key={i}>
-								<QueryTag
-									query={q}
-									onRemoveQuery={() => handleRemoveQuery(i)}
-								/>
-							</ControlGroup>
-					  ))
-					: renderNoContent()}
+				<FormGroup
+					label="Consultas Actuales"
+				>
+					{queries.length > 0
+						? <>
+							{queries.map((q, i) => (
+								<ControlGroup key={i}>
+									<QueryTag
+										query={q}
+										onRemoveQuery={() => handleRemoveQuery(i)}
+									/>
+								</ControlGroup>
+							))}
+						</>
+						: renderNoContent()}
+				</FormGroup>
 			</div>
+		
 			{/* <FormGroup
                 label="Consultas"
                 subLabel="Las consultas que se usarán para filtrar los resultados"

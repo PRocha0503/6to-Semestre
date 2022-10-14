@@ -1,8 +1,21 @@
 .query {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 2rem;
+
+    /* grid-template-columns: 1fr; */
+}
+
+.query > * {
+    display: flex;
+    justify-content: space-between;
 }
 
 .queryTagOperator {
     font-weight: bold;
+}
+
+.select > * {
+    width: 100%;
 }

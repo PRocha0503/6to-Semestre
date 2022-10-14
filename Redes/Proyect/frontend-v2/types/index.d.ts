@@ -23,4 +23,5 @@ export declare interface ITag {
 export declare interface ITagForm {
 	name: string;
 	icon?: IconName;
+	color: string;
 }

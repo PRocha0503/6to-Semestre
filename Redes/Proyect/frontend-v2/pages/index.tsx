@@ -3,6 +3,7 @@ import React, { useCallback, useEffect } from "react";
 import useQueryDocuments, {
 	QueryDocumentRequest,
 } from "@hooks/document/useQueryDocuments";
+import DocWindow from "@components/DocWindow";
 import Head from "next/head";
 import type { IDocument } from "types";
 import { LogsWindow } from "@components/LogsWindow";
@@ -12,38 +13,39 @@ import { Table } from "@components/Table";
 import UploadModal from "@components/upload/UploadModal";
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
-import DocWindow from "@components/DocWindow";
 
 const operators = [
-	"eq",
-	"gt",
-	"gte",
-	"in",
-	"lt",
-	"lte",
-	"ne",
-	"nin",
-	"regex",
-	"exists",
-	// add time operators
+	"es igual que",
+	"no es igual que",
+	"es mayor que",
+	"es menor que",
+	"es mayor o igual que",
+	"es menor o igual que",
+	"contiene",
+	"no contiene",
+	"empieza con",
+	"termina con",
+	"existe",
+	"no existe",
 ];
 
-const validateOperator = (operator: string): Operator => {
+const validateOperator = (operator: string): ReadableOperator => {
 	if (!operators.includes(operator)) {
 		throw new Error("Invalid operator");
 	}
 
-	return operator as Operator;
+	return operator as ReadableOperator;
 };
 
-const parseQueries = (query: string): Query[] => {
-	let queries: Query[] = [];
+const parseQueries = (query: string): ReadableQueryOperator[] => {
+	let queries: ReadableQueryOperator[] = [];
 
 	try {
 		queries = query.split(" AND ").map((q) => {
 			const [header, operator, value] = q.split(":");
 			validateOperator(operator);
-			return { header, operator, value } as Query;
+
+			return { header, operator, value } as ReadableQueryOperator;
 		});
 
 		return queries;
@@ -159,14 +161,14 @@ const Home: NextPage = () => {
 					style={{
 						// nice blue color
 						color: "#106ba3",
-					}}
+					}}	
 				>
 					Busqueda de registros
 				</h2>
 				<QueryBuilder
 					queries={queryRequest.queries}
 					onChangeQuery={(queries) =>
-						setQueryRequest({ ...queryRequest, queries })
+						setQueryRequest({ ...queryRequest, queries: queries })
 					}
 					tags={queryRequest.tags}
 					onChangeTags={(tags) => setQueryRequest({ ...queryRequest, tags })}
