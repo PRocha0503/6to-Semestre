@@ -2,6 +2,7 @@ import { Alignment, Button, Navbar } from "@blueprintjs/core";
 
 import { useUser } from "@hooks/user";
 import { useRouter } from "next/router";
+import styles from "../styles/Navbar.module.css";
 
 const CustomNavBar = () => {
 	const router = useRouter();
@@ -15,14 +16,17 @@ const CustomNavBar = () => {
 	return (
 		<>
 			{user ? (
-				<Navbar className="bp4-dark">
+				<Navbar className="custom">
+					<Navbar.Group align={Alignment.LEFT}>
+						<img src="./images/logo.svg" className={styles.logo} />
+					</Navbar.Group>
 					<Navbar.Group align={Alignment.RIGHT}>
 						<Navbar.Heading>{user.username}</Navbar.Heading>
 						<Navbar.Divider />
 						<Button
 							className="bp4-minimal"
 							icon="home"
-							text="Home"
+							text="Inicio"
 							onClick={() => router.push("/")}
 						/>
 						<Button

@@ -4,32 +4,100 @@
 
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	padding: 0;
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+		Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+	color: inherit;
+	text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 @media (prefers-color-scheme: dark) {
-  html {
-    /* color-scheme: dark; */
-  }
-  body {
-    color: rgb(0, 0, 0);
-    background: rgb(255, 255, 255);
-  }
+	html {
+		/* color-scheme: dark; */
+	}
+	body {
+		color: rgb(0, 0, 0);
+		background: rgb(255, 255, 255);
+	}
 }
 
 .bp4-form-group > .bp4-label {
-  color: rgb(48, 57, 119) !important;
-  font-weight: 600;
+	color: rgb(48, 57, 119) !important;
+	font-weight: 600;
+}
+
+.bp4-navbar.custom {
+	background-color: rgb(255, 255, 255);
+	color: rgb(10, 10, 10);
+	/* box-shadow: none; */
+	height: 50px;
+	padding: 0 15px;
+	position: relative;
+	width: 100%;
+	z-index: 10;
+}
+
+.bp4-button.exel {
+	border-radius: 30px;
+	background-color: rgb(249, 249, 249);
+	margin: 5px;
+}
+.bp4-button.exel:hover {
+	border-radius: 30px;
+	background-color: rgb(22, 219, 72);
+	color: white;
+	margin: 5px;
+	scale: 1.1;
+}
+
+.bp4-button.exel .bp4-icon {
+	color: rgb(22, 219, 72);
+}
+.bp4-button.exel:hover .bp4-icon {
+	color: rgb(255, 255, 255);
+}
+
+.bp4-button.new {
+	border-radius: 30px;
+	background-color: rgb(249, 249, 249);
+	margin: 5px;
+}
+
+.bp4-button.new:hover {
+	border-radius: 30px;
+	background-color: rgb(52, 87, 244);
+	color: white;
+	margin: 5px;
+	scale: 1.1;
+}
+
+.bp4-button.new .bp4-icon {
+	color: rgb(52, 87, 244);
+}
+.bp4-button.new:hover .bp4-icon {
+	color: rgb(255, 255, 255);
+}
+.bp4-multistep-dialog-right-panel {
+	background-color: white;
+}
+/* .bp4-button.bp4-minimal.navbar {
+	background-color: rgb(6, 235, 159);
+}
+
+.bp4-button.bp4-minimal.navbar-close {
+	background-color: rgb(6, 235, 159);
+} */
+.bp4-input-group.bp4-large .bp4-input:not(:first-child) {
+	padding-left: 40px;
+	background-color: rgb(253, 253, 253);
+	box-shadow: none;
+	border: 1px solid black;
 }
