@@ -147,6 +147,7 @@ export const Table = ({
 				// }}
 				renderMode={RenderMode.BATCH}
 				// ref={ref}
+				rowHeights={documents.map((d) => (d.hasFile ? 50 : 30))}
 			>
 				{renderColumns.map((column) => column.getColumn())}
 			</Table2>

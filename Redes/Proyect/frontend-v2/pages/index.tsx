@@ -150,41 +150,53 @@ const Home: NextPage = () => {
 				<meta name="description" content="Alcaldia Alvaro Obregon" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<Card
-				title="Query Documents"
-				elevation={2}
+
+			<h2
 				style={{
-					margin: "1rem",
+					// nice blue color
+					color: "#106ba3",
 				}}
 			>
-				<h2
-					style={{
-						// nice blue color
-						color: "#106ba3",
-					}}	
-				>
-					Busqueda de registros
-				</h2>
-				<QueryBuilder
-					queries={queryRequest.queries}
-					onChangeQuery={(queries) =>
-						setQueryRequest({ ...queryRequest, queries: queries })
-					}
-					tags={queryRequest.tags}
-					onChangeTags={(tags) => setQueryRequest({ ...queryRequest, tags })}
-					maxTags={5}
-					maxQueries={5}
-				/>
-			</Card>
+				Busqueda de registros
+			</h2>
+			<QueryBuilder
+				queries={queryRequest.queries}
+				onChangeQuery={(queries) =>
+					setQueryRequest({ ...queryRequest, queries })
+				}
+				tags={queryRequest.tags}
+				onChangeTags={(tags) => setQueryRequest({ ...queryRequest, tags })}
+				maxTags={5}
+				maxQueries={5}
+			/>
 
-			<div>
+			<h2
+				style={{
+					// nice blue color
+					color: "#106ba3",
+				}}
+			>
+				Registros
+			</h2>
+			<div
+				style={{
+					display: "flex",
+					justifyContent: "flex-end",
+					marginBottom: "3rem",
+				}}
+			>
 				{/* temporary while we decide how to organize the view */}
-				<Button onClick={() => setIsModalOpen(true)} icon={"panel-table"}>
+				<Button
+					onClick={() => setIsModalOpen(true)}
+					icon={"panel-table"}
+					className="exel"
+				>
 					Subir Excel
 				</Button>
 				<Button
 					text={"Agregar Registro"}
 					icon={"add"}
+					className="new"
 					onClick={() => router.push("/newDocument")}
 				/>
 			</div>
