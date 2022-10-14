@@ -30,8 +30,9 @@ export default function useDeleteUserArea(req: AuthRequest) {
 	const queryClient = useQueryClient();
 	return useMutation<AddUserResponse, Error>(() => deleteUserArea(req), {
 		onSuccess: () => {
-			queryClient.invalidateQueries(["get-areas", req.userId]);
+			queryClient.invalidateQueries(["get-user-areas"]);
 			queryClient.invalidateQueries(["query-users"]);
+			queryClient.invalidateQueries(["query-profile"]);
 		},
 	});
 }

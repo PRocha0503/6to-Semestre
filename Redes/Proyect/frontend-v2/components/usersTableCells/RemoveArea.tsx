@@ -54,6 +54,10 @@ const RemoveArea = ({ user, _id }: AreaSelectorProps) => {
 		}
 	}, [deleteAreaToUserIsSuccess, deleteAreaToUserIsError]);
 
+	useEffect(() => {
+		setAreas(user.areas);
+	}, [user.areas]);
+
 	const itemRenderer = useCallback<ItemRenderer<IArea>>(
 		(area, props) => {
 			return (
