@@ -1,6 +1,19 @@
-import { Intent, Toaster, Toast } from "@blueprintjs/core";
+import { Intent, Toast, Toaster } from "@blueprintjs/core";
 import styles from "@styles/Notifications.module.css";
-const Notifications: React.FC<any> = ({ toast, setToast }) => {
+import { useState } from "react";
+
+interface Notification {
+	  message: string;
+	  type: Intent;
+}
+
+interface Props {
+	toasts: Notification[];
+	setToasts: React.Dispatch<React.SetStateAction<Notification[]>>;
+}
+
+const Notifications: React.FC<Props> = ({ toasts, setToasts }) => {
+	useState
 	const setIntent = (intent: string) => {
 		switch (intent) {
 			case "success":
@@ -15,19 +28,18 @@ const Notifications: React.FC<any> = ({ toast, setToast }) => {
 	};
 	return (
 		<Toaster>
-			{toast?.map((t: any, i: any) => {
+			{toasts.map((t: Notification, i: number) => {
 				console.log("t", t);
 				return (
 					<Toast
+						key={i}
 						message={t.message}
 						icon="error"
 						intent={setIntent(t.type)}
 						timeout={3000}
 						className={styles.toast}
 						onDismiss={() => {
-							setToast((toast: any) =>
-								toast.filter((_: any, index: any) => index !== i)
-							);
+							setToasts((prev) => prev.filter((_, index) => index !== i))
 						}}
 					/>
 				);

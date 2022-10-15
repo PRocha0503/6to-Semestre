@@ -131,7 +131,7 @@ const RemoveArea = ({ user, _id }: AreaSelectorProps) => {
 	);
 	return (
 		<>
-			<Notifications toast={toasts} setToast={setToasts} />
+			<Notifications toasts={toasts} setToasts={setToasts} />
 			<Popover2
 				content={attempt}
 				captureDismiss={true}

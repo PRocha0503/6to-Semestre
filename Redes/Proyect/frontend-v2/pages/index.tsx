@@ -5,7 +5,7 @@ import useQueryDocuments, {
 } from "@hooks/document/useQueryDocuments";
 import DocWindow from "@components/DocWindow";
 import Head from "next/head";
-import type { IDocument } from "types";
+import type { IDocument, ITagForm } from "types";
 import { LogsWindow } from "@components/LogsWindow";
 import type { NextPage } from "next";
 import QueryBuilder from "@components/QueryBuilder";
@@ -56,6 +56,27 @@ const parseQueries = (query: string): ReadableQueryOperator[] => {
 	}
 };
 
+const parseTags = (query: string): ITagForm[] => {
+	let tags: ITagForm[] = [];
+	try {
+		tags = query.split(" OR ").map((q) => {
+		if (q.split(":").length !== 4) {
+			throw new Error("Invalid tag");
+		}
+
+		const [icon, name, color, id] = q.split(":");
+		
+		return { icon, name, color, _id: id } as ITagForm;
+	});
+
+	return tags;
+
+	} catch (e) {
+		console.log(e);
+		return [];
+	}
+}
+
 const Home: NextPage = () => {
 	// const [isOpen, setIsOpen] = React.useState;
 	const onClose = () => {};
@@ -95,11 +116,13 @@ const Home: NextPage = () => {
 		const query = queryRequest.queries
 			.map((q) => encodeURIComponent(`${q.header}:${q.operator}:${q.value}`))
 			.join(" AND ");
+
+		const tags = queryRequest.tags.map((t) => encodeURIComponent(`${t.icon}:${t.name}:${t.color}:${t._id}`)).join(" OR ") ;
 		await router.push({
-			query: { query },
+			query: { query, tags },
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [queryRequest.queries]);
+	}, [queryRequest.queries, queryRequest.tags]);
 
 	// update url when query changes
 	useEffect(() => {
@@ -110,10 +133,11 @@ const Home: NextPage = () => {
 	useEffect(() => {
 		const sParams = new URLSearchParams(window.location.search);
 		const query = decodeURIComponent(sParams.get("query") || "");
+		const tags = decodeURIComponent(sParams.get("tags") || "");
 
 		setQueryRequest({
 			queries: parseQueries(query),
-			tags: [],
+			tags: parseTags(tags),
 		});
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -171,22 +195,19 @@ const Home: NextPage = () => {
 				maxTags={5}
 				maxQueries={5}
 			/>
-
-			<h2
-				style={{
-					// nice blue color
-					color: "#106ba3",
-				}}
-			>
-				Registros
-			</h2>
 			<div
+				className={styles.buttonContainer}
 				style={{
 					display: "flex",
 					justifyContent: "flex-end",
-					marginBottom: "3rem",
+					marginBottom: "2rem",
+					height: "2rem",
 				}}
 			>
+
+				<h4>
+					Registros
+				</h4>
 				{/* temporary while we decide how to organize the view */}
 				<Button
 					onClick={() => setIsModalOpen(true)}

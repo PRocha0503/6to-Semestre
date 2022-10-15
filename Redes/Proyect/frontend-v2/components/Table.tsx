@@ -54,7 +54,7 @@ export const Table = ({
 				{ name: "Folio", key: "folio", type: CTypeString },
 				{ name: "Fecha de Creación", key: "createdAt", type: CTypeDate },
 				{
-					name: "Agregar Area",
+					name: "Area",
 					key: "area",
 					type: CTypeCustom,
 					render: (c: any) => {
@@ -148,6 +148,7 @@ export const Table = ({
 				renderMode={RenderMode.BATCH}
 				// ref={ref}
 				rowHeights={documents.map((d) => (d.hasFile ? 50 : 30))}
+				className="table"
 			>
 				{renderColumns.map((column) => column.getColumn())}
 			</Table2>

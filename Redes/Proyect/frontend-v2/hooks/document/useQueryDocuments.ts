@@ -86,8 +86,17 @@ const buildQuery = (queries: ReadableQueryOperator[]): string => {
 
     return query;
 }
+
+const buildTags = (tags: ITagForm[]): string => {
+    const tagQuery = tags.map((tag) => {
+        return `${tag._id}`
+    }).join(" OR ");
+
+    return tagQuery;
+}
+
 const queryDocuments = async ({ queries, tags} : QueryDocumentRequest): Promise<QueryResponse> => {
-    return (await client.get(`/docs/query`, { params: { query: buildQuery(queries) } })).data;
+    return (await client.get(`/docs/query`, { params: { query: buildQuery(queries), tags: buildTags(tags) } })).data;
 };
 
 export default function useQueryDocuments(req: QueryDocumentRequest, options = {}) {

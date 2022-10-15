@@ -29,10 +29,10 @@ a {
 	}
 }
 
-.bp4-form-group > .bp4-label {
+/* .bp4-form-group > .bp4-label {
 	color: rgb(48, 57, 119) !important;
 	font-weight: 600;
-}
+} */
 
 .bp4-navbar.custom {
 	background-color: rgb(255, 255, 255);
@@ -79,6 +79,19 @@ a {
 	scale: 1.1;
 }
 
+.bp4-button.delete-new:hover {
+	border-radius: 30px;
+	background-color: rgb(228, 64, 64);
+	margin: 5px;
+}
+
+.bp4-button.delete-new {
+	border-radius: 30px;
+	background-color: rgb(255, 255, 255);
+	color: rgb(228, 64, 64);
+	margin: 5px;
+}
+
 .bp4-button.new .bp4-icon {
 	color: rgb(52, 87, 244);
 }
@@ -100,4 +113,8 @@ a {
 	background-color: rgb(253, 253, 253);
 	box-shadow: none;
 	border: 1px solid black;
+}
+
+.table {
+	padding-bottom: 1rem;
 }

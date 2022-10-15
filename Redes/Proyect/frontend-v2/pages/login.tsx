@@ -66,7 +66,7 @@ const Login: NextPage = () => {
 
 	return (
 		<div className={styles.root}>
-			<Notifications toast={toast} setToast={setToast} />
+			<Notifications toasts={toast} setToasts={setToast} />
 
 			<div className={styles.useArea}>
 				<img

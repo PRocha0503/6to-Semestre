@@ -3,6 +3,7 @@ const Area = require("../models/area");
 const Batch = require("../models/batch");
 const stream = require("stream");
 const { parseQuery } = require("../utils/parseQuery");
+const { parseTags } = require("../utils/parseTags");
 const { parseBatch } = require("../utils/parseBatch");
 const XLSX = require("xlsx");
 const fs = require("fs");
@@ -177,7 +178,7 @@ const getDocuments = async (req, res) => {
 const queryDocuments = async (req, res) => {
 	console.log(req.query);
 	try {
-		if (req.query.query === undefined || req.query.query === "") {
+		if (!req.query.query && !req.query.tags) {
 			console.log("No query");
 			const documents = await Document.find(
 				{ area: { $ne: null, $in: [...req.user.areas] } },
@@ -190,26 +191,30 @@ const queryDocuments = async (req, res) => {
 			return;
 		}
 
-		// check cache
-		// const cache = await redis.get(req.query.query);
-
 		const parsedQueries = parseQuery(req.query.query);
+		const parsedTags = parseTags(req.query.tags);
 
-		console.log(req.user.areas);
+		const queryMongo = {
+			area: { $ne: null, $in: [...req.user.areas] },
+		}
+
+		if (parsedQueries.length > 0) {
+			queryMongo.$and = parsedQueries.map((query) => {
+				return {
+					[query.key]: {
+						[`$${query.operator}`]: query.value,
+					},
+				};
+						
+			});
+		}
+
+		if (parsedTags.length > 0) {
+			queryMongo.tags = { $in: [ ...parsedTags] }
+		}
+	
 		// add validations for each query
-		const documents = await Document.find(
-			{
-				area: { $ne: null, $in: [...req.user.areas] },
-				$and: parsedQueries.map((query) => {
-					return {
-						[query.key]: {
-							[`$${query.operator}`]: query.value,
-						},
-					};
-				}),
-			},
-			"-file"
-		);
+		const documents = await Document.find(queryMongo, "-file").populate("createdBy").populate("area").populate("tags");
 
 		// cache the query
 

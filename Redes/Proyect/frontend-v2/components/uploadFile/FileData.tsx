@@ -1,17 +1,13 @@
 import {
-	AnchorButton,
-	FileInput,
 	Icon,
 	InputGroup,
 	Label,
-	MultistepDialog,
 	DialogStep,
 	MenuItem,
 	Button,
 	Tag,
 } from "@blueprintjs/core";
 import { DateInput } from "@blueprintjs/datetime";
-import Notifications from "@components/Notifications";
 import { TagSelector } from "@components/TagSelect";
 import useCreateDocument, {
 	CreateDocumentRequest,

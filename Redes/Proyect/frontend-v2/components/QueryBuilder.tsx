@@ -62,6 +62,7 @@ const QueryBuilder = ({
 	// transform tags to ITagForm
 	useEffect(() => {
 		if (data) {
+			console.log(data);
 			setMenuTags(data.tags);
 		}
 	}, [data]);

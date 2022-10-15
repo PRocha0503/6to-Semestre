@@ -16,3 +16,22 @@
     color: #737BA1;
     margin-right: 10px;
 }
+
+.iframeParent {
+    background: rgb(201, 200, 200);
+}
+
+@keyframes blinker {
+    0% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.8;
+    }
+
+}

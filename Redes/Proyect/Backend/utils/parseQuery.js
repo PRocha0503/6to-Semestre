@@ -40,7 +40,7 @@ const parseQuery = (query) => {
         })
         return parsedQueries
     } catch (e) {
-        throw new Error("Invalid query")
+        return []
     }   
 }
 

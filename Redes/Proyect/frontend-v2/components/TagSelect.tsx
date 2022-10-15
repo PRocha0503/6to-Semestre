@@ -54,7 +54,7 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ dark, tags=[], selecte
     }
 
     const cropText = (text: string, length: number): string => {
-        return text.substring(0, length) + (text.length > length ? "..." : "");
+        return text?.substring(0, length) + (text?.length > length ? "..." : "");
     }
 
     const itemRenderer: ItemRenderer<ITagForm> = (tag, props) => {
