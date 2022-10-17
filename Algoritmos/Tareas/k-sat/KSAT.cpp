@@ -97,7 +97,7 @@ map<int, bool> KSAT::Shoning(){
         flipLiteral(failedLiteral);
       }
   }
-  cout<<"\nITERATION "<<numOfVariables*3<<" :"<<endl;
+  cout<<"\nFINAL ITERATION "<<" :"<<endl;
   printVariables(false);
   return variables;
 }
