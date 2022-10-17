@@ -3,57 +3,7 @@
 KSAT::KSAT(string fileName){
     failedConstraints = vector<vector<KLiteral>>();
     numOfVariables=0;
-    // readFromFile(fileName);
     FromDIMACS(fileName.c_str());
-}
-
-void KSAT::readFromFile(string fileName){
-    ifstream file;
-
-    file.open(fileName);
-    if (!file.is_open()){
-        cout << "Could not read file" << endl;
-        return;
-    }
-
-    regex reg ("[0-9]+(?!cnf )(?=  [0-9]+)");
-    vector<KLiteral> literals;
-    int var = 0;
-    bool negated = false;
-    smatch match;
-    string line = "";
-    string number = "";
-    bool matchedNumOfVariables = false;
-
-    numOfVariables = 20;
-    
-    while(getline(file, line)){
-        //while (regex_search(line, match, reg) && !matchedNumOfVariables){
-        //    numOfVariables = stoi(match.str());
-        //    matchedNumOfVariables = true;
-        //}
-        //if (!matchedNumOfVariables) continue;
-        for (auto x : line){
-            if (x == '0'){
-                constraints.push_back(literals);
-                literals.clear();
-                var = 0;
-                negated = false;
-            }
-            else if (x == ' '){
-                literals.push_back(KLiteral(var, negated));
-                var = 0;
-                negated = false;
-                literals.clear();
-                number = "";
-            }
-            else if (x == '-')
-                negated = true;
-            else
-                number += x;
-        }
-    }
-    file.close();
 }
 
 void KSAT::FromDIMACS(const char * filename) {
@@ -168,7 +118,7 @@ void KSAT::printVariables(bool found){
 
 void KSAT::makeRandomVariables(){
     //Por cada variable hacer su valor random
-    for (int i=0;i<numOfVariables;i++){
+    for (int i=1;i<=numOfVariables;i++){
       random_device rd;
       mt19937 gen(rd());
       uniform_int_distribution<> distr(0, 1);
@@ -202,10 +152,6 @@ int KSAT::getRandomFailedLiteral(){
     uniform_int_distribution<> distr2(0, randomConstraint.size()-1);
     int randomIndex2 = distr2(gen);
     KLiteral randomLiteral = randomConstraint[randomIndex2];
-
-    // for (int i = 0; i < randomConstraint.size(); i++) {
-    //   cout << randomConstraint[i].variable << " ";
-    // }
     
     cout << "Random literal: " << randomLiteral.variable << endl;
     return randomLiteral.variable;
@@ -216,11 +162,9 @@ void KSAT::flipLiteral(int i){
 }
 
 bool KSAT::evaluateClauses(){
-  bool accumulatedResult=true;
-  
+  bool accumulatedResult=true;  
   for (int i = 0; i < constraints.size();i++){
     for (int j =0; j < constraints[i].size();j++){
-      // cout << i << " " << j << endl;
       KLiteral literal = constraints[i][j];
       bool valueOfLiteral=false;
         if (literal.isNegated){
