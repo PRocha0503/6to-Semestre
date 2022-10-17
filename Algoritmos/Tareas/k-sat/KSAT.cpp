@@ -217,8 +217,8 @@ void KSAT::flipLiteral(int i){
 bool KSAT::evaluateClauses(){
   bool accumulatedResult=true;
   
-  for (int i = 0; i != constraints.size();i++){
-    for (int j =0; j != constraints[i].size();j++){
+  for (int i = 0; i < constraints.size();i++){
+    for (int j =0; j < constraints[i].size();j++){
       // cout << i << " " << j << endl;
       KLiteral literal = constraints[i][j];
       bool valueOfLiteral=false;
