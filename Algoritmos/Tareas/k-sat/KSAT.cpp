@@ -144,15 +144,20 @@ void KSAT::printIterations(bool found, int numIteration, vector <KLiteral> faile
 
 void KSAT::printIterationsToFile(bool found, int numIteration, vector <KLiteral> failedConstraint, int failedLiteral){
   //Create the filename from the input filename
-  std::size_t foundFile = filename.find_last_of("/\\");
+  size_t foundFile = filename.find_last_of("/\\");
   string resultsFileName="result_"+filename.substr(foundFile+1);
 
-  std::ofstream myfile;
-  myfile.open (resultsFileName);
+  //Open the file
+  ofstream myfile(resultsFileName, ios_base::out | ios_base::app);
+  if (numIteration == 0){ 
+    ofstream myfile;
+    myfile.open (resultsFileName);
+  }
   //Print the iterations
   myfile<<"\nITERATION "<<numIteration<<" :"<<endl;
   if (found){
     myfile<<"RESULT FOUND"<<endl;
+    cout<<"RESULT FOUND"<<endl;
   }
   else{
     myfile<<"RESULT NOT FOUND YET"<<endl;
@@ -168,6 +173,9 @@ void KSAT::printIterationsToFile(bool found, int numIteration, vector <KLiteral>
       myfile<<endl;
       myfile << "Random literal: " << failedLiteral << endl;
     }
+    else{
+      cout<<"RESULT NOT FOUND YET"<<endl;
+    }
   }
   //Print number of failed constraints
   myfile << "# Constraints: " << constraints.size() << endl;
@@ -177,9 +185,9 @@ void KSAT::printIterationsToFile(bool found, int numIteration, vector <KLiteral>
     myfile << i->second << " ";
   }
   myfile<<endl;
-  myfile.close();
   //If its the final iteration
   if (found || failedLiteral==-1){
+    myfile.close();
     cout<<"Results created on file "<<resultsFileName<<endl;
   }
 }
