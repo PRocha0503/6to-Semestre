@@ -7,6 +7,7 @@
 #include <random>
 #include <iostream>
 #include <functional>
+#include <sstream>
 
 using namespace std;
 
