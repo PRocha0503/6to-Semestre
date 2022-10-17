@@ -109,7 +109,6 @@ void KSAT::printVariables(bool found){
   else{
     cout<<"RESULT NOT FOUND YET"<<endl;
   }
-  cout<<"# Variables: " << variables.size() <<endl;
   for(auto i = variables.begin(); i != variables.end(); i++){
     cout << i->second << " ";
   }
@@ -148,7 +147,6 @@ int KSAT::getRandomFailedLiteral(){
     vector<KLiteral> randomConstraint = failedConstraints[randomIndex];
 
     cout << "Random constraint: " << randomIndex << endl;
-    cout << "Random constraint size: " << randomConstraint.size() << endl;
     uniform_int_distribution<> distr2(0, randomConstraint.size()-1);
     int randomIndex2 = distr2(gen);
     KLiteral randomLiteral = randomConstraint[randomIndex2];
