@@ -20,6 +20,7 @@ interface AreaSelectorProps {
 
 // eslint-disable-next-line import/no-default-export
 const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
+	console.log(_id);
 	const [toasts, setToasts] = useState<any>([]);
 	const [areas, setAreas] = useState<IArea[]>([]);
 	const [open, setOpen] = useState<boolean>(false);
@@ -52,7 +53,7 @@ const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
 				{ message: "Error añadiendo area", type: "danger" },
 			]);
 		}
-	}, [isError, isSuccess, addAreaToUserIsSuccess, addAreaToUserIsError]);
+	}, [isError, isSuccess, addAreaToUserIsSuccess, addAreaToUserIsError, data]);
 
 	const itemRenderer = useCallback<ItemRenderer<IArea>>(
 		(area, props) => {
@@ -128,7 +129,7 @@ const AreaSelector = ({ user, _id }: AreaSelectorProps) => {
 	);
 	return (
 		<>
-			<Notifications toast={toasts} setToast={setToasts} />
+			<Notifications toasts={toasts} setToasts={setToasts} />
 			<Popover2
 				content={attempt}
 				captureDismiss={true}

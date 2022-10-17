@@ -1,9 +1,9 @@
-import { ITag } from "types";
+import { ITag, ITagForm } from "types";
 import client from "@services/http";
 import { useQuery } from "react-query";
 
 interface ITagResponse {
-	tags: ITag[];
+	tags: ITagForm[];
 }
 
 const fetchTags = async (id: string): Promise<ITagResponse> => {

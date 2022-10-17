@@ -47,16 +47,16 @@ const Login: NextPage = () => {
 		} else if (isError) {
 			switch (error.code) {
 				case "ERR_BAD_REQUEST":
-				 setToast([
-					{
-						message: "Usuario o contraseña incorrectos",
-						type: "danger",
-					},
-				]);
-				return;
-			default:
-				setToast([...toast, { message: error.message, type: "danger" }]);
-			} 
+					setToast([
+						{
+							message: "Usuario o contraseña incorrectos",
+							type: "danger",
+						},
+					]);
+					return;
+				default:
+					setToast([...toast, { message: error.message, type: "danger" }]);
+			}
 		}
 	}, [isSuccess, isError]);
 
@@ -66,7 +66,7 @@ const Login: NextPage = () => {
 
 	return (
 		<div className={styles.root}>
-			<Notifications toast={toast} setToast={setToast} />
+			<Notifications toasts={toast} setToasts={setToast} />
 
 			<div className={styles.useArea}>
 				<img
@@ -88,6 +88,7 @@ const Login: NextPage = () => {
 								name="username"
 								data-cy="username"
 								onChange={(e) => setUsername(e.target.value)}
+								className={styles.bp4}
 							/>
 						</div>
 						<div className={styles.input}>
@@ -105,10 +106,16 @@ const Login: NextPage = () => {
 							/>
 						</div>
 
-						<Button icon="log-in" large type="submit" data-cy="login" onClick={(e) => {
-							e.preventDefault();
-							loginButton()
-						}}>
+						<Button
+							icon="log-in"
+							large
+							type="submit"
+							data-cy="login"
+							onClick={(e) => {
+								e.preventDefault();
+								loginButton();
+							}}
+						>
 							Iniciar Sesión
 						</Button>
 					</div>

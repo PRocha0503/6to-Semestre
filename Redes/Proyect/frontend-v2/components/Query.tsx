@@ -5,32 +5,33 @@ import React from "react";
 
 import QueryClasses from '../styles/Query.module.css';
 
-const OperatorSelect = Select2.ofType<Operator>();
+const OperatorSelect = Select2.ofType<ReadableOperator>();
 const HeaderSelect = Select2.ofType<string>();
 
 interface QueryProps {
-    query: Query;
-    onChangeQuery: (query: Query) => void;
-    onEnter?: (query: Query) => void;
+    query: ReadableQueryOperator;
+    onChangeQuery: (query: ReadableQueryOperator) => void;
+    onEnter?: (query: ReadableQueryOperator) => void;
     headers?: string[];
     readonly?: boolean
 }
 
 const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, onEnter, headers=[] }) => {
-    const operators: Operator[] = [
-        "eq",
-        "gt",
-        "gte",
-        "lt",
-        "lte",
-        "in",
-        "nin",
-        "regex",
-        "exists"
+    const operators: ReadableOperator[] = [
+        "empieza con",
+        "contiene",
+        "termina con", 
+        "es igual que" ,
+        "es distinto A" ,
+        "es mayor que" ,
+        "es mayor o igual que", 
+        "es menor que" ,
+        "es menor igual que", 
+        "existe" 
     ]
-
+    
     const headerPredicate = (query: string, item: string) => item.toLowerCase().indexOf(query.toLowerCase()) >= 0
-    const operatorPredicate = (query: string, item: Operator) => item.toLowerCase().indexOf(query.toLowerCase()) >= 0
+    const operatorPredicate = (query: string, item: ReadableOperator) => item.toLowerCase().indexOf(query.toLowerCase()) >= 0
 
     const headerRenderer: ItemRenderer<string> = (item, props) => {
         if (!props.modifiers.matchesPredicate) {
@@ -48,11 +49,11 @@ const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, onEnter, 
         );
     }
 
-    const operatorRenderer: ItemRenderer<Operator> = (item, props) => {
+    const operatorRenderer: ItemRenderer<ReadableOperator> = (item, props) => {
         if (!props.modifiers.matchesPredicate) {
             return null;
         }
-
+        
         return (
             <MenuItem2
                 {...props.modifiers}
@@ -67,8 +68,7 @@ const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, onEnter, 
     return (
           <ControlGroup className={QueryClasses.query}>
                 <FormGroup
-                    label="Encabezado"
-                    inline
+                    label="El encabezado"
                     disabled={readonly}
                 >
                     <HeaderSelect
@@ -77,11 +77,12 @@ const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, onEnter, 
                         itemRenderer={headerRenderer}
                         onItemSelect={(item) => onChangeQuery({ ...query, header: item })}
                         itemsEqual={(a, b) => a === b}
-                        noResults={<MenuItem2 disabled={true} text="No results." />}
+                        noResults={<MenuItem2 disabled={true} text="No hay resultados." />}
                         resetOnClose={false}
                         resetOnQuery={false}
                         resetOnSelect={false}
                         disabled={readonly}
+                        className={QueryClasses.select}
                         
                         itemDisabled={() => readonly || false}
                         // initialContent={<MenuItem2 disabled={true} text="Type to search..." />}
@@ -91,16 +92,17 @@ const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, onEnter, 
                     </HeaderSelect>
                 </FormGroup>
                 <FormGroup
-                    label="Operador"
-                    inline
+                    label="Tiene la condición"
                     disabled={readonly}
                 >
                     <OperatorSelect
+                        fill
                         items={operators}
                         itemPredicate={operatorPredicate}
                         itemRenderer={operatorRenderer}
                         filterable={false}
-                        onItemSelect={(operator) => onChangeQuery({ ...query, operator })}
+                        className={QueryClasses.select}
+                        onItemSelect={(operator) => onChangeQuery({ ...query, operator: operator })}
                         popoverProps={{ minimal: true, canEscapeKeyClose: true, autoFocus: true }}
                         disabled={readonly}
                     >
@@ -108,8 +110,7 @@ const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, onEnter, 
                     </OperatorSelect>
                 </FormGroup>
                 <FormGroup
-                    label="Valor"
-                    inline
+                    label="Con el valor"
                     disabled={readonly}
                 >
                     <InputGroup

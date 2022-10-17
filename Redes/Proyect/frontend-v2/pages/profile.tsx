@@ -1,13 +1,11 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@hooks/user";
 
 import {
 	Button,
-	InputGroup,
 	Card,
 	NonIdealState,
 	Icon,
-	Intent,
 } from "@blueprintjs/core";
 
 import useGetUsers from "@hooks/user/useGetUsers";
@@ -64,7 +62,7 @@ const Profile = () => {
 	}
 	return (
 		<Card>
-			<Notifications toast={toasts} setToast={setToasts} />
+			<Notifications toasts={toasts} setToasts={setToasts} />
 			<h1 className="bp4-heading">{user?.username}</h1>
 			<h5 className="bp4-heading">Areas</h5>
 			{profile.areas.map((area) => {

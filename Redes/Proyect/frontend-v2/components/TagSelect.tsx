@@ -54,7 +54,7 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ dark, tags=[], selecte
     }
 
     const cropText = (text: string, length: number): string => {
-        return text.substring(0, length) + (text.length > length ? "..." : "");
+        return text?.substring(0, length) + (text?.length > length ? "..." : "");
     }
 
     const itemRenderer: ItemRenderer<ITagForm> = (tag, props) => {
@@ -82,9 +82,10 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ dark, tags=[], selecte
     const getTagProps = (_value: React.ReactNode, index: number): TagProps => ({
         intent: Intent.PRIMARY,
         icon: selectedTags[index].icon,
-        minimal: true,
-        
-        // style: MapColorToStyle(selectedTags[index].color),
+        style: {
+            backgroundColor: selectedTags[index].color || "gray",
+            color: "white",
+        }
     })
 
     const handleClear = () => {
@@ -112,7 +113,7 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ dark, tags=[], selecte
             menuProps={{ "aria-label": "tags" }}
             popoverProps={{ minimal: true, matchTargetWidth: false, popoverClassName: dark ? Classes.DARK : "", className: TagClasses.popover }}
             popoverRef={popeverRef}
-            tagInputProps={{ fill: false, large: true, leftIcon: "tag", className: Classes.INPUT_GHOST, tagProps: getTagProps}}
+            tagInputProps={{ fill: false, large: true, leftIcon: "tag", className: Classes.INPUT_GHOST, tagProps: getTagProps, placeholder: "Agregar etiquetas" }}
             noResults={<MenuItem2 disabled={true} text="Sin resultados." roleStructure="listoption" className={dark ? Classes.DARK : ""} />}
         />
     )

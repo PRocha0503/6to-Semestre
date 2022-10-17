@@ -54,6 +54,10 @@ const RemoveArea = ({ user, _id }: AreaSelectorProps) => {
 		}
 	}, [deleteAreaToUserIsSuccess, deleteAreaToUserIsError]);
 
+	useEffect(() => {
+		setAreas(user.areas);
+	}, [user.areas]);
+
 	const itemRenderer = useCallback<ItemRenderer<IArea>>(
 		(area, props) => {
 			return (
@@ -127,7 +131,7 @@ const RemoveArea = ({ user, _id }: AreaSelectorProps) => {
 	);
 	return (
 		<>
-			<Notifications toast={toasts} setToast={setToasts} />
+			<Notifications toasts={toasts} setToasts={setToasts} />
 			<Popover2
 				content={attempt}
 				captureDismiss={true}

@@ -91,7 +91,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
 
     return (
         <>
-      <Notifications toast={toasts} setToast={setToasts} />
+      <Notifications toasts={toasts} setToasts={setToasts} />
         <MultistepDialog
             autoFocus
             canEscapeKeyClose

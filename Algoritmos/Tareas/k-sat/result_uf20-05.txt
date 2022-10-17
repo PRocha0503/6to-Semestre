@@ -1,0 +1,486 @@
+
+ITERATION 0 :
+RESULT NOT FOUND YET
+Random failed constraint  20 -19 -11 
+Random literal: 20
+# Constraints: 91
+# Failed constraints: 12
+0 1 1 0 1 0 1 0 0 1 1 1 1 1 0 1 0 1 1 0 
+
+ITERATION 1 :
+RESULT NOT FOUND YET
+Random failed constraint  9 -2 -14 
+Random literal: 9
+# Constraints: 91
+# Failed constraints: 12
+0 1 1 0 1 0 1 0 0 1 1 1 1 1 0 1 0 1 1 1 
+
+ITERATION 2 :
+RESULT NOT FOUND YET
+Random failed constraint  -12 -3 -13 
+Random literal: 3
+# Constraints: 91
+# Failed constraints: 12
+0 1 1 0 1 0 1 0 1 1 1 1 1 1 0 1 0 1 1 1 
+
+ITERATION 3 :
+RESULT NOT FOUND YET
+Random failed constraint  -18 -11 -20 
+Random literal: 18
+# Constraints: 91
+# Failed constraints: 11
+0 1 0 0 1 0 1 0 1 1 1 1 1 1 0 1 0 1 1 1 
+
+ITERATION 4 :
+RESULT NOT FOUND YET
+Random failed constraint  -11 -16 3 
+Random literal: 3
+# Constraints: 91
+# Failed constraints: 12
+0 1 0 0 1 0 1 0 1 1 1 1 1 1 0 1 0 0 1 1 
+
+ITERATION 5 :
+RESULT NOT FOUND YET
+Random failed constraint  -14 17 -3 
+Random literal: 17
+# Constraints: 91
+# Failed constraints: 13
+0 1 1 0 1 0 1 0 1 1 1 1 1 1 0 1 0 0 1 1 
+
+ITERATION 6 :
+RESULT NOT FOUND YET
+Random failed constraint  -7 -14 -2 
+Random literal: 2
+# Constraints: 91
+# Failed constraints: 15
+0 1 1 0 1 0 1 0 1 1 1 1 1 1 0 1 1 0 1 1 
+
+ITERATION 7 :
+RESULT NOT FOUND YET
+Random failed constraint  -20 -5 -3 
+Random literal: 20
+# Constraints: 91
+# Failed constraints: 13
+0 0 1 0 1 0 1 0 1 1 1 1 1 1 0 1 1 0 1 1 
+
+ITERATION 8 :
+RESULT NOT FOUND YET
+Random failed constraint  -11 -16 -12 
+Random literal: 16
+# Constraints: 91
+# Failed constraints: 13
+0 0 1 0 1 0 1 0 1 1 1 1 1 1 0 1 1 0 1 0 
+
+ITERATION 9 :
+RESULT NOT FOUND YET
+Random failed constraint  -11 -7 18 
+Random literal: 11
+# Constraints: 91
+# Failed constraints: 12
+0 0 1 0 1 0 1 0 1 1 1 1 1 1 0 0 1 0 1 0 
+
+ITERATION 10 :
+RESULT NOT FOUND YET
+Random failed constraint  4 6 -19 
+Random literal: 19
+# Constraints: 91
+# Failed constraints: 9
+0 0 1 0 1 0 1 0 1 1 0 1 1 1 0 0 1 0 1 0 
+
+ITERATION 11 :
+RESULT NOT FOUND YET
+Random failed constraint  20 4 1 
+Random literal: 4
+# Constraints: 91
+# Failed constraints: 6
+0 0 1 0 1 0 1 0 1 1 0 1 1 1 0 0 1 0 0 0 
+
+ITERATION 12 :
+RESULT NOT FOUND YET
+Random failed constraint  -12 -3 -13 
+Random literal: 12
+# Constraints: 91
+# Failed constraints: 7
+0 0 1 1 1 0 1 0 1 1 0 1 1 1 0 0 1 0 0 0 
+
+ITERATION 13 :
+RESULT NOT FOUND YET
+Random failed constraint  15 -5 -9 
+Random literal: 9
+# Constraints: 91
+# Failed constraints: 9
+0 0 1 1 1 0 1 0 1 1 0 0 1 1 0 0 1 0 0 0 
+
+ITERATION 14 :
+RESULT NOT FOUND YET
+Random failed constraint  12 18 15 
+Random literal: 18
+# Constraints: 91
+# Failed constraints: 10
+0 0 1 1 1 0 1 0 0 1 0 0 1 1 0 0 1 0 0 0 
+
+ITERATION 15 :
+RESULT NOT FOUND YET
+Random failed constraint  -4 12 -13 
+Random literal: 4
+# Constraints: 91
+# Failed constraints: 8
+0 0 1 1 1 0 1 0 0 1 0 0 1 1 0 0 1 1 0 0 
+
+ITERATION 16 :
+RESULT NOT FOUND YET
+Random failed constraint  1 15 -18 
+Random literal: 1
+# Constraints: 91
+# Failed constraints: 7
+0 0 1 0 1 0 1 0 0 1 0 0 1 1 0 0 1 1 0 0 
+
+ITERATION 17 :
+RESULT NOT FOUND YET
+Random failed constraint  4 -1 9 
+Random literal: 9
+# Constraints: 91
+# Failed constraints: 7
+1 0 1 0 1 0 1 0 0 1 0 0 1 1 0 0 1 1 0 0 
+
+ITERATION 18 :
+RESULT NOT FOUND YET
+Random failed constraint  -17 2 -10 
+Random literal: 17
+# Constraints: 91
+# Failed constraints: 8
+1 0 1 0 1 0 1 0 1 1 0 0 1 1 0 0 1 1 0 0 
+
+ITERATION 19 :
+RESULT NOT FOUND YET
+Random failed constraint  19 -14 -5 
+Random literal: 5
+# Constraints: 91
+# Failed constraints: 7
+1 0 1 0 1 0 1 0 1 1 0 0 1 1 0 0 0 1 0 0 
+
+ITERATION 20 :
+RESULT NOT FOUND YET
+Random failed constraint  11 -18 -1 
+Random literal: 1
+# Constraints: 91
+# Failed constraints: 6
+1 0 1 0 0 0 1 0 1 1 0 0 1 1 0 0 0 1 0 0 
+
+ITERATION 21 :
+RESULT NOT FOUND YET
+Random failed constraint  -9 6 19 
+Random literal: 9
+# Constraints: 91
+# Failed constraints: 7
+0 0 1 0 0 0 1 0 1 1 0 0 1 1 0 0 0 1 0 0 
+
+ITERATION 22 :
+RESULT NOT FOUND YET
+Random failed constraint  20 4 1 
+Random literal: 20
+# Constraints: 91
+# Failed constraints: 7
+0 0 1 0 0 0 1 0 0 1 0 0 1 1 0 0 0 1 0 0 
+
+ITERATION 23 :
+RESULT NOT FOUND YET
+Random failed constraint  1 15 -18 
+Random literal: 1
+# Constraints: 91
+# Failed constraints: 6
+0 0 1 0 0 0 1 0 0 1 0 0 1 1 0 0 0 1 0 1 
+
+ITERATION 24 :
+RESULT NOT FOUND YET
+Random failed constraint  -1 -20 11 
+Random literal: 1
+# Constraints: 91
+# Failed constraints: 8
+1 0 1 0 0 0 1 0 0 1 0 0 1 1 0 0 0 1 0 1 
+
+ITERATION 25 :
+RESULT NOT FOUND YET
+Random failed constraint  -20 12 8 
+Random literal: 12
+# Constraints: 91
+# Failed constraints: 6
+0 0 1 0 0 0 1 0 0 1 0 0 1 1 0 0 0 1 0 1 
+
+ITERATION 26 :
+RESULT NOT FOUND YET
+Random failed constraint  -14 17 -3 
+Random literal: 17
+# Constraints: 91
+# Failed constraints: 6
+0 0 1 0 0 0 1 0 0 1 0 1 1 1 0 0 0 1 0 1 
+
+ITERATION 27 :
+RESULT NOT FOUND YET
+Random failed constraint  -18 5 6 
+Random literal: 5
+# Constraints: 91
+# Failed constraints: 7
+0 0 1 0 0 0 1 0 0 1 0 1 1 1 0 0 1 1 0 1 
+
+ITERATION 28 :
+RESULT NOT FOUND YET
+Random failed constraint  -17 9 -3 
+Random literal: 17
+# Constraints: 91
+# Failed constraints: 6
+0 0 1 0 1 0 1 0 0 1 0 1 1 1 0 0 1 1 0 1 
+
+ITERATION 29 :
+RESULT NOT FOUND YET
+Random failed constraint  -12 -3 -13 
+Random literal: 13
+# Constraints: 91
+# Failed constraints: 5
+0 0 1 0 1 0 1 0 0 1 0 1 1 1 0 0 0 1 0 1 
+
+ITERATION 30 :
+RESULT NOT FOUND YET
+Random failed constraint  -14 17 -3 
+Random literal: 3
+# Constraints: 91
+# Failed constraints: 7
+0 0 1 0 1 0 1 0 0 1 0 1 0 1 0 0 0 1 0 1 
+
+ITERATION 31 :
+RESULT NOT FOUND YET
+Random failed constraint  -18 13 3 
+Random literal: 3
+# Constraints: 91
+# Failed constraints: 7
+0 0 0 0 1 0 1 0 0 1 0 1 0 1 0 0 0 1 0 1 
+
+ITERATION 32 :
+RESULT NOT FOUND YET
+Random failed constraint  19 2 13 
+Random literal: 19
+# Constraints: 91
+# Failed constraints: 7
+0 0 1 0 1 0 1 0 0 1 0 1 0 1 0 0 0 1 0 1 
+
+ITERATION 33 :
+RESULT NOT FOUND YET
+Random failed constraint  -19 2 4 
+Random literal: 19
+# Constraints: 91
+# Failed constraints: 7
+0 0 1 0 1 0 1 0 0 1 0 1 0 1 0 0 0 1 1 1 
+
+ITERATION 34 :
+RESULT NOT FOUND YET
+Random failed constraint  19 2 13 
+Random literal: 2
+# Constraints: 91
+# Failed constraints: 7
+0 0 1 0 1 0 1 0 0 1 0 1 0 1 0 0 0 1 0 1 
+
+ITERATION 35 :
+RESULT NOT FOUND YET
+Random failed constraint  -7 -14 -2 
+Random literal: 14
+# Constraints: 91
+# Failed constraints: 10
+0 1 1 0 1 0 1 0 0 1 0 1 0 1 0 0 0 1 0 1 
+
+ITERATION 36 :
+RESULT NOT FOUND YET
+Random failed constraint  -20 -5 -3 
+Random literal: 3
+# Constraints: 91
+# Failed constraints: 7
+0 1 1 0 1 0 1 0 0 1 0 1 0 0 0 0 0 1 0 1 
+
+ITERATION 37 :
+RESULT NOT FOUND YET
+Random failed constraint  14 1 15 
+Random literal: 1
+# Constraints: 91
+# Failed constraints: 7
+0 1 0 0 1 0 1 0 0 1 0 1 0 0 0 0 0 1 0 1 
+
+ITERATION 38 :
+RESULT NOT FOUND YET
+Random failed constraint  16 15 -2 
+Random literal: 16
+# Constraints: 91
+# Failed constraints: 9
+1 1 0 0 1 0 1 0 0 1 0 1 0 0 0 0 0 1 0 1 
+
+ITERATION 39 :
+RESULT NOT FOUND YET
+Random failed constraint  -1 -20 11 
+Random literal: 20
+# Constraints: 91
+# Failed constraints: 8
+1 1 0 0 1 0 1 0 0 1 0 1 0 0 0 1 0 1 0 1 
+
+ITERATION 40 :
+RESULT NOT FOUND YET
+Random failed constraint  13 15 8 
+Random literal: 8
+# Constraints: 91
+# Failed constraints: 6
+1 1 0 0 1 0 1 0 0 1 0 1 0 0 0 1 0 1 0 0 
+
+ITERATION 41 :
+RESULT NOT FOUND YET
+Random failed constraint  4 -1 9 
+Random literal: 4
+# Constraints: 91
+# Failed constraints: 6
+1 1 0 0 1 0 1 1 0 1 0 1 0 0 0 1 0 1 0 0 
+
+ITERATION 42 :
+RESULT NOT FOUND YET
+Random failed constraint  -18 13 3 
+Random literal: 18
+# Constraints: 91
+# Failed constraints: 6
+1 1 0 1 1 0 1 1 0 1 0 1 0 0 0 1 0 1 0 0 
+
+ITERATION 43 :
+RESULT NOT FOUND YET
+Random failed constraint  14 17 -8 
+Random literal: 14
+# Constraints: 91
+# Failed constraints: 5
+1 1 0 1 1 0 1 1 0 1 0 1 0 0 0 1 0 0 0 0 
+
+ITERATION 44 :
+RESULT NOT FOUND YET
+Random failed constraint  20 9 18 
+Random literal: 18
+# Constraints: 91
+# Failed constraints: 8
+1 1 0 1 1 0 1 1 0 1 0 1 0 1 0 1 0 0 0 0 
+
+ITERATION 45 :
+RESULT NOT FOUND YET
+Random failed constraint  11 -18 -1 
+Random literal: 18
+# Constraints: 91
+# Failed constraints: 8
+1 1 0 1 1 0 1 1 0 1 0 1 0 1 0 1 0 1 0 0 
+
+ITERATION 46 :
+RESULT NOT FOUND YET
+Random failed constraint  20 9 18 
+Random literal: 18
+# Constraints: 91
+# Failed constraints: 8
+1 1 0 1 1 0 1 1 0 1 0 1 0 1 0 1 0 0 0 0 
+
+ITERATION 47 :
+RESULT NOT FOUND YET
+Random failed constraint  -12 13 -18 
+Random literal: 12
+# Constraints: 91
+# Failed constraints: 8
+1 1 0 1 1 0 1 1 0 1 0 1 0 1 0 1 0 1 0 0 
+
+ITERATION 48 :
+RESULT NOT FOUND YET
+Random failed constraint  -7 -14 -2 
+Random literal: 7
+# Constraints: 91
+# Failed constraints: 10
+1 1 0 1 1 0 1 1 0 1 0 0 0 1 0 1 0 1 0 0 
+
+ITERATION 49 :
+RESULT NOT FOUND YET
+Random failed constraint  19 -14 -5 
+Random literal: 5
+# Constraints: 91
+# Failed constraints: 10
+1 1 0 1 1 0 0 1 0 1 0 0 0 1 0 1 0 1 0 0 
+
+ITERATION 50 :
+RESULT NOT FOUND YET
+Random failed constraint  -8 5 -16 
+Random literal: 16
+# Constraints: 91
+# Failed constraints: 10
+1 1 0 1 0 0 0 1 0 1 0 0 0 1 0 1 0 1 0 0 
+
+ITERATION 51 :
+RESULT NOT FOUND YET
+Random failed constraint  -8 12 -2 
+Random literal: 2
+# Constraints: 91
+# Failed constraints: 10
+1 1 0 1 0 0 0 1 0 1 0 0 0 1 0 0 0 1 0 0 
+
+ITERATION 52 :
+RESULT NOT FOUND YET
+Random failed constraint  -18 5 6 
+Random literal: 5
+# Constraints: 91
+# Failed constraints: 8
+1 0 0 1 0 0 0 1 0 1 0 0 0 1 0 0 0 1 0 0 
+
+ITERATION 53 :
+RESULT NOT FOUND YET
+Random failed constraint  7 3 -18 
+Random literal: 18
+# Constraints: 91
+# Failed constraints: 8
+1 0 0 1 1 0 0 1 0 1 0 0 0 1 0 0 0 1 0 0 
+
+ITERATION 54 :
+RESULT NOT FOUND YET
+Random failed constraint  6 18 9 
+Random literal: 9
+# Constraints: 91
+# Failed constraints: 9
+1 0 0 1 1 0 0 1 0 1 0 0 0 1 0 0 0 0 0 0 
+
+ITERATION 55 :
+RESULT NOT FOUND YET
+Random failed constraint  -9 6 19 
+Random literal: 9
+# Constraints: 91
+# Failed constraints: 10
+1 0 0 1 1 0 0 1 1 1 0 0 0 1 0 0 0 0 0 0 
+
+ITERATION 56 :
+RESULT NOT FOUND YET
+Random failed constraint  20 9 18 
+Random literal: 20
+# Constraints: 91
+# Failed constraints: 9
+1 0 0 1 1 0 0 1 0 1 0 0 0 1 0 0 0 0 0 0 
+
+ITERATION 57 :
+RESULT NOT FOUND YET
+Random failed constraint  6 -5 -4 
+Random literal: 4
+# Constraints: 91
+# Failed constraints: 9
+1 0 0 1 1 0 0 1 0 1 0 0 0 1 0 0 0 0 0 1 
+
+ITERATION 58 :
+RESULT NOT FOUND YET
+Random failed constraint  3 -14 12 
+Random literal: 14
+# Constraints: 91
+# Failed constraints: 9
+1 0 0 0 1 0 0 1 0 1 0 0 0 1 0 0 0 0 0 1 
+
+ITERATION 59 :
+RESULT NOT FOUND YET
+Random failed constraint  14 17 -8 
+Random literal: 17
+# Constraints: 91
+# Failed constraints: 7
+1 0 0 0 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 1 
+
+ITERATION 60 :
+RESULT NOT FOUND YET
+Random failed constraint  # Constraints: 91
+# Failed constraints: 7
+1 0 0 0 1 0 0 1 0 1 0 0 0 0 0 0 1 0 0 1 

@@ -3,8 +3,9 @@ import React, { useCallback, useEffect } from "react";
 import useQueryDocuments, {
 	QueryDocumentRequest,
 } from "@hooks/document/useQueryDocuments";
+import DocWindow from "@components/DocWindow";
 import Head from "next/head";
-import type { IDocument } from "types";
+import type { IDocument, ITagForm } from "types";
 import { LogsWindow } from "@components/LogsWindow";
 import type { NextPage } from "next";
 import QueryBuilder from "@components/QueryBuilder";
@@ -12,38 +13,40 @@ import { Table } from "@components/Table";
 import UploadModal from "@components/upload/UploadModal";
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
-import DocWindow from "@components/DocWindow";
+import AddDocumentModal from "@components/AddDocumentModal";
 
 const operators = [
-	"eq",
-	"gt",
-	"gte",
-	"in",
-	"lt",
-	"lte",
-	"ne",
-	"nin",
-	"regex",
-	"exists",
-	// add time operators
+	"es igual que",
+	"no es igual que",
+	"es mayor que",
+	"es menor que",
+	"es mayor o igual que",
+	"es menor o igual que",
+	"contiene",
+	"no contiene",
+	"empieza con",
+	"termina con",
+	"existe",
+	"no existe",
 ];
 
-const validateOperator = (operator: string): Operator => {
+const validateOperator = (operator: string): ReadableOperator => {
 	if (!operators.includes(operator)) {
 		throw new Error("Invalid operator");
 	}
 
-	return operator as Operator;
+	return operator as ReadableOperator;
 };
 
-const parseQueries = (query: string): Query[] => {
-	let queries: Query[] = [];
+const parseQueries = (query: string): ReadableQueryOperator[] => {
+	let queries: ReadableQueryOperator[] = [];
 
 	try {
 		queries = query.split(" AND ").map((q) => {
 			const [header, operator, value] = q.split(":");
 			validateOperator(operator);
-			return { header, operator, value } as Query;
+
+			return { header, operator, value } as ReadableQueryOperator;
 		});
 
 		return queries;
@@ -52,6 +55,27 @@ const parseQueries = (query: string): Query[] => {
 		return [];
 	}
 };
+
+const parseTags = (query: string): ITagForm[] => {
+	let tags: ITagForm[] = [];
+	try {
+		tags = query.split(" OR ").map((q) => {
+		if (q.split(":").length !== 4) {
+			throw new Error("Invalid tag");
+		}
+
+		const [icon, name, color, id] = q.split(":");
+		
+		return { icon, name, color, _id: id } as ITagForm;
+	});
+
+	return tags;
+
+	} catch (e) {
+		console.log(e);
+		return [];
+	}
+}
 
 const Home: NextPage = () => {
 	// const [isOpen, setIsOpen] = React.useState;
@@ -84,6 +108,7 @@ const Home: NextPage = () => {
 	const { data, isLoading, isError, error } = useQueryDocuments(queryRequest);
 
 	const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+	const [isOpenDocumentModal, setIsOpenDocumentModal] = React.useState<boolean>(false);
 
 	// javascript creates a ne function every frame so we need to memoize it
 	const handleUpdateURL = useCallback(async () => {
@@ -91,11 +116,13 @@ const Home: NextPage = () => {
 		const query = queryRequest.queries
 			.map((q) => encodeURIComponent(`${q.header}:${q.operator}:${q.value}`))
 			.join(" AND ");
+
+		const tags = queryRequest.tags.map((t) => encodeURIComponent(`${t.icon}:${t.name}:${t.color}:${t._id}`)).join(" OR ") ;
 		await router.push({
-			query: { query },
+			query: { query, tags },
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [queryRequest.queries]);
+	}, [queryRequest.queries, queryRequest.tags]);
 
 	// update url when query changes
 	useEffect(() => {
@@ -106,10 +133,11 @@ const Home: NextPage = () => {
 	useEffect(() => {
 		const sParams = new URLSearchParams(window.location.search);
 		const query = decodeURIComponent(sParams.get("query") || "");
+		const tags = decodeURIComponent(sParams.get("tags") || "");
 
 		setQueryRequest({
 			queries: parseQueries(query),
-			tags: [],
+			tags: parseTags(tags),
 		});
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -148,46 +176,56 @@ const Home: NextPage = () => {
 				<meta name="description" content="Alcaldia Alvaro Obregon" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<Card
-				title="Query Documents"
-				elevation={2}
+
+			<h2
 				style={{
-					margin: "1rem",
+					// nice blue color
+					color: "#106ba3",
 				}}
 			>
-				<h2
-					style={{
-						// nice blue color
-						color: "#106ba3",
-					}}
-				>
-					Busqueda de registros
-				</h2>
-				<QueryBuilder
-					queries={queryRequest.queries}
-					onChangeQuery={(queries) =>
-						setQueryRequest({ ...queryRequest, queries })
-					}
-					tags={queryRequest.tags}
-					onChangeTags={(tags) => setQueryRequest({ ...queryRequest, tags })}
-					maxTags={5}
-					maxQueries={5}
-				/>
-			</Card>
+				Busqueda de registros
+			</h2>
+			<QueryBuilder
+				queries={queryRequest.queries}
+				onChangeQuery={(queries) =>
+					setQueryRequest({ ...queryRequest, queries })
+				}
+				tags={queryRequest.tags}
+				onChangeTags={(tags) => setQueryRequest({ ...queryRequest, tags })}
+				maxTags={5}
+				maxQueries={5}
+			/>
+			<div
+				className={styles.buttonContainer}
+				style={{
+					display: "flex",
+					justifyContent: "flex-end",
+					marginBottom: "2rem",
+					height: "2rem",
+				}}
+			>
 
-			<div>
+				<h4>
+					Registros
+				</h4>
 				{/* temporary while we decide how to organize the view */}
-				<Button onClick={() => setIsModalOpen(true)} icon={"panel-table"}>
+				<Button
+					onClick={() => setIsModalOpen(true)}
+					icon={"panel-table"}
+					className="exel"
+				>
 					Subir Excel
 				</Button>
 				<Button
 					text={"Agregar Registro"}
 					icon={"add"}
-					onClick={() => router.push("/newDocument")}
+					className="new"
+					onClick={() => setIsOpenDocumentModal(true)}
 				/>
 			</div>
 			{getTableData()}
 			<UploadModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+			<AddDocumentModal isOpen={isOpenDocumentModal} onClose={() => setIsOpenDocumentModal(false)} />
 			<LogsWindow
 				document={logDocument}
 				onClose={() => setIsOpen(false)}

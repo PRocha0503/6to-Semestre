@@ -1,129 +1,270 @@
+/*
+KSAT Shoning
+Patricio Bosques Rosas: A01781663
+Pablo Rocha Ojeda: A01028638
+Luis Javier Karam Galland: A01751941
+Miguel Arriaga Velasco: A01028570
+*/
+
 #include "KSAT.h"
 
 KSAT::KSAT(string fileName){
     failedConstraints = vector<vector<KLiteral>>();
     numOfVariables=0;
-    readFromFile(fileName);
+    filename=fileName;
+    FromDIMACS(fileName.c_str());
 }
 
-KSAT::KSAT(int _nVariables,vector<vector<int>> _const){
-  numOfVariables = _nVariables;
-  for(int i = 0;i<_const.size();i++){
-    vector<KLiteral> temp = <vector<KLiteral>();
-    for(int j = 0;k<_const[i].size();j++){
-        if(_const[i][j]>0){
-          temp.push_back(KLiteral(_const[i][j],false));
-        }else{
-temp.push_back(KLiteral(_const[i][j],true));
-        }
+void KSAT::FromDIMACS(const char * filename) {
+        
+  std::ifstream file(filename);
+  std::string line;
+  std::cout << "Parsing file " << filename << std::endl;
 
-    }
-    constraints.push_back(temp)
+  // if cannot open file
+  if (!file.is_open()) {
+      // throw exception
+      throw std::runtime_error("Cannot open file");
+      return;
   }
-}
 
-void KSAT::readFromFile(string fileName){
-    ifstream file;
+  while (std::getline(file, line)) {
+      char COMMENT_CNF = 'c';
+      char PARSE_CNF =  'p';
+      // trim leading whitespace
+      // skip empty lines
+      if (line.empty()) {
+          continue;
+      }
 
-    file.open(fileName);
-    if (!file.is_open()){
-        cout << "Could not read file" << endl;
-        return;
+      line = line.substr(line.find_first_not_of(" \t"));
+
+      if (line.length() == 0 || line[0] == COMMENT_CNF) {
+          continue;
+      } else if (line[0] == PARSE_CNF) {
+          parseHeader(line);
+      } else if (line[0] == '-' || line[0] > '0' && line[0] <= '9') {
+          parseClause(line);
+      }else if (line[0] == '0') {
+          break;  // end of file
+      } else {
+          std::cout << "Unknown line type: " << line << " " <<  "Skipping..." << std::endl;
+      }
+  }
+};
+
+void KSAT::parseHeader(std::string line) {
+  int numClauses;
+  std::stringstream ss(line);
+  std::string token;
+  ss >> token;
+  if (token == "p") {
+      ss >> token;
+      if (token == "cnf") {
+          ss >> numOfVariables;
+          ss >> numClauses;
+          return;
+      }
+  }
+
+  throw std::runtime_error("Invalid CNF file format: invalid header");
+};
+
+void KSAT::parseClause(std::string line) {
+    std::stringstream ss(line);
+    std::string token;
+    vector<KLiteral> clause;
+    while (ss >> token) {
+        if (token == "0") {
+            constraints.push_back(clause);
+            return;
+        }
+
+        bool isNegated = token[0] == '-';
+        KLiteral literal = KLiteral(std::stoull(isNegated ? token.substr(1) : token),isNegated);
+        clause.push_back(literal);
     }
 
-    regex reg ("[0-9]+(?!cnf )(?= [0-9]+)");
-    smatch match;
-    string line;
-    string number;
-    bool matchedNumOfVariables = false;
-    while(getline(file, line)){
-        while (regex_search(line, match, reg) && !matchedNumOfVariables){
-            numOfVariables = stoi(match.str());
-            matchedNumOfVariables = true;
-        }
-        if (!matchedNumOfVariables) continue;
-        for (auto x : line){
-            if (x == ' ' || x == '-')
-                number = "";
-            else
-                number += x;
-        }
-
-    }
-    file.close();
-}
+    throw std::runtime_error("Invalid CNF file format: clause not terminated");
+};
 
 
 map<int, bool> KSAT::Shoning(){
-    makeRandomVariables();
-    for(int i = 0; i<(numOfVariables*3);i++){
-        if (evaluateClauses()){
-          //Encontramos el resultado
-          cout<<"RESULT FOUND"<<endl;
-          printVariables();
-          return variables;
-        }
-        else{
-          //No encontramos el resultado aún
-          int failedLiteral=getRandomFailedLiteral();
-          flipLiteral(failedLiteral);
-        }
+  makeRandomVariables();
+  for(int i = 0; i<(numOfVariables*3);i++){
+    //Empty the failed constraints
+    failedConstraints= vector<vector<KLiteral>>();
+    if (evaluateClauses()){
+      //Found solution
+      printIterationsToFile(true,i);
+      return variables;
     }
-    cout<<"RESULT NOT FOUND"<<endl;
-    return variables;
+    else{
+      //Not found solution yet
+      vector <KLiteral> randomConstraint = getRandomFailedConstraint();
+      int failedLiteral=getRandomFailedLiteral(randomConstraint);
+      printIterationsToFile(false,i,randomConstraint,failedLiteral);
+      flipLiteral(failedLiteral);
+    }
+  }
+  printIterationsToFile(false,numOfVariables*3);
+  return variables;
 }
 
-void KSAT::printVariables(){
-  for(auto i = variables.cbegin(); i != variables; i++){
-    cout << i->first << i->second << endl;
+void KSAT::printIterations(bool found, int numIteration, vector <KLiteral> failedConstraint, int failedLiteral){
+  //Print the iterations
+  cout<<"\nITERATION "<<numIteration<<" :"<<endl;
+  if (found){
+    cout<<"RESULT FOUND"<<endl;
+  }
+  else{
+    cout<<"RESULT NOT FOUND YET"<<endl;
+    cout<<"Random failed constraint "<<" ";
+    //If its not the final iteration, print the selected failed constraint and literal
+    if (failedLiteral!=-1){
+      for (int i=0; i<failedConstraint.size(); i++){
+        if (failedConstraint[i].isNegated){
+          cout<<"-";
+        }
+        cout<<failedConstraint[i].variable<<" ";
+      }
+      cout<<endl;
+      cout << "Random literal: " << failedLiteral << endl;
+    }
+  }
+  //Print number of failed constraints
+  cout << "# Constraints: " << constraints.size() << endl;
+  cout << "# Failed constraints: " << failedConstraints.size() << endl;
+  //Print the variables
+  for(auto i = variables.begin(); i != variables.end(); i++){
+    cout << i->second << " ";
+  }
+  cout<<endl;
+}
+
+void KSAT::printIterationsToFile(bool found, int numIteration, vector <KLiteral> failedConstraint, int failedLiteral){
+  //Create the filename from the input filename
+  size_t foundFile = filename.find_last_of("/\\");
+  string resultsFileName="result_"+filename.substr(foundFile+1);
+
+  //Open the file
+  ofstream myfile(resultsFileName, ios_base::out | ios_base::app);
+  if (numIteration == 0){ 
+    ofstream myfile;
+    myfile.open (resultsFileName);
+  }
+  //Print the iterations
+  myfile<<"\nITERATION "<<numIteration<<" :"<<endl;
+  if (found){
+    myfile<<"RESULT FOUND"<<endl;
+    cout<<"RESULT FOUND"<<endl;
+  }
+  else{
+    myfile<<"RESULT NOT FOUND YET"<<endl;
+    myfile<<"Random failed constraint "<<" ";
+    //If its not the final iteration, print the selected failed constraint and literal
+    if (failedLiteral!=-1){
+      for (int i=0; i<failedConstraint.size(); i++){
+        if (failedConstraint[i].isNegated){
+          myfile<<"-";
+        }
+        myfile<<failedConstraint[i].variable<<" ";
+      }
+      myfile<<endl;
+      myfile << "Random literal: " << failedLiteral << endl;
+    }
+    else{
+      cout<<"RESULT NOT FOUND YET"<<endl;
+    }
+  }
+  //Print number of failed constraints
+  myfile << "# Constraints: " << constraints.size() << endl;
+  myfile << "# Failed constraints: " << failedConstraints.size() << endl;
+  //Print the variables
+  for(auto i = variables.begin(); i != variables.end(); i++){
+    myfile << i->second << " ";
+  }
+  myfile<<endl;
+  //If its the final iteration
+  if (found || failedLiteral==-1){
+    myfile.close();
+    cout<<"Results created on file "<<resultsFileName<<endl;
   }
 }
 
 void KSAT::makeRandomVariables(){
-    //Por cada variable hacer su valor random
-    for (int i=0;i<numOfVariables;i++){
-      auto gen = bind(uniform_int_distribution<>(0,1),default_random_engine());
-      variables[i] = gen();
+    //Make random variables
+    for (int i=1;i<=numOfVariables;i++){
+      random_device rd;
+      mt19937 gen(rd());
+      uniform_int_distribution<> distr(0, 1);
+      int random = distr(gen);
+      variables[i] = random;
     }
 }
 
-int KSAT::getRandomFailedLiteral(){
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> distr(0, failedConstraints.size());
-    vector<KLiteral> randomConstraint = failedConstraints[distr(gen)];
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> distr(0, randomConstraint.size());
-    KLiteral randomLiteral = randomConstraint[distr(gen)];
-    return randomLiteral.variable;
+void KSAT::printConstraints(){
+  //Print the constraints
+  for (int i=0;i<constraints.size();i++){
+    cout<<"Constraint:"<<endl;
+    for (int j=0;j<constraints[i].size();j++){
+      cout <<constraints[i][j].variable<<" ";
+    }
+    cout <<endl;
+  }
+}
+
+vector<KLiteral> KSAT::getRandomFailedConstraint(){
+  //Get random failed constraint
+  random_device rd;
+  mt19937 gen(rd());
+  uniform_int_distribution<> distr(0, failedConstraints.size()-1);
+  int randomIndex = distr(gen);
+  vector<KLiteral> randomConstraint = failedConstraints[randomIndex];
+  return randomConstraint;
+}
+
+int KSAT::getRandomFailedLiteral(vector<KLiteral> randomConstraint){
+  //Get a random failed literal from a failed constraint
+  random_device rd;
+  mt19937 gen(rd());
+  uniform_int_distribution<> distr2(0, randomConstraint.size()-1);
+  int randomIndex2 = distr2(gen);
+  KLiteral randomLiteral = randomConstraint[randomIndex2];
+  return randomLiteral.variable;
 }
 
 void KSAT::flipLiteral(int i){
-    variables[i]=!variables[i];
+  //Flip the value of a literal
+  variables[i]=!variables[i];
 }
 
 bool KSAT::evaluateClauses(){
-  bool accumulatedResult=true;
-  for (int i=0;i<constraints.size();i++){
-    for (int j=0;j<constraints[i].size();j++){
+  //Evaluate the constraints with the current variables
+  bool accumulatedResult=true;  
+  for (int i = 0; i < constraints.size();i++){
+    bool valueOfClause=false;
+    for (int j =0; j < constraints[i].size();j++){
       KLiteral literal = constraints[i][j];
       bool valueOfLiteral=false;
-        if (literal.isNegated){
-            valueOfLiteral=!variables[literal.variable];
-        }
-        else{
-            valueOfLiteral=variables[literal.variable];
-        }
-        if (valueOfLiteral){
-          continue;
-        }
-        else{
-            failedConstraints.push_back(constraints[i]);
-            accumulatedResult = false;
-        }
+      //Check if a literal is negated
+      if (literal.isNegated){
+          valueOfLiteral=!variables[literal.variable];
+      }
+      else{
+          valueOfLiteral=variables[literal.variable];
+      }
+      //Check if the clause is true
+      if (valueOfLiteral){
+        valueOfClause=true;
+        break;
+      }
+    }
+    //Check if the clause is false
+    if (!valueOfClause){
+      failedConstraints.push_back(constraints[i]);
+      accumulatedResult = false;
     }
   }
   return accumulatedResult;
 }
-

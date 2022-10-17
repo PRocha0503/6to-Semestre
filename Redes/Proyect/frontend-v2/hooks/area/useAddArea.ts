@@ -23,7 +23,8 @@ export default function useAddArea(req: AuthRequest) {
 	const queryClient = useQueryClient();
 	return useMutation<AddUserResponse, Error>(() => addArea(req), {
 		onSuccess: () => {
-			queryClient.invalidateQueries(["get-areas"]);
+			queryClient.invalidateQueries(["get-user-areas"]);
+			queryClient.invalidateQueries(["query-profile"]);
 		},
 	});
 }

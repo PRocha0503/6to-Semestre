@@ -2,7 +2,7 @@ import { Classes, Tag } from "@blueprintjs/core";
 import QueryClasses from "../styles/Query.module.css";
 
 interface QueryTagProps {
-    query: Query;
+    query: ReadableQueryOperator;
     onRemoveQuery: () => void;
 }
 

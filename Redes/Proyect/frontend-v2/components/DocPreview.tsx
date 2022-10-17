@@ -1,17 +1,16 @@
-import { Button, Intent, Tag } from "@blueprintjs/core";
-import useDeleteDocument from "@hooks/document/useDeleteDocument";
-import useDocument from "@hooks/document/useDocument";
-import { Method } from "axios";
-import { loadDefaultErrorComponents } from "next/dist/server/load-components";
 import * as React from "react";
+import { Button, Intent, Tag } from "@blueprintjs/core";
 import { IDocument } from "types";
+import Notifications from "./Notifications";
 import styles from "../styles/Metadata.module.css";
+import useDeleteDocument from "@hooks/document/useDeleteDocument";
 
 interface DocProps {
 	doc: IDocument;
 }
 
 const DocPreview: React.FC<DocProps> = ({ doc }) => {
+	const [toast, setToast] = React.useState<any>([]);
 	const localDateTime = new Date(doc.createdAt);
 	localDateTime.setTime(localDateTime.getTime());
 	const formattedDateTime = localDateTime.toLocaleString("es-MX", {
@@ -24,9 +23,26 @@ const DocPreview: React.FC<DocProps> = ({ doc }) => {
 		minute: "2-digit",
 		second: "2-digit",
 	});
-	const { mutate } = useDeleteDocument({ documentId: doc._id });
+	const { mutate, isError, isSuccess } = useDeleteDocument({
+		documentId: doc._id,
+	});
+	React.useEffect(() => {
+		if (isSuccess) {
+			setToast({
+				message: "Documento eliminado",
+				type: "success",
+			});
+		}
+		if (isError) {
+			setToast({
+				message: "Error al eliminar documento",
+				type: "danger",
+			});
+		}
+	}, [isError, isSuccess]);
 	return (
 		<>
+			<Notifications toasts={toast} setToasts={setToast} />
 			<div className={styles.box}>
 				<div className={styles.item}>
 					<span className={styles.title}>Título:</span>
@@ -72,7 +88,7 @@ const DocPreview: React.FC<DocProps> = ({ doc }) => {
 					<span className={styles.title}>Tags:</span>
 					{doc.tags.length != 0 ? (
 						doc.tags.map((tag) => (
-							<Tag style={{ marginLeft: "2px" }}>{tag.name}</Tag>
+							<Tag key={tag.name} style={{ marginLeft: "2px" }}>{tag.name}</Tag>
 						))
 					) : (
 						<span>No Hay Tags</span>
@@ -87,6 +103,7 @@ const DocPreview: React.FC<DocProps> = ({ doc }) => {
 							justifyContent: "center",
 							alignItems: "center",
 							margin: "10px",
+
 						}}
 					>
 						<span
@@ -97,18 +114,30 @@ const DocPreview: React.FC<DocProps> = ({ doc }) => {
 						>
 							Vista Previa
 						</span>
-						<iframe
+						<div
+							className={styles.iframeParent}
 							style={{
 								width: "90%",
-								height: "500px",
+								height: "600px",
 							}}
+						>
+						<iframe
 							id="inlineFrame"
-							title={document.title}
+							style={{
+								width: "100%",
+								height: "100%",
+							}}
+							title={document.title}	
+							onLoad={() => {
+								console.log("loaded");
+							}}
 							src={`http://localhost:8090/api/docs/preview/${doc._id}`}
 						></iframe>
+						</div>
 					</div>
+
 				) : null}
-				<Button intent={Intent.DANGER} onClick={() => mutate()}>
+				<Button intent={Intent.DANGER} className="delete-new" onClick={() => mutate()}>
 					Borrar Documento
 				</Button>
 			</div>

@@ -13,7 +13,7 @@ const fetchUserAvailableAreas = async (
 };
 
 export default function useUserAvailableAreas(userId: string) {
-	return useQuery<AreaResponse, Error>(["get-areas", userId], () =>
+	return useQuery<AreaResponse, Error>(["get-user-areas"], () =>
 		fetchUserAvailableAreas(userId)
 	);
 }

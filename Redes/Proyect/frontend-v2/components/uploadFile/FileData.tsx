@@ -1,17 +1,13 @@
 import {
-	AnchorButton,
-	FileInput,
 	Icon,
 	InputGroup,
 	Label,
-	MultistepDialog,
 	DialogStep,
 	MenuItem,
 	Button,
 	Tag,
 } from "@blueprintjs/core";
 import { DateInput } from "@blueprintjs/datetime";
-import Notifications from "@components/Notifications";
 import { TagSelector } from "@components/TagSelect";
 import useCreateDocument, {
 	CreateDocumentRequest,
@@ -24,10 +20,15 @@ import useGetProfile from "@hooks/user/useGetProfile";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "../../styles/newDocument.module.css";
+import AdditionalFields from "./AdditionalFields";
 
 interface Props {
 	request: CreateDocumentRequest;
 	setRequest: (request: CreateDocumentRequest) => void;
+}
+interface Metadata {
+	name: string;
+	value: string;
 }
 
 const FileData = ({ request, setRequest }: Props) => {
@@ -39,6 +40,7 @@ const FileData = ({ request, setRequest }: Props) => {
 	});
 	const [areaTags, setAreaTags] = useState<any>([]);
 	const [tags, setTags] = useState<any>([]);
+	const [metadata, setMetadata] = useState<Metadata[]>([]);
 
 	const { data: p, isError, isSuccess } = useGetProfile();
 
@@ -46,11 +48,18 @@ const FileData = ({ request, setRequest }: Props) => {
 		if (isSuccess) {
 			setProfile(p);
 		}
+		const flattenMeta: Record<string, string | number | boolean | Date> = {};
+		if (metadata.length > 0) {
+			metadata.forEach((m) => {
+				flattenMeta[m.name] = m.value;
+			});
+		}
 		setRequest({
 			...request,
 			tags: tags.map((t: any) => t._id),
+			metadata: flattenMeta,
 		});
-	}, [profile, isSuccess, tags]);
+	}, [profile, isSuccess, tags, metadata]);
 	if (!profile) return null;
 
 	const renderArea = (area: any) => {
@@ -170,6 +179,7 @@ const FileData = ({ request, setRequest }: Props) => {
 					) : (
 						<></>
 					)}
+					<AdditionalFields metadata={metadata} setMetadata={setMetadata} />
 				</div>
 			</div>
 		</>

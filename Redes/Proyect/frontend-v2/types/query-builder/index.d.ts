@@ -10,8 +10,23 @@ declare type Operator =
     "regex"|
     "exists"
 
-declare interface Query {
+declare type ReadableOperator = 
+    "empieza con" |
+    "contiene" |
+    "termina con" |
+    "es igual que" |
+    "es distinto A" |
+    "es mayor que" |
+    "es mayor o igual que" |
+    "es menor que" |
+    "es menor igual que" |
+    "existe" 
+
+declare interface Query<T> {
     header: string;
-    operator: Operator;
+    operator: T;
     value: string;
 }
+
+declare type QueryOperator = Query<Operator>
+declare type ReadableQueryOperator = Query<ReadableOperator>
