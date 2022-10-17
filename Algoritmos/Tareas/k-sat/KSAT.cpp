@@ -147,6 +147,7 @@ map<int, bool> KSAT::Shoning(){
         flipLiteral(failedLiteral);
       }
   }
+  cout<<"\nITERATION "<<numOfVariables*3<<" :"<<endl;
   printVariables(false);
   return variables;
 }
@@ -158,7 +159,7 @@ void KSAT::printVariables(bool found){
   else{
     cout<<"RESULT NOT FOUND YET"<<endl;
   }
-  cout<<"Tamaño: " << variables.size() <<endl;
+  cout<<"# Variables: " << variables.size() <<endl;
   for(auto i = variables.begin(); i != variables.end(); i++){
     cout << i->second << " ";
   }
@@ -187,8 +188,8 @@ void KSAT::printConstraints(){
 }
 
 int KSAT::getRandomFailedLiteral(){
-    cout << "Constraints: " << constraints.size() << endl;
-    cout << "Failed constraints: " << failedConstraints.size() << endl;
+    cout << "# Constraints: " << constraints.size() << endl;
+    cout << "# Failed constraints: " << failedConstraints.size() << endl;
 
     random_device rd;
     mt19937 gen(rd());
@@ -202,9 +203,9 @@ int KSAT::getRandomFailedLiteral(){
     int randomIndex2 = distr2(gen);
     KLiteral randomLiteral = randomConstraint[randomIndex2];
 
-    for (int i = 0; i < randomConstraint.size(); i++) {
-      cout << randomConstraint[i].variable << " ";
-    }
+    // for (int i = 0; i < randomConstraint.size(); i++) {
+    //   cout << randomConstraint[i].variable << " ";
+    // }
     
     cout << "Random literal: " << randomLiteral.variable << endl;
     return randomLiteral.variable;
