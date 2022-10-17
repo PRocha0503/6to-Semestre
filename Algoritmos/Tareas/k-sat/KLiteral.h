@@ -6,8 +6,6 @@ Luis Javier Karam Galland: A01751941
 Miguel Arriaga Velasco: A01028570
 */
 
-#pragma once
-
 class KLiteral{
   public:
     int variable;

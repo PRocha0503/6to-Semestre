@@ -91,19 +91,20 @@ void KSAT::parseClause(std::string line) {
 map<int, bool> KSAT::Shoning(){
   makeRandomVariables();
   for(int i = 0; i<(numOfVariables*3);i++){
-      failedConstraints= vector<vector<KLiteral>>();
-      cout<<"\nITERATION "<<i<<" :"<<endl;
-      if (evaluateClauses()){
-        //Encontramos el resultado
-        printVariables(true);
-        return variables;
-      }
-      else{
-        //No encontramos el resultado aún
-        printVariables(false);
-        int failedLiteral=getRandomFailedLiteral();
-        flipLiteral(failedLiteral);
-      }
+    //Empty the failed constraints
+    failedConstraints= vector<vector<KLiteral>>();
+    cout<<"\nITERATION "<<i<<" :"<<endl;
+    if (evaluateClauses()){
+      //Found solution
+      printVariables(true);
+      return variables;
+    }
+    else{
+      //Not found solution yet
+      printVariables(false);
+      int failedLiteral=getRandomFailedLiteral();
+      flipLiteral(failedLiteral);
+    }
   }
   cout<<"\nFINAL ITERATION "<<" :"<<endl;
   printVariables(false);
@@ -111,6 +112,7 @@ map<int, bool> KSAT::Shoning(){
 }
 
 void KSAT::printVariables(bool found){
+  //Print the variables
   if (found){
     cout<<"RESULT FOUND"<<endl;
   }
@@ -124,7 +126,7 @@ void KSAT::printVariables(bool found){
 }
 
 void KSAT::makeRandomVariables(){
-    //Por cada variable hacer su valor random
+    //Make random variables
     for (int i=1;i<=numOfVariables;i++){
       random_device rd;
       mt19937 gen(rd());
@@ -135,6 +137,7 @@ void KSAT::makeRandomVariables(){
 }
 
 void KSAT::printConstraints(){
+  //Print the constraints
   for (int i=0;i<constraints.size();i++){
     cout<<"Constraint:"<<endl;
     for (int j=0;j<constraints[i].size();j++){
@@ -145,46 +148,53 @@ void KSAT::printConstraints(){
 }
 
 int KSAT::getRandomFailedLiteral(){
-    cout << "# Constraints: " << constraints.size() << endl;
-    cout << "# Failed constraints: " << failedConstraints.size() << endl;
+  //Get a random failed literal from a failed constraint
+  cout << "# Constraints: " << constraints.size() << endl;
+  cout << "# Failed constraints: " << failedConstraints.size() << endl;
 
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> distr(0, failedConstraints.size()-1);
-    int randomIndex = distr(gen);
-    vector<KLiteral> randomConstraint = failedConstraints[randomIndex];
+  //Get random failed constraint
+  random_device rd;
+  mt19937 gen(rd());
+  uniform_int_distribution<> distr(0, failedConstraints.size()-1);
+  int randomIndex = distr(gen);
+  vector<KLiteral> randomConstraint = failedConstraints[randomIndex];
+  cout << "Random constraint: " << randomIndex << endl;
 
-    cout << "Random constraint: " << randomIndex << endl;
-    uniform_int_distribution<> distr2(0, randomConstraint.size()-1);
-    int randomIndex2 = distr2(gen);
-    KLiteral randomLiteral = randomConstraint[randomIndex2];
-    
-    cout << "Random literal: " << randomLiteral.variable << endl;
-    return randomLiteral.variable;
+  //Get random failed literal
+  uniform_int_distribution<> distr2(0, randomConstraint.size()-1);
+  int randomIndex2 = distr2(gen);
+  KLiteral randomLiteral = randomConstraint[randomIndex2];
+  cout << "Random literal: " << randomLiteral.variable << endl;
+  return randomLiteral.variable;
 }
 
 void KSAT::flipLiteral(int i){
+  //Flip the value of a literal
   variables[i]=!variables[i];
 }
 
 bool KSAT::evaluateClauses(){
+  //Evaluate the constraints with the current variables
   bool accumulatedResult=true;  
   for (int i = 0; i < constraints.size();i++){
     bool valueOfClause=false;
     for (int j =0; j < constraints[i].size();j++){
       KLiteral literal = constraints[i][j];
       bool valueOfLiteral=false;
-        if (literal.isNegated){
-            valueOfLiteral=!variables[literal.variable];
-        }
-        else{
-            valueOfLiteral=variables[literal.variable];
-        }
-        if (valueOfLiteral){
-          valueOfClause=true;
-          break;
-        }
+      //Check if a literal is negated
+      if (literal.isNegated){
+          valueOfLiteral=!variables[literal.variable];
+      }
+      else{
+          valueOfLiteral=variables[literal.variable];
+      }
+      //Check if the clause is true
+      if (valueOfLiteral){
+        valueOfClause=true;
+        break;
+      }
     }
+    //Check if the clause is false
     if (!valueOfClause){
       failedConstraints.push_back(constraints[i]);
       accumulatedResult = false;
