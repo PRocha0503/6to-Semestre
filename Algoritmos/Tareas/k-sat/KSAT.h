@@ -20,7 +20,7 @@ class KSAT{
     int getRandomFailedLiteral();
     void makeRandomVariables();
     void flipLiteral(int);
-    void readFromFile(string);
+    void readFromFile(string filename);
     bool evaluateClauses();
     void printVariables(bool found);
     void printConstraints();
@@ -29,6 +29,5 @@ class KSAT{
     void parseHeader(string);
   public:
     map<int, bool> Shoning();
-    KSAT(string);
-    KSAT(int,vector<vector<int>>);
+    KSAT(string filename);
 };
