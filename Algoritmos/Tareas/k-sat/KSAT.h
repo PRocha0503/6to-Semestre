@@ -23,14 +23,17 @@ class KSAT{
   private:
     map<int, bool> variables;
     int numOfVariables;
+    string filename;
     vector<vector<KLiteral>> constraints;
     vector<vector<KLiteral>> failedConstraints;
-    int getRandomFailedLiteral();
+    int getRandomFailedLiteral(vector<KLiteral> randomConstraint);
+    vector<KLiteral> getRandomFailedConstraint();
     void makeRandomVariables();
     void flipLiteral(int);
     void readFromFile(string filename);
     bool evaluateClauses();
-    void printVariables(bool found);
+    void printIterations(bool found, int numIteration, vector <KLiteral> failedConstraint=vector<KLiteral>(), int failedLiteral=-1);
+    void printIterationsToFile(bool found, int numIteration, vector <KLiteral> failedConstraint=vector<KLiteral>(), int failedLiteral=-1);
     void printConstraints();
     void FromDIMACS(const char *);
     void parseClause(string);

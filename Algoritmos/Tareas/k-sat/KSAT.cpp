@@ -11,6 +11,7 @@ Miguel Arriaga Velasco: A01028570
 KSAT::KSAT(string fileName){
     failedConstraints = vector<vector<KLiteral>>();
     numOfVariables=0;
+    filename=fileName;
     FromDIMACS(fileName.c_str());
 }
 
@@ -93,36 +94,94 @@ map<int, bool> KSAT::Shoning(){
   for(int i = 0; i<(numOfVariables*3);i++){
     //Empty the failed constraints
     failedConstraints= vector<vector<KLiteral>>();
-    cout<<"\nITERATION "<<i<<" :"<<endl;
     if (evaluateClauses()){
       //Found solution
-      printVariables(true);
+      printIterationsToFile(true,i);
       return variables;
     }
     else{
       //Not found solution yet
-      printVariables(false);
-      int failedLiteral=getRandomFailedLiteral();
+      vector <KLiteral> randomConstraint = getRandomFailedConstraint();
+      int failedLiteral=getRandomFailedLiteral(randomConstraint);
+      printIterationsToFile(false,i,randomConstraint,failedLiteral);
       flipLiteral(failedLiteral);
     }
   }
-  cout<<"\nFINAL ITERATION "<<" :"<<endl;
-  printVariables(false);
+  printIterationsToFile(false,numOfVariables*3);
   return variables;
 }
 
-void KSAT::printVariables(bool found){
-  //Print the variables
+void KSAT::printIterations(bool found, int numIteration, vector <KLiteral> failedConstraint, int failedLiteral){
+  //Print the iterations
+  cout<<"\nITERATION "<<numIteration<<" :"<<endl;
   if (found){
     cout<<"RESULT FOUND"<<endl;
   }
   else{
     cout<<"RESULT NOT FOUND YET"<<endl;
+    cout<<"Random failed constraint "<<" ";
+    //If its not the final iteration, print the selected failed constraint and literal
+    if (failedLiteral!=-1){
+      for (int i=0; i<failedConstraint.size(); i++){
+        if (failedConstraint[i].isNegated){
+          cout<<"-";
+        }
+        cout<<failedConstraint[i].variable<<" ";
+      }
+      cout<<endl;
+      cout << "Random literal: " << failedLiteral << endl;
+    }
   }
+  //Print number of failed constraints
+  cout << "# Constraints: " << constraints.size() << endl;
+  cout << "# Failed constraints: " << failedConstraints.size() << endl;
+  //Print the variables
   for(auto i = variables.begin(); i != variables.end(); i++){
     cout << i->second << " ";
   }
   cout<<endl;
+}
+
+void KSAT::printIterationsToFile(bool found, int numIteration, vector <KLiteral> failedConstraint, int failedLiteral){
+  //Create the filename from the input filename
+  std::size_t foundFile = filename.find_last_of("/\\");
+  string resultsFileName="result_"+filename.substr(foundFile+1);
+
+  std::ofstream myfile;
+  myfile.open (resultsFileName);
+  //Print the iterations
+  myfile<<"\nITERATION "<<numIteration<<" :"<<endl;
+  if (found){
+    myfile<<"RESULT FOUND"<<endl;
+  }
+  else{
+    myfile<<"RESULT NOT FOUND YET"<<endl;
+    myfile<<"Random failed constraint "<<" ";
+    //If its not the final iteration, print the selected failed constraint and literal
+    if (failedLiteral!=-1){
+      for (int i=0; i<failedConstraint.size(); i++){
+        if (failedConstraint[i].isNegated){
+          myfile<<"-";
+        }
+        myfile<<failedConstraint[i].variable<<" ";
+      }
+      myfile<<endl;
+      myfile << "Random literal: " << failedLiteral << endl;
+    }
+  }
+  //Print number of failed constraints
+  myfile << "# Constraints: " << constraints.size() << endl;
+  myfile << "# Failed constraints: " << failedConstraints.size() << endl;
+  //Print the variables
+  for(auto i = variables.begin(); i != variables.end(); i++){
+    myfile << i->second << " ";
+  }
+  myfile<<endl;
+  myfile.close();
+  //If its the final iteration
+  if (found || failedLiteral==-1){
+    cout<<"Results created on file "<<resultsFileName<<endl;
+  }
 }
 
 void KSAT::makeRandomVariables(){
@@ -147,24 +206,23 @@ void KSAT::printConstraints(){
   }
 }
 
-int KSAT::getRandomFailedLiteral(){
-  //Get a random failed literal from a failed constraint
-  cout << "# Constraints: " << constraints.size() << endl;
-  cout << "# Failed constraints: " << failedConstraints.size() << endl;
-
+vector<KLiteral> KSAT::getRandomFailedConstraint(){
   //Get random failed constraint
   random_device rd;
   mt19937 gen(rd());
   uniform_int_distribution<> distr(0, failedConstraints.size()-1);
   int randomIndex = distr(gen);
   vector<KLiteral> randomConstraint = failedConstraints[randomIndex];
-  cout << "Random constraint: " << randomIndex << endl;
+  return randomConstraint;
+}
 
-  //Get random failed literal
+int KSAT::getRandomFailedLiteral(vector<KLiteral> randomConstraint){
+  //Get a random failed literal from a failed constraint
+  random_device rd;
+  mt19937 gen(rd());
   uniform_int_distribution<> distr2(0, randomConstraint.size()-1);
   int randomIndex2 = distr2(gen);
   KLiteral randomLiteral = randomConstraint[randomIndex2];
-  cout << "Random literal: " << randomLiteral.variable << endl;
   return randomLiteral.variable;
 }
 
