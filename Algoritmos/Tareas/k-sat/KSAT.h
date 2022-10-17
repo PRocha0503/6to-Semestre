@@ -21,7 +21,11 @@ class KSAT{
     void flipLiteral(int);
     void readFromFile(string);
     bool evaluateClauses();
-    void printVariables();
+    void printVariables(bool found);
+    void printConstraints();
+    void FromDIMACS(const char *);
+    void parseClause(string);
+    void parseHeader(string);
   public:
     map<int, bool> Shoning();
     KSAT(string);
