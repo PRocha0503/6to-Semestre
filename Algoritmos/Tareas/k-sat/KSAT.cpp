@@ -85,7 +85,6 @@ map<int, bool> KSAT::Shoning(){
   for(int i = 0; i<(numOfVariables*3);i++){
       failedConstraints= vector<vector<KLiteral>>();
       cout<<"\nITERATION "<<i<<" :"<<endl;
-      printVariables(false);
       if (evaluateClauses()){
         //Encontramos el resultado
         printVariables(true);
@@ -93,6 +92,7 @@ map<int, bool> KSAT::Shoning(){
       }
       else{
         //No encontramos el resultado aún
+        printVariables(false);
         int failedLiteral=getRandomFailedLiteral();
         flipLiteral(failedLiteral);
       }
@@ -162,6 +162,7 @@ void KSAT::flipLiteral(int i){
 bool KSAT::evaluateClauses(){
   bool accumulatedResult=true;  
   for (int i = 0; i < constraints.size();i++){
+    bool valueOfClause=false;
     for (int j =0; j < constraints[i].size();j++){
       KLiteral literal = constraints[i][j];
       bool valueOfLiteral=false;
@@ -172,13 +173,13 @@ bool KSAT::evaluateClauses(){
             valueOfLiteral=variables[literal.variable];
         }
         if (valueOfLiteral){
-          continue;
+          valueOfClause=true;
+          break;
         }
-        else{
-            failedConstraints.push_back(constraints[i]);
-            accumulatedResult = false;
-            break;
-        }
+    }
+    if (!valueOfClause){
+      failedConstraints.push_back(constraints[i]);
+      accumulatedResult = false;
     }
   }
   return accumulatedResult;
