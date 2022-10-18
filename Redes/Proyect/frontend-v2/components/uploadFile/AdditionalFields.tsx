@@ -89,6 +89,7 @@ const AdditionalFields = ({ metadata, setMetadata }: Props) => {
 				></div>
 			</div>
 			<Button
+			className="upload-button"
 				icon="add"
 				onClick={() => {
 					setMetadata([...metadata, newE]);

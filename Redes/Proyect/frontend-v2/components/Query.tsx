@@ -82,7 +82,8 @@ const Query: React.FC<QueryProps> = ({ query, onChangeQuery, readonly, onEnter, 
                         resetOnQuery={false}
                         resetOnSelect={false}
                         disabled={readonly}
-                        className={QueryClasses.select}
+                        className={QueryClasses.select + " " + "header-item-select"}
+                        
                         
                         itemDisabled={() => readonly || false}
                         // initialContent={<MenuItem2 disabled={true} text="Type to search..." />}

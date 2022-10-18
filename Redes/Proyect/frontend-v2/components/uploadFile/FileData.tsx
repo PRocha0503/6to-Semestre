@@ -65,6 +65,7 @@ const FileData = ({ request, setRequest }: Props) => {
 	const renderArea = (area: any) => {
 		return (
 			<Button
+				className="area-item"
 				onClick={() => {
 					setArea(area);
 					setAreaTags(area.tags);
@@ -157,6 +158,7 @@ const FileData = ({ request, setRequest }: Props) => {
 					</div>
 					<Select2<any>
 						disabled={false}
+						className="select-area"
 						items={profile.areas.map((area: any) => area)}
 						itemRenderer={renderArea}
 						noResults={<MenuItem disabled={true} text="No results" />}
@@ -164,7 +166,9 @@ const FileData = ({ request, setRequest }: Props) => {
 							console.log(item);
 						}}
 						filterable={false}
-						popoverProps={{ minimal: true }}
+						popoverProps={{ minimal: true }
+					
+					}
 					>
 						<Button fill={true} text={area.name} rightIcon="caret-down" />
 					</Select2>

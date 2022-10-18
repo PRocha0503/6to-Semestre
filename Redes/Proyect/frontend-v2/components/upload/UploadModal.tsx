@@ -107,7 +107,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
             initialStepIndex={0}
             icon="upload"
             transitionDuration={300}
-            finalButtonProps={{ text: "Subir", onClick: () => handleUpload(), loading: isLoading }}
+            finalButtonProps={{ text: "Subir", className:"subir", onClick: () => handleUpload(), loading: isLoading }}
             backButtonProps={{ text: "Atrás" }}
         >
             <DialogStep
@@ -127,7 +127,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
 
                 }
                 
-                nextButtonProps={{ minimal: true, text: "Siguiente", disabled: file === null }}
+                nextButtonProps={{ minimal: true, text: "Siguiente", className: "siguiente",  disabled: file === null }}
             >
 
             </DialogStep>

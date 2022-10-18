@@ -28,7 +28,7 @@ function generateKeyIV(config) {
 
 function encryptFile(file, key, iv) {
     const cipher = crypto.createCipheriv("aes-256-cbc", key, iv)
-    const encrypted = cipher.update(file, "utf8")   
+    const encrypted = cipher.update(file, "utf8") 
     return encrypted;
 }
 
