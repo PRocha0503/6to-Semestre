@@ -4,7 +4,7 @@
 	"description": "Backend for proyect",
 	"main": "app.js",
 	"scripts": {
-		"test": "mocha --recursive --exit",
+		"test": "NODE_ENV=test mocha --recursive --exit",
 		"dev": "nodemon app.js"
 	},
 	"author": "",
@@ -27,5 +27,8 @@
 		"sshpk": "^1.17.0",
 		"uuidv4": "^6.2.13",
 		"xlsx": "^0.18.5"
+	},
+	"devDependencies": {
+		"cross-env": "^7.0.3"
 	}
 }
