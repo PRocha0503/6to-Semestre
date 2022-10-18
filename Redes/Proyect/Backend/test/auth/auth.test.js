@@ -12,10 +12,17 @@ let check = require("../../app.js");
 let should = chai.should();
 
 chai.use(chaiHttp);
+mongoose.connect(process.env.MONGODB_TEST);
 
 let accessToken = "";
 //Our parent block
 describe("Auth tests", () => {
+	before((done) => {
+		mongoose.connection.collections.users.drop(() => {
+			console.log("Users collection dropped");
+			done();
+		});
+	});
 	before((done) => {
 		const salt = bcryptjs.genSaltSync();
 		const admin = new User({
