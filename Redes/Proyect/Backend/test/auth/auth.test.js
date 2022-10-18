@@ -44,6 +44,7 @@ describe("Auth tests", () => {
 			done();
 		});
 	});
+
 	/*
 	 * Test the /GET route
 	 */
@@ -88,7 +89,7 @@ describe("Auth tests", () => {
 		});
 	});
 	describe("/GET /api/auth/logged", () => {
-		it("Should login user", (done) => {
+		it("Should get logged user", (done) => {
 			chai
 				.request(check)
 				.get("/api/auth/logged")

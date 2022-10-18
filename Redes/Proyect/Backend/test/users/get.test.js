@@ -17,7 +17,7 @@ let accessTokenAdmin = "";
 let accessTokenUser = "";
 
 //Our parent block
-describe("Auth tests", () => {
+describe("User tests", () => {
 	before((done) => {
 		chai
 			.request(check)
@@ -44,7 +44,7 @@ describe("Auth tests", () => {
 	/*
 	 * Test the /GET route
 	 */
-	describe("/POST /api/auth/login", () => {
+	describe("/GET /api/user", () => {
 		it("Admin should get all users", (done) => {
 			chai
 				.request(check)
