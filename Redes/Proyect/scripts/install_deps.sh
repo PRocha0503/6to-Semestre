@@ -44,3 +44,5 @@ install() {
 
     echo "Dependencies installed successfully!"
 }
+
+install
