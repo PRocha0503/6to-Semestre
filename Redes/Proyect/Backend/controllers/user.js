@@ -21,7 +21,7 @@ const addUser = async (req, res) => {
 		const { username, password, areas } = req.body;
 
 		//Create user
-		const user = new User({ username, password, areas});
+		const user = new User({ username, password, areas });
 
 		//Encrypt password
 		const salt = bcryptjs.genSaltSync();
