@@ -106,6 +106,7 @@ const AddDocumentModal: React.FC<Props> = ({ isOpen, onClose }) => {
 				icon="upload"
 				transitionDuration={300}
 				finalButtonProps={{
+					className: "subir",
 					text: "Subir",
 					onClick: () => {
 						uploadDocument();
@@ -133,6 +134,7 @@ const AddDocumentModal: React.FC<Props> = ({ isOpen, onClose }) => {
 					nextButtonProps={{
 						minimal: true,
 						text: "Siguiente",
+						className:"siguiente",
 
 						disabled:
 							request.title && request.expediente && request.area
@@ -164,6 +166,7 @@ const AddDocumentModal: React.FC<Props> = ({ isOpen, onClose }) => {
 					nextButtonProps={{
 						minimal: true,
 						text: "Siguiente",
+						className:"siguiente",
 						loading: isLoading,
 					}}
 				></DialogStep>

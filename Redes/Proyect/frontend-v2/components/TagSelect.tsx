@@ -71,6 +71,7 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ dark, tags=[], selecte
                 roleStructure="listoption"
                 selected={isTagSelected(tag)}
                 onClick={handleTagSelect.bind(null, tag)}
+                className="tag-item"
             />
         );
     }
@@ -94,7 +95,7 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ dark, tags=[], selecte
 
     return (
         <TagSelect  
-            className={TagClasses.tagSelect}
+            className={TagClasses.tagSelect + " " +  "tag-select"}
             items={tags}
             itemRenderer={itemRenderer}
             itemPredicate={itemPredicate}

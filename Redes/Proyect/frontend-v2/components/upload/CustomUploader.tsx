@@ -74,6 +74,7 @@ const CustomUploader: React.FC<IProps> = ({
 		>
 			<input
 				type="file"
+				className="upload-input"
 				onChange={handleFileChange}
 				ref={inputRef}
 				style={{ display: "none" }}

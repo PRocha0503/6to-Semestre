@@ -17,7 +17,7 @@ let accessTokenAdmin = "";
 let accessTokenUser = "";
 
 //Our parent block
-describe("Auth tests", () => {
+describe("User tests", () => {
 	before((done) => {
 		chai
 			.request(check)
@@ -44,21 +44,19 @@ describe("Auth tests", () => {
 	/*
 	 * Test the /GET route
 	 */
-	describe("/POST /api/auth/login", () => {
+	describe("/GET /api/user", () => {
 		it("Admin should get all users", (done) => {
-			console.log(accessTokenAdmin);
 			chai
 				.request(check)
 				.get("/api/user")
 				.set("Cookie", `accessToken=${accessTokenAdmin}`)
 				.end((err, res) => {
 					res.should.have.status(200);
-					res.body.should.be.a("array");
+					res.body.should.have.property("users");
 					done();
 				});
 		});
 		it("User should NOT get all users", (done) => {
-			console.log(accessTokenUser);
 			chai
 				.request(check)
 				.get("/api/user")

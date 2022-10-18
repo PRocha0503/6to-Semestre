@@ -12,10 +12,17 @@ let check = require("../../app.js");
 let should = chai.should();
 
 chai.use(chaiHttp);
+mongoose.connect(process.env.MONGODB_TEST);
 
 let accessToken = "";
 //Our parent block
 describe("Auth tests", () => {
+	before((done) => {
+		mongoose.connection.collections.users.drop(() => {
+			console.log("Users collection dropped");
+			done();
+		});
+	});
 	before((done) => {
 		const salt = bcryptjs.genSaltSync();
 		const admin = new User({
@@ -37,6 +44,7 @@ describe("Auth tests", () => {
 			done();
 		});
 	});
+
 	/*
 	 * Test the /GET route
 	 */
@@ -81,7 +89,7 @@ describe("Auth tests", () => {
 		});
 	});
 	describe("/GET /api/auth/logged", () => {
-		it("Should login user", (done) => {
+		it("Should get logged user", (done) => {
 			chai
 				.request(check)
 				.get("/api/auth/logged")

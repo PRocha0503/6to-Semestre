@@ -1,5 +1,5 @@
 const { defineConfig } = require('cypress')
-const http = require("./helpers/http");
+// const http = require("./helpers/http");
 
 module.exports = defineConfig({
     pageLoadTimeout: 10000,
@@ -13,14 +13,14 @@ module.exports = defineConfig({
     waitForAnimations: true,
   e2e: {
     setUpNodeEvents(on, config) {
-        on('task', {
-            async 'db:seed'() {
-              // Send request to backend API to re-seed database with test data
-              const { data } = await http.post(`${process.env.BASE_URL}/db/seed`) // TODO: endpoint only available in dev mode
-              return data
-            },
+        // on('task', {
+            // async 'db:seed'() {
+            //   // Send request to backend API to re-seed database with test data
+            //   const { data } = await http.post(`${process.env.BASE_URL}/db/seed`) // TODO: endpoint only available in dev mode
+            //   return data
+            // },
             //...
-          })
+          // })
     },
     baseUrl: 'http://localhost:3000',
     

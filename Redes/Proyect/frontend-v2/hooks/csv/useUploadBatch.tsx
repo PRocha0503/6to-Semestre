@@ -22,7 +22,6 @@ export default function useUploadBatch(req: UploadBatchHookRequest) {
 	bodyFormData.append("file", req?.file || new File([], "empty"));
     const queryClient = useQueryClient();
 	return useMutation<BatchResponse, Error>(() => uploadBatch(bodyFormData), {
-
         onSuccess: (data) => {
             queryClient.invalidateQueries(["query-documents"]);
             req.onSuccess(data)

@@ -32,6 +32,7 @@ const HeaderSelector = ({ headers, updateHeaderItem,  column, selectedIndex }: H
 					{...props}
 					text={header.name}
 					selected={header.selected}
+                    className="header-select-item"
                     roleStructure="listoption"
                     shouldDismissPopover={true}
                     onClick={() => {
@@ -59,12 +60,13 @@ const HeaderSelector = ({ headers, updateHeaderItem,  column, selectedIndex }: H
                 }}
                 itemsEqual={(a, b) => a.key === b.key}
                 filterable={false}
-                popoverProps={{ minimal: true }}
+                popoverProps={{ minimal: true, className: "header-select-popover" }}
                 noResults={<MenuItem disabled={true} text="No hay resultados" />}   
             >
                 <Button
                     text={(selectedIndex !== null && selectedIndex !== -1) ? headers[selectedIndex!]?.name : 
                         (availableHeaders() > 0 ? "Seleccionar" : "...")}
+                    className="header-select"
                     rightIcon="double-caret-vertical"
                     intent={availableHeaders() > 0 ? Intent.PRIMARY : (selectedIndex !== null && selectedIndex !== -1) ? Intent.SUCCESS : Intent.NONE}
                     fill
