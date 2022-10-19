@@ -50,7 +50,7 @@ const DocPreview: React.FC<DocProps> = ({ doc }) => {
 				</div>
 				<div className={styles.item}>
 					<span className={styles.title}>Creado por:</span>
-					<span>{doc.createdBy.username}</span>
+					<span>{doc.createdBy?.username}</span>
 				</div>
 				<div className={styles.item}>
 					<span className={styles.title}>Fecha de Creación:</span>

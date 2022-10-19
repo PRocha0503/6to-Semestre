@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { Button, Intent, H5 } from "@blueprintjs/core";
+import { Button, H5, Intent } from "@blueprintjs/core";
 import { Classes, Popover2 } from "@blueprintjs/popover2";
+import { useEffect, useState  } from "react";
 import { IUser } from "types/user";
 import useMakeUserAdmin from "@hooks/user/useMakeUserAdmin";
 

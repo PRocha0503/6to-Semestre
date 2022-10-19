@@ -1,4 +1,4 @@
-const { Router } = require("express");
-const router = Router();
+// const { Router } = require("express");
+// const router = Router();
 
-router.post("/", seedDB)
+// router.post("/", seedDB)

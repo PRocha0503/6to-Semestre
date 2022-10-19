@@ -1,7 +1,7 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "sort-imports": ["error", {
+    "sort-imports": ["warning", {
       "ignoreCase": false,
       "ignoreDeclarationSort": false,
       "ignoreMemberSort": false,

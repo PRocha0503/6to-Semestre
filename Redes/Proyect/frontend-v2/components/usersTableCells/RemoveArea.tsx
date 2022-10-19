@@ -1,21 +1,16 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useCallback,useEffect, useState } from "react";
 import useUserAvailableAreas from "@hooks/area/useUserAvailableAreas";
 
+import { Button, H5,Intent, MenuItem } from "@blueprintjs/core";
 import {
 	Classes,
-	Placement,
-	PlacementOptions,
 	Popover2,
-	Popover2InteractionKind,
-	Popover2SharedProps,
-	StrictModifierNames,
 } from "@blueprintjs/popover2";
-import { Button, MenuItem, Intent, H5 } from "@blueprintjs/core";
 import { ItemRenderer, Select2, Select2Props } from "@blueprintjs/select";
 import { IArea } from "types/area";
 import { IUser } from "types/user";
-import deleteUserArea from "@hooks/user/useDeleteUserArea";
 import Notifications from "../Notifications";
+import deleteUserArea from "@hooks/user/useDeleteUserArea";
 
 import styles from "../../styles/RemoveArea.module.css";
 

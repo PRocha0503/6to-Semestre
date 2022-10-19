@@ -350,7 +350,7 @@ export function generateColumns<T>(
 					key: column.key,
 					name: column.name,
 					onClick: column?.onClick,
-					icon: column?.icon,
+					icon: column?.icon ?? "refresh",
 					text: column?.text,
 					color: column?.color,
 					disabled: column?.disabled,

@@ -33,7 +33,7 @@ export const Table = ({
 	onDetOpen,
 }: TableProps) => {
 	const [sortedIndexMap, setSortedIndexMap] = React.useState<number[]>([]);
-	const [uploadFile, setUploadFile] = React.useState<number | null>(null);
+	const [uploadFile, setUploadFile] = React.useState<string | null>(null);
 
 	const renderColumns = useMemo(() => {
 		function test(el: any) {

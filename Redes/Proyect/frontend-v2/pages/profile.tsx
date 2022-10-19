@@ -4,18 +4,18 @@ import { useUser } from "@hooks/user";
 import {
 	Button,
 	Card,
-	NonIdealState,
 	Icon,
+	NonIdealState,
 } from "@blueprintjs/core";
 
-import useGetUsers from "@hooks/user/useGetUsers";
-import Notifications from "@components/Notifications";
+import AddAreaModal from "@components/AddAreaModal";
+import AddLabelModal from "@components/AddLabelModal";
 import AddUserModal from "@components/AddUserModal";
+import { CustomTag } from "@components/CustomTag";
+import Notifications from "@components/Notifications";
 import { UsersTable } from "@components/UsersTable";
 import useGetProfile from "@hooks/user/useGetProfile";
-import { CustomTag } from "@components/CustomTag";
-import AddLabelModal from "@components/AddLabelModal";
-import AddAreaModal from "@components/AddAreaModal";
+import useGetUsers from "@hooks/user/useGetUsers";
 
 const Profile = () => {
 	const user = useUser();

@@ -89,7 +89,7 @@ const Home: NextPage = () => {
 	const [details, setDetails] = React.useState<IDocument>({
 		title: "hello",
 		tags: [],
-		_id: 1,
+		_id: "1",
 		createdAt: new Date(),
 		folio: "123",
 		expediente: "123",

@@ -4,13 +4,13 @@ export declare type DocumentQueryKeys = "document" | "documents";
 
 interface IDocument {
 	tags: ITag[];
-	_id: number;
+	_id: string;
 	title: string;
 	folio: string;
 	expediente: string;
 	createdAt: Date;
-	createdBy: string;
-	area: string;
+	createdBy: any;
+	area: any;
 	logs: string[];
 	metadata: any;
 	hasFile: boolean;
