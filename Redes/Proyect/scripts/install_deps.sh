@@ -21,6 +21,11 @@ installUbuntuDeps() {
     # Add the current user to the docker group
     sudo usermod -aG docker $USER
 
+    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+    # start docker service
+    sudo service docker start
+
     # Install git
     sudo apt-get install git
 
