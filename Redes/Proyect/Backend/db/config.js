@@ -8,6 +8,7 @@ const dbConnection = async () => {
 		} else {
 			mongoose.connect(process.env.MONGO, {});
 		}
+		
 		console.log("Connected to Mongo");
 	} catch (err) {
 		console.log(err);

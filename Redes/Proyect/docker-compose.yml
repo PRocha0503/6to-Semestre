@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   server:
@@ -19,11 +19,12 @@ services:
     image: mongo
     restart: always
     volumes:
-      - db_data:/data/db
+      - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./db:/data/db
     env_file:
       - mongo.env
     ports:
-      - 27017:27017
+      - 27017
     networks:
       - mynetwork
   api:
@@ -32,7 +33,7 @@ services:
     env_file:
       - ./Backend/.env
     ports:
-      - 8090:8090
+      - 8090
     networks:
       - mynetwork
     depends_on:
@@ -41,7 +42,7 @@ services:
     build: ./frontend-v2
     restart: always
     ports:
-      - 8080:8080
+      - 8080
     networks:
       - mynetwork
     depends_on:
