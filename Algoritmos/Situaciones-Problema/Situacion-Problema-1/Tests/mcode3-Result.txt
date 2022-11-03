@@ -1,0 +1,454 @@
+Number of times the malicious code is in the file: 151
+
+String found in:
+Starting Position: 151809 Ending Position: 151809
+
+String found in:
+Starting Position: 258677 Ending Position: 258677
+
+String found in:
+Starting Position: 288756 Ending Position: 288756
+
+String found in:
+Starting Position: 311902 Ending Position: 311902
+
+String found in:
+Starting Position: 371590 Ending Position: 371590
+
+String found in:
+Starting Position: 423111 Ending Position: 423111
+
+String found in:
+Starting Position: 445799 Ending Position: 445799
+
+String found in:
+Starting Position: 463802 Ending Position: 463802
+
+String found in:
+Starting Position: 560946 Ending Position: 560946
+
+String found in:
+Starting Position: 586975 Ending Position: 586975
+
+String found in:
+Starting Position: 624953 Ending Position: 624953
+
+String found in:
+Starting Position: 630525 Ending Position: 630525
+
+String found in:
+Starting Position: 785671 Ending Position: 785671
+
+String found in:
+Starting Position: 788273 Ending Position: 788273
+
+String found in:
+Starting Position: 816620 Ending Position: 816620
+
+String found in:
+Starting Position: 925096 Ending Position: 925096
+
+String found in:
+Starting Position: 942648 Ending Position: 942648
+
+String found in:
+Starting Position: 962814 Ending Position: 962814
+
+String found in:
+Starting Position: 1009831 Ending Position: 1009831
+
+String found in:
+Starting Position: 1147271 Ending Position: 1147271
+
+String found in:
+Starting Position: 1210025 Ending Position: 1210025
+
+String found in:
+Starting Position: 1240119 Ending Position: 1240119
+
+String found in:
+Starting Position: 1304340 Ending Position: 1304340
+
+String found in:
+Starting Position: 1360398 Ending Position: 1360398
+
+String found in:
+Starting Position: 1426068 Ending Position: 1426068
+
+String found in:
+Starting Position: 1489662 Ending Position: 1489662
+
+String found in:
+Starting Position: 1535259 Ending Position: 1535259
+
+String found in:
+Starting Position: 1640210 Ending Position: 1640210
+
+String found in:
+Starting Position: 1695993 Ending Position: 1695993
+
+String found in:
+Starting Position: 1774507 Ending Position: 1774507
+
+String found in:
+Starting Position: 1997607 Ending Position: 1997607
+
+String found in:
+Starting Position: 2020083 Ending Position: 2020083
+
+String found in:
+Starting Position: 2038438 Ending Position: 2038438
+
+String found in:
+Starting Position: 2275340 Ending Position: 2275340
+
+String found in:
+Starting Position: 2306995 Ending Position: 2306995
+
+String found in:
+Starting Position: 2381892 Ending Position: 2381892
+
+String found in:
+Starting Position: 2396940 Ending Position: 2396940
+
+String found in:
+Starting Position: 2471158 Ending Position: 2471158
+
+String found in:
+Starting Position: 2496862 Ending Position: 2496862
+
+String found in:
+Starting Position: 2511210 Ending Position: 2511210
+
+String found in:
+Starting Position: 2545534 Ending Position: 2545534
+
+String found in:
+Starting Position: 2608279 Ending Position: 2608279
+
+String found in:
+Starting Position: 2762964 Ending Position: 2762964
+
+String found in:
+Starting Position: 2765427 Ending Position: 2765427
+
+String found in:
+Starting Position: 2883966 Ending Position: 2883966
+
+String found in:
+Starting Position: 2970301 Ending Position: 2970301
+
+String found in:
+Starting Position: 3042230 Ending Position: 3042230
+
+String found in:
+Starting Position: 3093643 Ending Position: 3093643
+
+String found in:
+Starting Position: 3094935 Ending Position: 3094935
+
+String found in:
+Starting Position: 3139197 Ending Position: 3139197
+
+String found in:
+Starting Position: 3331991 Ending Position: 3331991
+
+String found in:
+Starting Position: 3410668 Ending Position: 3410668
+
+String found in:
+Starting Position: 3559800 Ending Position: 3559800
+
+String found in:
+Starting Position: 3569297 Ending Position: 3569297
+
+String found in:
+Starting Position: 3583812 Ending Position: 3583812
+
+String found in:
+Starting Position: 3594311 Ending Position: 3594311
+
+String found in:
+Starting Position: 3633655 Ending Position: 3633655
+
+String found in:
+Starting Position: 3688371 Ending Position: 3688371
+
+String found in:
+Starting Position: 3752327 Ending Position: 3752327
+
+String found in:
+Starting Position: 3773185 Ending Position: 3773185
+
+String found in:
+Starting Position: 3835514 Ending Position: 3835514
+
+String found in:
+Starting Position: 3852847 Ending Position: 3852847
+
+String found in:
+Starting Position: 3980579 Ending Position: 3980579
+
+String found in:
+Starting Position: 4035413 Ending Position: 4035413
+
+String found in:
+Starting Position: 4046251 Ending Position: 4046251
+
+String found in:
+Starting Position: 4227089 Ending Position: 4227089
+
+String found in:
+Starting Position: 4263475 Ending Position: 4263475
+
+String found in:
+Starting Position: 4283001 Ending Position: 4283001
+
+String found in:
+Starting Position: 4285835 Ending Position: 4285835
+
+String found in:
+Starting Position: 4388354 Ending Position: 4388354
+
+String found in:
+Starting Position: 4408337 Ending Position: 4408337
+
+String found in:
+Starting Position: 4548268 Ending Position: 4548268
+
+String found in:
+Starting Position: 4638120 Ending Position: 4638120
+
+String found in:
+Starting Position: 4645034 Ending Position: 4645034
+
+String found in:
+Starting Position: 4735637 Ending Position: 4735637
+
+String found in:
+Starting Position: 4830914 Ending Position: 4830914
+
+String found in:
+Starting Position: 4842231 Ending Position: 4842231
+
+String found in:
+Starting Position: 4878219 Ending Position: 4878219
+
+String found in:
+Starting Position: 5144236 Ending Position: 5144236
+
+String found in:
+Starting Position: 5180459 Ending Position: 5180459
+
+String found in:
+Starting Position: 5187661 Ending Position: 5187661
+
+String found in:
+Starting Position: 5276767 Ending Position: 5276767
+
+String found in:
+Starting Position: 5381167 Ending Position: 5381167
+
+String found in:
+Starting Position: 5480502 Ending Position: 5480502
+
+String found in:
+Starting Position: 5556422 Ending Position: 5556422
+
+String found in:
+Starting Position: 5568096 Ending Position: 5568096
+
+String found in:
+Starting Position: 5581317 Ending Position: 5581317
+
+String found in:
+Starting Position: 5616744 Ending Position: 5616744
+
+String found in:
+Starting Position: 5760973 Ending Position: 5760973
+
+String found in:
+Starting Position: 5790392 Ending Position: 5790392
+
+String found in:
+Starting Position: 5894962 Ending Position: 5894962
+
+String found in:
+Starting Position: 5964930 Ending Position: 5964930
+
+String found in:
+Starting Position: 6055944 Ending Position: 6055944
+
+String found in:
+Starting Position: 6225515 Ending Position: 6225515
+
+String found in:
+Starting Position: 6366475 Ending Position: 6366475
+
+String found in:
+Starting Position: 6397272 Ending Position: 6397272
+
+String found in:
+Starting Position: 6521759 Ending Position: 6521759
+
+String found in:
+Starting Position: 6545075 Ending Position: 6545075
+
+String found in:
+Starting Position: 6558809 Ending Position: 6558809
+
+String found in:
+Starting Position: 6873968 Ending Position: 6873968
+
+String found in:
+Starting Position: 6899662 Ending Position: 6899662
+
+String found in:
+Starting Position: 7109251 Ending Position: 7109251
+
+String found in:
+Starting Position: 7206028 Ending Position: 7206028
+
+String found in:
+Starting Position: 7209612 Ending Position: 7209612
+
+String found in:
+Starting Position: 7218581 Ending Position: 7218581
+
+String found in:
+Starting Position: 7236407 Ending Position: 7236407
+
+String found in:
+Starting Position: 7273583 Ending Position: 7273583
+
+String found in:
+Starting Position: 7293808 Ending Position: 7293808
+
+String found in:
+Starting Position: 7430376 Ending Position: 7430376
+
+String found in:
+Starting Position: 7503300 Ending Position: 7503300
+
+String found in:
+Starting Position: 7774630 Ending Position: 7774630
+
+String found in:
+Starting Position: 7791090 Ending Position: 7791090
+
+String found in:
+Starting Position: 7897433 Ending Position: 7897433
+
+String found in:
+Starting Position: 8035014 Ending Position: 8035014
+
+String found in:
+Starting Position: 8225735 Ending Position: 8225735
+
+String found in:
+Starting Position: 8277084 Ending Position: 8277084
+
+String found in:
+Starting Position: 8300146 Ending Position: 8300146
+
+String found in:
+Starting Position: 8410866 Ending Position: 8410866
+
+String found in:
+Starting Position: 8424421 Ending Position: 8424421
+
+String found in:
+Starting Position: 8465614 Ending Position: 8465614
+
+String found in:
+Starting Position: 8613734 Ending Position: 8613734
+
+String found in:
+Starting Position: 8652400 Ending Position: 8652400
+
+String found in:
+Starting Position: 8725332 Ending Position: 8725332
+
+String found in:
+Starting Position: 8757970 Ending Position: 8757970
+
+String found in:
+Starting Position: 8840883 Ending Position: 8840883
+
+String found in:
+Starting Position: 8921441 Ending Position: 8921441
+
+String found in:
+Starting Position: 8926378 Ending Position: 8926378
+
+String found in:
+Starting Position: 8962230 Ending Position: 8962230
+
+String found in:
+Starting Position: 9055164 Ending Position: 9055164
+
+String found in:
+Starting Position: 9088953 Ending Position: 9088953
+
+String found in:
+Starting Position: 9109139 Ending Position: 9109139
+
+String found in:
+Starting Position: 9318936 Ending Position: 9318936
+
+String found in:
+Starting Position: 9324001 Ending Position: 9324001
+
+String found in:
+Starting Position: 9332498 Ending Position: 9332498
+
+String found in:
+Starting Position: 9355674 Ending Position: 9355674
+
+String found in:
+Starting Position: 9448045 Ending Position: 9448045
+
+String found in:
+Starting Position: 9473733 Ending Position: 9473733
+
+String found in:
+Starting Position: 9506846 Ending Position: 9506846
+
+String found in:
+Starting Position: 9513723 Ending Position: 9513723
+
+String found in:
+Starting Position: 9515022 Ending Position: 9515022
+
+String found in:
+Starting Position: 9551210 Ending Position: 9551210
+
+String found in:
+Starting Position: 9716305 Ending Position: 9716305
+
+String found in:
+Starting Position: 9814692 Ending Position: 9814692
+
+String found in:
+Starting Position: 9822244 Ending Position: 9822244
+
+String found in:
+Starting Position: 9823826 Ending Position: 9823826
+
+String found in:
+Starting Position: 9858754 Ending Position: 9858754
+
+String found in:
+Starting Position: 9901591 Ending Position: 9901591
+
+String found in:
+Starting Position: 9910387 Ending Position: 9910387
+
+String found in:
+Starting Position: 9914150 Ending Position: 9914150
+
+String found in:
+Starting Position: 10050823 Ending Position: 10050823
+
+String found in:
+Starting Position: 10060058 Ending Position: 10060058
