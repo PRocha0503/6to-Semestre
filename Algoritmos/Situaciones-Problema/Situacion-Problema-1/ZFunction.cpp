@@ -1,6 +1,6 @@
 /*
-ZFunction
-Patricio Bosques Rosas: A01781663
+Situación Integradora 1
+Patricio Bosque Rosas: A01781663
 Pablo Rocha Ojeda: A01028638
 Luis Javier Karam Galland: A01751941
 Miguel Arriaga Velasco: A01028570
@@ -45,14 +45,23 @@ vector<char> ZFunction::readFromFile(string fileName){
 }
 
 vector<vector<int>> ZFunction::zFunctionKMP(){
+
     int left = 0;
     int right = 0;
     int k = 0;
+
+    int leftReversed = 0;
+    int rightReversed = 0;
+    int kReversed = 0;
+
     int n = zValues.size();
     zFunctionResult = vector<int>(n, 0);
+    int nonReversedNumberOfMatches = 0;
+    zFunctionResultReversed = vector<int>(n, 0);
+    int reversedNumberOfMatches = 0;
     vector<vector<int>> positionsFound;
 
-    for (int i = 1; i < n; i++){
+    for (int i = maliciousCodeLength+1; i < n; i++){
         if (i > right){
             left = right = i;
             while (right < n && zValues[right] == zValues[right - left]){
@@ -77,8 +86,57 @@ vector<vector<int>> ZFunction::zFunctionKMP(){
         }
         if (zFunctionResult[i] == maliciousCodeLength){
             int startingPosition = i - maliciousCodeLength - 1;
-            positionsFound.push_back(vector<int>(startingPosition, startingPosition + maliciousCodeLength));
+            vector<int> malicious = vector<int>();
+            malicious.push_back(startingPosition);
+            malicious.push_back(startingPosition + maliciousCodeLength);
+            malicious.push_back(0); //0 means the malicious code is not reversed
+            nonReversedNumberOfMatches++;
+            positionsFound.push_back(malicious);
         }
+
+        //Check for reversed malicious code
+        //if (i > rightReversed){
+            leftReversed = rightReversed = i;
+            int extraReversed = 1;
+            while (rightReversed < n && zValues[rightReversed] == zValues[maliciousCodeLength - extraReversed]){
+                extraReversed+=1;
+                rightReversed++;
+            }
+            zFunctionResultReversed[i] = rightReversed - leftReversed;
+            rightReversed--;
+        //}
+        // else{
+        //     kReversed = i - leftReversed;
+        //     if (zFunctionResult[kReversed] < rightReversed - i + 1){
+        //         zFunctionResult[i] = zFunctionResult[kReversed];
+        //     }
+        //     else{
+        //         leftReversed = i;
+        //         while (rightReversed < n && zValues[rightReversed] == zValues[rightReversed - leftReversed]){
+        //             rightReversed++;
+        //         }
+        //         zFunctionResult[i] = rightReversed - leftReversed;
+        //         rightReversed--;
+        //     }
+        // }
+        if (zFunctionResultReversed[i] == maliciousCodeLength){
+            int startingPosition = i - maliciousCodeLength - 1;
+            vector<int> malicious = vector<int>();
+            malicious.push_back(startingPosition);
+            malicious.push_back(startingPosition + maliciousCodeLength);
+            malicious.push_back(1); //1 means the malicious code is reversed
+            reversedNumberOfMatches++;
+            positionsFound.push_back(malicious);
+        }
+        
     }
+
+    // The first element of the vector has the number of matches found in the following format: [number of matches, number of reversed matches, total number of matches]
+    vector<int> matchesCount = vector<int>();
+    matchesCount.push_back(nonReversedNumberOfMatches);
+    matchesCount.push_back(reversedNumberOfMatches);
+    matchesCount.push_back(reversedNumberOfMatches+nonReversedNumberOfMatches);
+    positionsFound.insert(positionsFound.begin(), matchesCount);
+
     return positionsFound;
 }

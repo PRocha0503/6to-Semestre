@@ -1,6 +1,6 @@
 /*
-ZFunction
-Patricio Bosques Rosas: A01781663
+Situación Integradora 1
+Patricio Bosque Rosas: A01781663
 Pablo Rocha Ojeda: A01028638
 Luis Javier Karam Galland: A01751941
 Miguel Arriaga Velasco: A01028570
@@ -17,6 +17,7 @@ class ZFunction{
         int maliciousCodeLength;
         vector<char> zValues;
         vector<int> zFunctionResult;
+        vector<int> zFunctionResultReversed;
         
     public:
         ZFunction(string transmissionFile,string maliciousCodeFile);

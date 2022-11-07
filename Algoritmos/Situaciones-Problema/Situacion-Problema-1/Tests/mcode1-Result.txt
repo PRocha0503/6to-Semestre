@@ -1,73 +1,75 @@
-Number of times the malicious code is in the file: 24
+Number of times the non reversed malicious code is in the file: 24
+Number of times the reversed malicious code is in the file: 0
+Total number of times the malicious code is in the file: 24
 
-String found in:
-Starting Position: 1075 Ending Position: 1075
+Malicious code found in:
+Starting Position: 1055 Ending Position: 1075
 
-String found in:
-Starting Position: 2507 Ending Position: 2507
+Malicious code found in:
+Starting Position: 2487 Ending Position: 2507
 
-String found in:
-Starting Position: 2125581 Ending Position: 2125581
+Malicious code found in:
+Starting Position: 2125561 Ending Position: 2125581
 
-String found in:
-Starting Position: 2132469 Ending Position: 2132469
+Malicious code found in:
+Starting Position: 2132449 Ending Position: 2132469
 
-String found in:
-Starting Position: 2134760 Ending Position: 2134760
+Malicious code found in:
+Starting Position: 2134740 Ending Position: 2134760
 
-String found in:
-Starting Position: 3829176 Ending Position: 3829176
+Malicious code found in:
+Starting Position: 3829156 Ending Position: 3829176
 
-String found in:
-Starting Position: 3874682 Ending Position: 3874682
+Malicious code found in:
+Starting Position: 3874662 Ending Position: 3874682
 
-String found in:
-Starting Position: 3880220 Ending Position: 3880220
+Malicious code found in:
+Starting Position: 3880200 Ending Position: 3880220
 
-String found in:
-Starting Position: 3880455 Ending Position: 3880455
+Malicious code found in:
+Starting Position: 3880435 Ending Position: 3880455
 
-String found in:
-Starting Position: 3896504 Ending Position: 3896504
+Malicious code found in:
+Starting Position: 3896484 Ending Position: 3896504
 
-String found in:
-Starting Position: 3918039 Ending Position: 3918039
+Malicious code found in:
+Starting Position: 3918019 Ending Position: 3918039
 
-String found in:
-Starting Position: 3931143 Ending Position: 3931143
+Malicious code found in:
+Starting Position: 3931123 Ending Position: 3931143
 
-String found in:
-Starting Position: 3932385 Ending Position: 3932385
+Malicious code found in:
+Starting Position: 3932365 Ending Position: 3932385
 
-String found in:
-Starting Position: 3947911 Ending Position: 3947911
+Malicious code found in:
+Starting Position: 3947891 Ending Position: 3947911
 
-String found in:
-Starting Position: 3956208 Ending Position: 3956208
+Malicious code found in:
+Starting Position: 3956188 Ending Position: 3956208
 
-String found in:
-Starting Position: 3967127 Ending Position: 3967127
+Malicious code found in:
+Starting Position: 3967107 Ending Position: 3967127
 
-String found in:
-Starting Position: 4534554 Ending Position: 4534554
+Malicious code found in:
+Starting Position: 4534534 Ending Position: 4534554
 
-String found in:
-Starting Position: 4534576 Ending Position: 4534576
+Malicious code found in:
+Starting Position: 4534556 Ending Position: 4534576
 
-String found in:
-Starting Position: 4534596 Ending Position: 4534596
+Malicious code found in:
+Starting Position: 4534576 Ending Position: 4534596
 
-String found in:
-Starting Position: 4549446 Ending Position: 4549446
+Malicious code found in:
+Starting Position: 4549426 Ending Position: 4549446
 
-String found in:
-Starting Position: 4568124 Ending Position: 4568124
+Malicious code found in:
+Starting Position: 4568104 Ending Position: 4568124
 
-String found in:
-Starting Position: 4568712 Ending Position: 4568712
+Malicious code found in:
+Starting Position: 4568692 Ending Position: 4568712
 
-String found in:
-Starting Position: 4590106 Ending Position: 4590106
+Malicious code found in:
+Starting Position: 4590086 Ending Position: 4590106
 
-String found in:
-Starting Position: 8563347 Ending Position: 8563347
+Malicious code found in:
+Starting Position: 8563327 Ending Position: 8563347
