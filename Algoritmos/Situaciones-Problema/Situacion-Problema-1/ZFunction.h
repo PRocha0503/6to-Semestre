@@ -21,7 +21,7 @@ class ZFunction{
     public:
         ZFunction(string transmissionFile,string maliciousCodeFile);
         vector<char>  readFromFile(string);
-        vector<vector<int>> calculateZFunction();
+        vector<vector<int>> zFunctionKMP();
         vector<char> getZValues();
 
 };

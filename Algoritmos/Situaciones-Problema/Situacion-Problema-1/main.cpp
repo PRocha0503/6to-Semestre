@@ -1,5 +1,5 @@
 /*
-ZFunction
+ZFunction with KMP
 Patricio Bosques Rosas: A01781663
 Pablo Rocha Ojeda: A01028638
 Luis Javier Karam Galland: A01751941
@@ -36,18 +36,18 @@ int main(){
 
     //First file
     ZFunction zFunction("Tests/transmission.txt","Tests/mcode1.txt");
-    vector<vector<int>>zFunctionResult= zFunction.calculateZFunction();
+    vector<vector<int>>zFunctionResult= zFunction.zFunctionKMP();
     printVectorToFile(zFunctionResult, "Tests/mcode1-Result.txt");
 
     //Second file
     ZFunction zFunction2("Tests/transmission.txt", "Tests/mcode2.txt");
-    vector<vector<int>> zFunctionResult2 = zFunction2.calculateZFunction();
+    vector<vector<int>> zFunctionResult2 = zFunction2.zFunctionKMP();
     printVectorToFile(zFunctionResult2, "Tests/mcode2-Result.txt");
     
 
     //Third file
     ZFunction zFunction3("Tests/transmission.txt", "Tests/mcode3.txt");
-    vector<vector<int>> zFunctionResult3 = zFunction3.calculateZFunction();
+    vector<vector<int>> zFunctionResult3 = zFunction3.zFunctionKMP();
     printVectorToFile(zFunctionResult3, "Tests/mcode3-Result.txt");
     
 
