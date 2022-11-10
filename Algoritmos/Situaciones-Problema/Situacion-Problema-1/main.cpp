@@ -7,8 +7,6 @@ Miguel Arriaga Velasco: A01028570
 */
 
 #include "ZFunction.cpp"
-#include <thread>
-#include <future>
 
 void printVectorToFile(vector<vector<int>> v, string fileName){
     ofstream file;
@@ -66,30 +64,6 @@ void printVector(vector<vector<int>> v){
 }
 
 int main(){
-    /*
-    ZFunction zFunctionQ("Tests/quickTransmissionTest.txt","Tests/quickTest.txt");
-    ZFunction zFunction1("Tests/transmission.txt","Tests/mcode1.txt");
-    ZFunction zFunction2("Tests/transmission.txt", "Tests/mcode2.txt");
-    ZFunction zFunction3("Tests/transmission.txt", "Tests/mcode3.txt");
-
-    auto futureQ = async(zFunctionQ.zFunctionKMP());
-    auto future1 = async(zFunction1.zFunctionKMP());
-    auto future2 = async(zFunction2.zFunctionKMP());
-    auto future3 = async(zFunction3.zFunctionKMP());
-
-    vector<vector<int>> resultQ = futureQ.get();
-    vector<vector<int>> v1 = future1.get();
-    vector<vector<int>> v2 = future2.get();
-    vector<vector<int>> v3 = future3.get();
-
-    printVector(resultQ, "Tests/quickTest-Result.txt");
-    printVectorToFile(v1, "Tests/mcode1-Result.txt");
-    printVectorToFile(v2, "Tests/mcode2-Result.txt");
-    printVectorToFile(v3, "Tests/mcode3-Result.txt");
-
-    return 0;
-    */
-    
 
     //Quick test
     ZFunction zFunctionQ("Tests/quickTransmissionTest.txt","Tests/quickTest.txt");

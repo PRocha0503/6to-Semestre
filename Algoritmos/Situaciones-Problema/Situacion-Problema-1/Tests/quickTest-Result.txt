@@ -2,8 +2,8 @@ Number of times the non reversed malicious code is in the file: 1
 Number of times the reversed malicious code is in the file: 1
 Total number of times the malicious code is in the file: 2
 
-Malicious code found in:
-Starting Position: 0 Ending Position: 20
-
 Reversed malicious code found in:
-Starting Position: 20 Ending Position: 40
+Starting Position: 0 Ending Position: 4
+
+Malicious code found in:
+Starting Position: 4 Ending Position: 8

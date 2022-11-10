@@ -61,7 +61,7 @@ vector<vector<int>> ZFunction::zFunctionKMP(){
     int reversedNumberOfMatches = 0;
     vector<vector<int>> positionsFound;
 
-    for (int i = maliciousCodeLength+1; i < n; i++){
+    for (int i = 1; i < n; i++){
         if (i > right){
             left = right = i;
             while (right < n && zValues[right] == zValues[right - left]){
@@ -95,7 +95,7 @@ vector<vector<int>> ZFunction::zFunctionKMP(){
         }
 
         //Check for reversed malicious code
-        //if (i > rightReversed){
+        if (i > rightReversed){
             leftReversed = rightReversed = i;
             int extraReversed = 1;
             while (rightReversed < n && zValues[rightReversed] == zValues[maliciousCodeLength - extraReversed]){
@@ -104,21 +104,23 @@ vector<vector<int>> ZFunction::zFunctionKMP(){
             }
             zFunctionResultReversed[i] = rightReversed - leftReversed;
             rightReversed--;
-        //}
-        // else{
-        //     kReversed = i - leftReversed;
-        //     if (zFunctionResult[kReversed] < rightReversed - i + 1){
-        //         zFunctionResult[i] = zFunctionResult[kReversed];
-        //     }
-        //     else{
-        //         leftReversed = i;
-        //         while (rightReversed < n && zValues[rightReversed] == zValues[rightReversed - leftReversed]){
-        //             rightReversed++;
-        //         }
-        //         zFunctionResult[i] = rightReversed - leftReversed;
-        //         rightReversed--;
-        //     }
-        // }
+        }
+        else{
+            kReversed = maliciousCodeLength-1-(i - leftReversed);
+            if (zFunctionResultReversed[kReversed] < rightReversed - i + 1){
+                zFunctionResultReversed[i] = zFunctionResultReversed[kReversed];
+            }
+            else{
+                leftReversed = i;
+                int extraReversed = 1;
+                while (rightReversed < n && zValues[rightReversed] == zValues[maliciousCodeLength - extraReversed]){
+                    extraReversed+=1;
+                    rightReversed++;
+                }
+                zFunctionResultReversed[i] = rightReversed - leftReversed;
+                rightReversed--;
+            }
+        }
         if (zFunctionResultReversed[i] == maliciousCodeLength){
             int startingPosition = i - maliciousCodeLength - 1;
             vector<int> malicious = vector<int>();
