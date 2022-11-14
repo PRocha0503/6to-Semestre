@@ -44,7 +44,7 @@ vector<char> ZFunction::readFromFile(string fileName){
     return fileValues;
 }
 
-vector<vector<int>> ZFunction::zFunctionKMP(){
+vector<vector<int>> ZFunction::zFunction(){
 
     int left = 0;
     int right = 0;

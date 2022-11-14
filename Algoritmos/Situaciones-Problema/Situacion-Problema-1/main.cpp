@@ -67,22 +67,22 @@ int main(){
 
     //Quick test
     ZFunction zFunctionQ("Tests/quickTransmissionTest.txt","Tests/quickTest.txt");
-    vector<vector<int>>zFunctionResultQ= zFunctionQ.zFunctionKMP();
+    vector<vector<int>>zFunctionResultQ= zFunctionQ.zFunction();
     printVectorToFile(zFunctionResultQ, "Tests/quickTest-Result.txt");
 
     //First file
     ZFunction zFunction("Tests/transmission.txt","Tests/mcode1.txt");
-    vector<vector<int>>zFunctionResult= zFunction.zFunctionKMP();
+    vector<vector<int>>zFunctionResult= zFunction.zFunction();
     printVectorToFile(zFunctionResult, "Tests/mcode1-Result.txt");
 
     //Second file
     ZFunction zFunction2("Tests/transmission.txt", "Tests/mcode2.txt");
-    vector<vector<int>> zFunctionResult2 = zFunction2.zFunctionKMP();
+    vector<vector<int>> zFunctionResult2 = zFunction2.zFunction();
     printVectorToFile(zFunctionResult2, "Tests/mcode2-Result.txt");
     
     //Third file
     ZFunction zFunction3("Tests/transmission.txt", "Tests/mcode3.txt");
-    vector<vector<int>> zFunctionResult3 = zFunction3.zFunctionKMP();
+    vector<vector<int>> zFunctionResult3 = zFunction3.zFunction();
     printVectorToFile(zFunctionResult3, "Tests/mcode3-Result.txt");
     
 
