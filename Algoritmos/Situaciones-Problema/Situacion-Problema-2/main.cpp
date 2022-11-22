@@ -9,6 +9,6 @@ Miguel Arriaga Velasco: A01028570
 #include "Graph.cpp"
 
 int main() {
-    Graph g("graph.txt");
+    Graph g("Tests/graph.txt");
     g.printGraph();
 }
