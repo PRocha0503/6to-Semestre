@@ -1,2 +1,6 @@
-TOTAL DISTANCE: 0
+TOTAL DISTANCE: 20
 PATH: 
+0 -> 1 Distance: 4
+1 -> 2 Distance: 2
+2 -> 3 Distance: 8
+0 -> 4 Distance: 6
