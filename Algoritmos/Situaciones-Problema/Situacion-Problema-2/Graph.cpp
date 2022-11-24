@@ -85,7 +85,7 @@ pair<vector<MSTNode>, int> Graph::primMST(){
             for (int i = 0; i < nodes[min.node].size(); i++) {
                 if(!visited[nodes[min.node][i].dest]){
                     heap.push_back(HeapInfo(nodes[min.node][i].weight,nodes[min.node][i].dest,min.node));
-                    make_heap(heap.begin(),heap.end(),compare);
+                    push_heap(heap.begin(),heap.end(),compare);
                 }
             }
         }

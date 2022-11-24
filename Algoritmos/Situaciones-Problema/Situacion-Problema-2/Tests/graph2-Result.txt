@@ -1,6 +1,6 @@
 TOTAL DISTANCE: 18
 PATH: 
-0 -> 1 Distance: 4
-1 -> 2 Distance: 2
+0 -> 2 Distance: 4
+2 -> 1 Distance: 2
 0 -> 3 Distance: 6
 0 -> 4 Distance: 6
