@@ -41,8 +41,8 @@ Graph::Graph(string filename) {
             }
             else {
                 if(weight != 0){
-                    Edge* e = new Edge(tempNodes[j],weight);
-                    nodes[node].push_back(*e);
+                    Edge e = Edge(tempNodes[j],weight);
+                    nodes[node].push_back(e);
                 }
                 visited[node] = false;
             }
