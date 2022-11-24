@@ -69,7 +69,7 @@ pair<vector<MSTNode>, int> Graph::primMST(){
         // get the min
         HeapInfo min = heap.front();
         // pop the min
-        pop_heap(heap.begin(),heap.end());
+        pop_heap(heap.begin(),heap.end(),compare);
         heap.pop_back();
         // if the node is not visited
         if(!visited[min.node]){
