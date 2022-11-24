@@ -1,0 +1,4 @@
+TOTAL DISTANCE: 25
+PATH: 
+16 -> 45 Distance: 18
+45 -> 32 Distance: 7

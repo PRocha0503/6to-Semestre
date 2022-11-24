@@ -10,22 +10,27 @@ Miguel Arriaga Velasco: A01028570
 #include <vector>
 #include <fstream>
 #include <map>
+#include <utility>
 
-#include "HeapInfo.h"
+#include "HeapInfo.cpp"
 #include "Edge.cpp"
-using namespace std;
+#include "MSTNode.cpp"
 
+using namespace std;
 
 class Graph {
     private:
-     map<int,vector<Edge> >nodes;
-     vector<HeapInfo> heap ;
-     int sum ;
-     map<int,bool> visited;
-     vector<vector<int>> mst ;
+        map<int,vector<Edge> >nodes;
+        int numberOfNodes;
+        vector<HeapInfo> heap;
+        int sum ;
+        map<int,bool> visited;
+        vector<MSTNode> mst ;
 
     public:
-    Graph(string filename);
-    void printGraph();
+        Graph(string filename);
+        pair<vector<MSTNode>, int> primMST();
+        void printGraph();
+        void printHeap();
 };
 
