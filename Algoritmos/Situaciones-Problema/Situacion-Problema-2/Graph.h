@@ -11,7 +11,7 @@ Miguel Arriaga Velasco: A01028570
 #include <fstream>
 #include <map>
 #include <utility>
-#include<algorithm> 
+#include <algorithm> 
 
 #include "HeapInfo.cpp"
 #include "Edge.cpp"
